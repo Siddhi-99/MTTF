@@ -1,33 +1,102 @@
-import { useState } from "react";
+import React from "react";
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+
+/* ===================== MAIN ===================== */
+import MainPage from "./pages/Mainpage";
+
+/* ===================== CONSULTANCY SERVICES ===================== */
+import ConsultancyServices from "./pages/OurPrograms/Consultancy_Services/ConsultancyServices";
+import ExpertConsultancyServices from "./pages/OurPrograms/Consultancy_Services/ExpertConsultancyServices";
+import LogisticSupportServices from "./pages/OurPrograms/Consultancy_Services/LogisticSupportServices";
+import ConferenceSupportServices from "./pages/OurPrograms/Consultancy_Services/ConferenceSupportServices";
+
+/* ===================== CAPABILITY PAGES ===================== */
+import ArtificialIntelligence from "./pages/OurPrograms/Capability/ArtificialIntelligence";
+import BusinessIntelligence from "./pages/OurPrograms/Capability/BusinessIntelligence";
+import Bioinformatics from "./pages/OurPrograms/Capability/Bioinformatics";
+import ComputationalMathematics from "./pages/OurPrograms/Capability/ComputationalMathematics";
+import DataAnalytics from "./pages/OurPrograms/Capability/DataAnalytics";
+import QuantumComputing from "./pages/OurPrograms/Capability/QuantumComputing";
+
+/* ===================== AWARDS ===================== */
+import Awards2025 from "./pages/OurPrograms/Awards/Awards2025";
+import Awards2024 from "./pages/OurPrograms/Awards/Awards2024";
+
+/* ===================== CONTACT ===================== */
+import Contact from "./pages/Contacts/Contact";
 
 function App() {
-  const [count, setCount] = useState(0);
-
   return (
-    <div className="min-h-screen bg-slate-900 flex items-center justify-center text-white">
-      <div className="bg-slate-800 p-8 rounded-2xl shadow-xl w-full max-w-md text-center">
-        
-        <h1 className="text-3xl font-extrabold mb-2">
-          AS LEARN 🚀
-        </h1>
+    <Router>
+      <Routes>
 
-        <p className="text-slate-400 mb-6">
-          React + Tailwind CSS v4 Setup
-        </p>
+        {/* ===================== HOME ===================== */}
+        <Route path="/" element={<MainPage />} />
 
-        <button
-          onClick={() => setCount(count + 1)}
-          className="px-6 py-3 bg-indigo-600 hover:bg-indigo-500 rounded-xl font-semibold transition"
-        >
-          Count is {count}
-        </button>
+        {/* ===================== PROGRAMS LANDING ===================== */}
+        {/* Used when user clicks "Our Programs" main button */}
+        <Route
+          path="/programs"
+          element={<Navigate to="/programs/consultancy-services" replace />}
+        />
 
-        <p className="mt-4 text-sm text-slate-400">
-          Edit <code className="text-indigo-400">src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-    </div>
+        {/* ===================== CONSULTANCY SERVICES ===================== */}
+        <Route
+          path="/programs/consultancy-services"
+          element={<ConsultancyServices />}
+        />
+        <Route
+          path="/programs/consultancy-services/expert-consultancy"
+          element={<ExpertConsultancyServices />}
+        />
+        <Route
+          path="/programs/consultancy-services/logistic-support"
+          element={<LogisticSupportServices />}
+        />
+        <Route
+          path="/programs/consultancy-services/conference-support"
+          element={<ConferenceSupportServices />}
+        />
+
+        {/* ===================== CAPABILITY ===================== */}
+        <Route
+          path="/programs/capability/artificial-intelligence"
+          element={<ArtificialIntelligence />}
+        />
+        <Route
+          path="/programs/capability/business-intelligence"
+          element={<BusinessIntelligence />}
+        />
+        <Route
+          path="/programs/capability/bioinformatics"
+          element={<Bioinformatics />}
+        />
+        <Route
+          path="/programs/capability/computational-mathematics"
+          element={<ComputationalMathematics />}
+        />
+        <Route
+          path="/programs/capability/data-analytics"
+          element={<DataAnalytics />}
+        />
+        <Route
+          path="/programs/capability/quantum-computing"
+          element={<QuantumComputing />}
+        />
+
+        {/* ===================== AWARDS ===================== */}
+        <Route path="/programs/awards/2025" element={<Awards2025 />} />
+        <Route path="/programs/awards/2024" element={<Awards2024 />} />
+
+        {/* ===================== CONTACT ===================== */}
+        <Route path="/contact" element={<Contact />} />
+
+        {/* ===================== FALLBACK ===================== */}
+        <Route path="*" element={<Navigate to="/" replace />} />
+
+      </Routes>
+    </Router>
   );
 }
 
-export default App;
+export default App; 
