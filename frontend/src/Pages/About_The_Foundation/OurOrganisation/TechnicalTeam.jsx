@@ -1,268 +1,322 @@
 import React from 'react';
 import { motion } from 'framer-motion';
+import { Code, Database, Globe, Smartphone, Shield, Cpu, Zap, Terminal } from 'lucide-react';
+import Header from "../../../Components/Header";
+import Footer from "../../../Components/Footer";
 
-const TechnicalTeam = ({ onBack }) => {
-  const team = [
+const TechnicalTeam = () => {
+  const techTeam = [
     {
-      name: 'Siddhi Shah',
-      role: 'Full Stack Developer',
-      image: '👨‍💻',
-      bio: 'Building scalable web applications and learning management systems',
-      skills: ['React', 'Node.js', 'MongoDB', 'AWS'],
-      projects: ['LMS Platform', 'Student Portal', 'Admin Dashboard'],
-      github: 'Following Siddhi-99',
-      experience: '3 years'
+      name: 'Alex Rivera',
+      role: 'Lead Full-Stack Developer',
+      tech: ['React', 'Node.js', 'PostgreSQL'],
+      image: 'https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80',
+      bio: 'Architecting scalable solutions that power our platform.',
+      projects: '50+',
+      icon: Code,
+      color: 'from-cyan-500 to-blue-600',
+      github: '#',
+      contributions: 'Built entire frontend architecture'
     },
     {
-      name: 'Ms. Anjali Desai',
-      role: 'Frontend Developer',
-      image: '👩‍💻',
-      bio: 'Crafting beautiful and intuitive user interfaces',
-      skills: ['React', 'TypeScript', 'Tailwind', 'Figma'],
-      projects: ['Website Redesign', 'Mobile App UI', 'Component Library'],
-      github: 'anjalidev',
-      experience: '4 years'
-    },
-    {
-      name: 'Mr. Rahul Joshi',
-      role: 'Backend Developer',
-      image: '👨‍💻',
-      bio: 'Architecting robust APIs and database systems',
-      skills: ['Python', 'Django', 'PostgreSQL', 'Redis'],
-      projects: ['API Gateway', 'Authentication System', 'Data Pipeline'],
-      github: 'rahuljdev',
-      experience: '5 years'
-    },
-    {
-      name: 'Ms. Pooja Nair',
+      name: 'Maya Patel',
       role: 'DevOps Engineer',
-      image: '👩‍💻',
-      bio: 'Automating deployments and maintaining infrastructure',
-      skills: ['Docker', 'Kubernetes', 'CI/CD', 'AWS'],
-      projects: ['Cloud Migration', 'Auto-scaling', 'Monitoring Setup'],
-      github: 'poojadevops',
-      experience: '4 years'
+      tech: ['Docker', 'Kubernetes', 'AWS'],
+      image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80',
+      bio: 'Ensuring 99.9% uptime with robust infrastructure.',
+      projects: '40+',
+      icon: Database,
+      color: 'from-purple-500 to-pink-600',
+      github: '#',
+      contributions: 'Zero-downtime deployment pipeline'
     },
     {
-      name: 'Mr. Varun Kumar',
+      name: 'Jordan Lee',
+      role: 'Frontend Architect',
+      tech: ['Next.js', 'TypeScript', 'Tailwind'],
+      image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80',
+      bio: 'Crafting beautiful and performant user experiences.',
+      projects: '60+',
+      icon: Globe,
+      color: 'from-emerald-500 to-teal-600',
+      github: '#',
+      contributions: 'UI/UX component library'
+    },
+    {
+      name: 'Samantha Chen',
       role: 'Mobile Developer',
-      image: '👨‍💻',
-      bio: 'Creating cross-platform mobile experiences',
-      skills: ['React Native', 'Flutter', 'iOS', 'Android'],
-      projects: ['MTTF Mobile App', 'Offline Mode', 'Push Notifications'],
-      github: 'varunmobile',
-      experience: '3 years'
+      tech: ['React Native', 'Swift', 'Kotlin'],
+      image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80',
+      bio: 'Building native-like mobile experiences.',
+      projects: '35+',
+      icon: Smartphone,
+      color: 'from-orange-500 to-red-600',
+      github: '#',
+      contributions: 'Cross-platform mobile app'
     },
     {
-      name: 'Ms. Shreya Patel',
-      role: 'UI/UX Designer',
-      image: '👩‍🎨',
-      bio: 'Designing delightful user experiences',
-      skills: ['Figma', 'Adobe XD', 'Prototyping', 'User Research'],
-      projects: ['Design System', 'User Flows', 'Accessibility Audit'],
-      github: 'shreyauxdesign',
-      experience: '4 years'
+      name: 'Marcus Johnson',
+      role: 'Security Engineer',
+      tech: ['Security', 'Encryption', 'Compliance'],
+      image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
+      bio: 'Protecting data and ensuring compliance.',
+      projects: '30+',
+      icon: Shield,
+      color: 'from-red-500 to-pink-600',
+      github: '#',
+      contributions: 'SOC 2 compliance achieved'
     },
     {
-      name: 'Mr. Aryan Singh',
-      role: 'Data Engineer',
-      image: '👨‍💻',
-      bio: 'Building data pipelines and analytics systems',
-      skills: ['Python', 'Spark', 'Airflow', 'BigQuery'],
-      projects: ['Analytics Dashboard', 'Data Warehouse', 'ETL Pipelines'],
-      github: 'aryandataeng',
-      experience: '3 years'
+      name: 'Emily Zhang',
+      role: 'AI/ML Engineer',
+      tech: ['Python', 'TensorFlow', 'PyTorch'],
+      image: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=400&q=80',
+      bio: 'Implementing intelligent features powered by AI.',
+      projects: '45+',
+      icon: Cpu,
+      color: 'from-violet-500 to-purple-600',
+      github: '#',
+      contributions: 'Recommendation engine'
     },
     {
-      name: 'Ms. Isha Gupta',
-      role: 'QA Engineer',
-      image: '👩‍💻',
-      bio: 'Ensuring quality through comprehensive testing',
-      skills: ['Selenium', 'Jest', 'Cypress', 'API Testing'],
-      projects: ['Test Automation', 'Performance Testing', 'QA Framework'],
-      github: 'ishaqaeng',
-      experience: '3 years'
+      name: 'David Kim',
+      role: 'Backend Engineer',
+      tech: ['Python', 'Django', 'Redis'],
+      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80',
+      bio: 'Building robust APIs and microservices.',
+      projects: '55+',
+      icon: Terminal,
+      color: 'from-blue-500 to-indigo-600',
+      github: '#',
+      contributions: 'RESTful API framework'
+    },
+    {
+      name: 'Lisa Anderson',
+      role: 'QA Lead',
+      tech: ['Selenium', 'Jest', 'Cypress'],
+      image: 'https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?auto=format&fit=crop&w=400&q=80',
+      bio: 'Ensuring quality through comprehensive testing.',
+      projects: '70+',
+      icon: Zap,
+      color: 'from-yellow-500 to-orange-600',
+      github: '#',
+      contributions: 'Automated test coverage 95%'
     }
   ];
 
+  const stats = [
+    { label: 'Lines of Code', value: '1M+', icon: Code },
+    { label: 'Deployments/Month', value: '200+', icon: Zap },
+    { label: 'Uptime', value: '99.9%', icon: Shield },
+    { label: 'Response Time', value: '<100ms', icon: Database }
+  ];
+
   return (
-    <motion.div
-      initial={{ opacity: 0, x: 100 }}
-      animate={{ opacity: 1, x: 0 }}
-      exit={{ opacity: 0, x: -100 }}
-      className="min-h-screen py-12 px-6"
-    >
-      {/* Back Button */}
-      <motion.button
-        onClick={onBack}
-        whileHover={{ scale: 1.05, x: -5 }}
-        whileTap={{ scale: 0.95 }}
-        className="mb-8 flex items-center space-x-2 text-cyan-300 hover:text-cyan-200 backdrop-blur-lg bg-white/10 px-6 py-3 rounded-full border border-white/20"
-      >
-        <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-        </svg>
-        <span className="font-semibold">Back</span>
-      </motion.button>
-
+    <div className="min-h-screen flex flex-col">
       {/* Header */}
-      <motion.div
-        initial={{ y: -30, opacity: 0 }}
-        animate={{ y: 0, opacity: 1 }}
-        transition={{ delay: 0.2 }}
-        className="text-center mb-16"
-      >
-        <div className="text-6xl mb-4">⚙️</div>
-        <h2 className="text-5xl font-bold text-white mb-4">
-          Our <span className="bg-gradient-to-r from-cyan-400 to-teal-400 bg-clip-text text-transparent">Technical Team</span>
-        </h2>
-        <p className="text-xl text-blue-200 max-w-3xl mx-auto">
-          Tech innovators building cutting-edge digital solutions
-        </p>
-      </motion.div>
+      <Header />
 
-      {/* Team Stats */}
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.3 }}
-        className="max-w-5xl mx-auto mb-12 backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-8"
-      >
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
-          <div className="text-center">
-            <motion.div
-              className="text-4xl font-bold text-cyan-400 mb-2"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.4 }}
-            >
-              8
-            </motion.div>
-            <div className="text-sm text-gray-300">Team Members</div>
-          </div>
-          <div className="text-center">
-            <motion.div
-              className="text-4xl font-bold text-teal-400 mb-2"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.5 }}
-            >
-              30+
-            </motion.div>
-            <div className="text-sm text-gray-300">Years Combined</div>
-          </div>
-          <div className="text-center">
-            <motion.div
-              className="text-4xl font-bold text-cyan-300 mb-2"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-            >
-              25+
-            </motion.div>
-            <div className="text-sm text-gray-300">Projects</div>
-          </div>
-          <div className="text-center">
-            <motion.div
-              className="text-4xl font-bold text-teal-300 mb-2"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.7 }}
-            >
-              99.9%
-            </motion.div>
-            <div className="text-sm text-gray-300">Uptime</div>
-          </div>
+      {/* Main Content */}
+      <main className="flex-grow bg-gradient-to-br from-slate-950 via-blue-950 to-slate-950 py-20 px-4 sm:px-6 lg:px-8">
+        {/* Animated Grid Background */}
+        <div className="fixed inset-0 overflow-hidden pointer-events-none opacity-20">
+          <div className="absolute inset-0" style={{
+            backgroundImage: 'linear-gradient(rgba(59, 130, 246, 0.1) 1px, transparent 1px), linear-gradient(90deg, rgba(59, 130, 246, 0.1) 1px, transparent 1px)',
+            backgroundSize: '50px 50px'
+          }}></div>
         </div>
-      </motion.div>
 
-      {/* Team Grid */}
-      <div className="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-4 gap-5">
-        {team.map((member, index) => (
+        {/* Floating Elements */}
+        <div className="fixed inset-0 overflow-hidden pointer-events-none">
+          <div className="absolute top-1/4 left-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl animate-pulse"></div>
+          <div className="absolute bottom-0 right-0 w-96 h-96 bg-cyan-500/10 rounded-full blur-3xl animate-pulse delay-1000"></div>
+        </div>
+
+        <div className="max-w-7xl mx-auto relative z-10">
+          {/* Header */}
           <motion.div
-            key={index}
-            initial={{ opacity: 0, y: 50, rotateY: -20 }}
-            animate={{ opacity: 1, y: 0, rotateY: 0 }}
-            transition={{ delay: 0.05 * index, duration: 0.5 }}
-            whileHover={{ y: -10, rotateY: 5 }}
-            className="group"
+            initial={{ opacity: 0, y: -30 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="text-center mb-16"
           >
-            <div className="relative backdrop-blur-xl bg-white/10 border border-white/20 rounded-2xl p-5 h-full overflow-hidden shadow-xl">
-              {/* Tech Grid Background */}
-              <div className="absolute inset-0 opacity-5">
-                <div className="grid grid-cols-8 grid-rows-8 h-full">
-                  {[...Array(64)].map((_, i) => (
-                    <div key={i} className="border border-cyan-400" />
-                  ))}
-                </div>
-              </div>
+            <motion.div
+              initial={{ scale: 0, rotate: -180 }}
+              animate={{ scale: 1, rotate: 0 }}
+              transition={{ type: 'spring', stiffness: 200, delay: 0.2 }}
+              className="inline-flex items-center justify-center w-24 h-24 bg-gradient-to-r from-cyan-500/20 to-blue-500/20 rounded-3xl backdrop-blur-sm mb-6 border border-cyan-500/20"
+            >
+              <Code className="w-12 h-12 text-cyan-400" />
+            </motion.div>
 
-              {/* Gradient Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-br from-cyan-500/10 to-teal-500/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+            <h1 className="text-5xl md:text-7xl font-bold text-white mb-6 font-mono">
+              <span className="text-cyan-400">&lt;</span>
+              Technical
+              <span className="bg-gradient-to-r from-cyan-400 via-blue-400 to-purple-400 bg-clip-text text-transparent"> Team </span>
+              <span className="text-cyan-400">/&gt;</span>
+            </h1>
 
-              <div className="relative z-10">
-                {/* Avatar & Experience */}
-                <div className="flex items-start justify-between mb-3">
-                  <motion.div
-                    className="text-5xl"
-                    whileHover={{ scale: 1.2, rotate: 360 }}
-                    transition={{ duration: 0.5 }}
-                  >
-                    {member.image}
-                  </motion.div>
-                  <span className="text-xs px-2 py-1 bg-cyan-500/20 text-cyan-300 rounded-full border border-cyan-400/30">
-                    {member.experience}
-                  </span>
-                </div>
+            <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed font-mono">
+              The brilliant minds building and maintaining our cutting-edge technology stack
+            </p>
 
-                {/* Name & Role */}
-                <h3 className="text-lg font-bold text-white mb-1">{member.name}</h3>
-                <p className="text-cyan-300 text-sm font-semibold mb-2">{member.role}</p>
+            <motion.div
+              initial={{ scaleX: 0 }}
+              animate={{ scaleX: 1 }}
+              transition={{ delay: 0.5, duration: 0.8 }}
+              className="h-1 w-40 bg-gradient-to-r from-cyan-500 to-blue-500 mx-auto mt-8 rounded-full"
+            />
+          </motion.div>
 
-                {/* Bio */}
-                <p className="text-gray-300 text-xs leading-relaxed mb-3">{member.bio}</p>
+          {/* Stats Bar */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.4 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16"
+          >
+            {stats.map((stat, index) => (
+              <motion.div
+                key={index}
+                whileHover={{ y: -5, scale: 1.05 }}
+                className="backdrop-blur-xl bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 rounded-2xl p-6 text-center"
+              >
+                <stat.icon className="w-8 h-8 mx-auto mb-2 text-cyan-400" />
+                <div className="text-3xl font-bold text-white font-mono mb-1">{stat.value}</div>
+                <div className="text-xs text-gray-400 uppercase tracking-wider">{stat.label}</div>
+              </motion.div>
+            ))}
+          </motion.div>
 
-                {/* Skills */}
-                <div className="mb-3">
-                  <p className="text-xs text-gray-400 mb-1">Skills:</p>
-                  <div className="flex flex-wrap gap-1">
-                    {member.skills.map((skill, i) => (
-                      <span
-                        key={i}
-                        className="text-xs px-2 py-0.5 bg-cyan-500/10 text-cyan-300 rounded border border-cyan-400/20"
-                      >
-                        {skill}
-                      </span>
-                    ))}
-                  </div>
-                </div>
+          {/* Team Grid */}
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {techTeam.map((member, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                whileHover={{ y: -10, scale: 1.02 }}
+                className="group"
+              >
+                <div className="relative backdrop-blur-xl bg-gradient-to-br from-white/5 to-white/0 border border-white/10 rounded-2xl overflow-hidden shadow-2xl h-full">
+                  {/* Hover Glow */}
+                  <div className={`absolute inset-0 bg-gradient-to-br ${member.color} opacity-0 group-hover:opacity-20 transition-all duration-500`} />
 
-                {/* Projects */}
-                <div className="mb-3">
-                  <p className="text-xs text-gray-400 mb-1">Recent Projects:</p>
-                  <div className="space-y-1">
-                    {member.projects.map((project, i) => (
-                      <div key={i} className="flex items-center space-x-1">
-                        <div className="w-1 h-1 bg-cyan-400 rounded-full" />
-                        <span className="text-xs text-gray-400">{project}</span>
+                  {/* Top Bar with Icon */}
+                  <div className={`h-1 bg-gradient-to-r ${member.color}`} />
+                  
+                  <div className="p-6">
+                    {/* Icon Badge */}
+                    <motion.div
+                      whileHover={{ rotate: 360 }}
+                      transition={{ duration: 0.6 }}
+                      className={`w-16 h-16 mx-auto mb-4 rounded-2xl bg-gradient-to-r ${member.color} flex items-center justify-center shadow-lg`}
+                    >
+                      <member.icon className="w-8 h-8 text-white" />
+                    </motion.div>
+
+                    {/* Profile Image */}
+                    <motion.div
+                      whileHover={{ scale: 1.05 }}
+                      className="relative w-24 h-24 mx-auto mb-4"
+                    >
+                      <div className={`absolute inset-0 bg-gradient-to-r ${member.color} rounded-full blur-lg opacity-50`} />
+                      <img
+                        src={member.image}
+                        alt={member.name}
+                        className="relative w-full h-full rounded-full object-cover border-2 border-white/20"
+                      />
+                    </motion.div>
+
+                    {/* Info */}
+                    <div className="text-center mb-4">
+                      <h3 className="text-lg font-bold text-white mb-1 font-mono">{member.name}</h3>
+                      <p className={`text-sm font-semibold bg-gradient-to-r ${member.color} bg-clip-text text-transparent mb-2`}>
+                        {member.role}
+                      </p>
+                      <p className="text-xs text-gray-400 mb-3">{member.bio}</p>
+                    </div>
+
+                    {/* Tech Stack */}
+                    <div className="flex flex-wrap gap-2 justify-center mb-4">
+                      {member.tech.map((tech, i) => (
+                        <span
+                          key={i}
+                          className="px-2 py-1 text-xs bg-white/5 border border-white/10 rounded-lg text-gray-300 font-mono"
+                        >
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+
+                    {/* Stats */}
+                    <div className="flex items-center justify-between mb-4 p-3 bg-white/5 rounded-xl border border-white/10">
+                      <div className="text-center flex-1">
+                        <Code className="w-4 h-4 mx-auto mb-1 text-cyan-400" />
+                        <div className="text-sm font-bold text-white font-mono">{member.projects}</div>
+                        <div className="text-xs text-gray-500">Projects</div>
                       </div>
-                    ))}
+                      <div className="w-px h-8 bg-white/10"></div>
+                      <div className="text-center flex-1">
+                        <Zap className="w-4 h-4 mx-auto mb-1 text-yellow-400" />
+                        <div className="text-xs text-gray-400 leading-tight">{member.contributions}</div>
+                      </div>
+                    </div>
+
+                    {/* GitHub Link */}
+                    <motion.a
+                      href={member.github}
+                      whileHover={{ scale: 1.05 }}
+                      whileTap={{ scale: 0.95 }}
+                      className={`block w-full py-2 bg-gradient-to-r ${member.color} text-white text-sm font-semibold rounded-xl text-center font-mono`}
+                    >
+                      View GitHub →
+                    </motion.a>
                   </div>
                 </div>
+              </motion.div>
+            ))}
+          </div>
 
-                {/* GitHub */}
-                <div className="flex items-center space-x-1 text-xs text-cyan-300">
-                  <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
-                  </svg>
-                  <span>{member.github}</span>
-                </div>
+          {/* Bottom CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: 50 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1 }}
+            className="mt-20"
+          >
+            <div className="backdrop-blur-xl bg-gradient-to-br from-cyan-500/10 to-blue-500/10 border border-cyan-500/20 rounded-3xl p-10 text-center">
+              <Terminal className="w-16 h-16 mx-auto mb-4 text-cyan-400" />
+              <h3 className="text-3xl font-bold text-white mb-4 font-mono">
+                <span className="text-cyan-400">$</span> Join Our Team
+              </h3>
+              <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
+                We're always looking for talented developers to join our mission. Build the future of education technology with us.
+              </p>
+              <div className="flex flex-wrap gap-4 justify-center">
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-8 py-3 bg-gradient-to-r from-cyan-500 to-blue-500 text-white font-bold rounded-xl shadow-lg font-mono"
+                >
+                  View Open Positions
+                </motion.button>
+                <motion.button
+                  whileHover={{ scale: 1.05 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="px-8 py-3 bg-white/10 border border-white/20 text-white font-bold rounded-xl backdrop-blur-sm font-mono hover:bg-white/20 transition-colors"
+                >
+                  Tech Stack Docs
+                </motion.button>
               </div>
             </div>
           </motion.div>
-        ))}
-      </div>
-    </motion.div>
+        </div>
+      </main>
+
+      {/* Footer */}
+      <Footer />
+    </div>
   );
 };
 

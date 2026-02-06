@@ -1,65 +1,66 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { BookOpen } from "lucide-react";
 
 export default function ResearchIdeasMegaMenu() {
   return (
-    <div
-      className="
-        absolute left-1/2 top-full mt-6 -translate-x-1/2
-        w-[90vw] max-w-6xl
-        rounded-2xl
-        bg-gradient-to-br from-[#0b1220] via-[#0e1627] to-[#0b1220]
-        border border-white/10
-        shadow-2xl
-        px-10 py-8
-        text-white
-      "
-    >
-      {/* Content wrapper */}
-      <div className="max-w-xl">
-        {/* Title */}
-        <h3 className="text-sm font-semibold tracking-widest text-white/80 uppercase mb-4">
-          Blog
-        </h3>
+    <div className="absolute left-1/2 top-full mt-6 -translate-x-1/2 w-[85vw] max-w-6xl z-50">
+      <div className="relative rounded-3xl backdrop-blur-2xl bg-gradient-to-br from-white/10 via-white/5 to-white/10 border border-white/20 shadow-2xl overflow-hidden">
 
-        {/* Divider */}
-        <div className="h-px w-32 bg-white/20 mb-6" />
+        {/* Top Accent */}
+        <div className="absolute inset-x-0 top-0 h-1 bg-gradient-to-r from-blue-400 via-indigo-400 to-purple-400" />
 
-        {/* Links */}
-        <div className="space-y-5">
-          <Link
-            to="/blogs"
-            className="block text-lg font-medium text-white hover:underline underline-offset-4"
-          >
-            All Blogs
-          </Link>
+        {/* Content */}
+        <div className="p-10">
+          <div className="max-w-xl">
+            {/* Title */}
+            <div className="flex items-center gap-3 text-blue-400 mb-5">
+              <BookOpen size={22} />
+              <h4 className="text-sm font-semibold uppercase tracking-wider">
+                Blog
+              </h4>
+            </div>
 
-          <Link
-            to="/blogs/ai-ml"
-            className="block text-lg text-white/80 hover:text-white transition"
-          >
-            AI & Machine Learning
-          </Link>
+            {/* Links */}
+            <ul className="space-y-3">
+              <li>
+                <Link
+                  to="/blogs"
+                  className="text-sm text-white/80 hover:text-white hover:translate-x-1 transition-all inline-block"
+                >
+                  All Blogs
+                </Link>
+              </li>
 
-          <Link
-            to="/blogs/data-science"
-            className="block text-lg text-white/80 hover:text-white transition"
-          >
-            Data Science
-          </Link>
+              <li>
+                <Link
+                  to="/blogs/ai-ml"
+                  className="text-sm text-white/80 hover:text-white hover:translate-x-1 transition-all inline-block"
+                >
+                  AI & Machine Learning
+                </Link>
+              </li>
 
-          <Link
-            to="/blogs/education"
-            className="block text-lg text-white/80 hover:text-white transition"
-          >
-            STEM Education
-          </Link>
+              <li>
+                <Link
+                  to="/blogs/data-science"
+                  className="text-sm text-white/80 hover:text-white hover:translate-x-1 transition-all inline-block"
+                >
+                  Data Science
+                </Link>
+              </li>
+
+              <li>
+                <Link
+                  to="/blogs/education"
+                  className="text-sm text-white/80 hover:text-white hover:translate-x-1 transition-all inline-block"
+                >
+                  STEM Education
+                </Link>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
-
-      {/* Close icon (visual only) */}
-      <div className="absolute top-6 right-6 text-white/70 text-2xl pointer-events-none">
-        ×
       </div>
     </div>
   );

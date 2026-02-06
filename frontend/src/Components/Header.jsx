@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import OurProgramsMegaMenu from "./OurProgramsMegaMenu";
 import ResearchIdeasMegaMenu from "./ResearchIdeasMegaMenu";
 import AboutFoundationMegaMenu from "./AboutFoundationMegaMenu";
@@ -24,12 +24,37 @@ const isActive = (path) => location.pathname === path;
   //  single state instead of 3 booleans
   const [openMenu, setOpenMenu] = useState(null); 
   // values: "programs" | "research" | "about" | null
+  
+  // Timer reference to prevent premature closing
+  const closeTimer = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 60);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
+  
+  // Function to handle menu opening
+  const handleMenuOpen = (menuKey) => {
+    // Clear any pending close timer
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
+    setOpenMenu(menuKey);
+  };
+  
+  // Function to handle menu closing with delay
+  const handleMenuClose = () => {
+    // Clear any existing timer
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+    }
+    // Set a new timer to close after 300ms
+    closeTimer.current = setTimeout(() => {
+      setOpenMenu(null);
+    }, 300);
+  };
 
   return (
     <header
@@ -70,15 +95,19 @@ const isActive = (path) => location.pathname === path;
               <div
   key={item.name}
   className="relative"
-  onMouseEnter={() => menuKey && setOpenMenu(menuKey)}
-  onMouseLeave={() => menuKey && setOpenMenu(null)}
+  onMouseEnter={() => menuKey && handleMenuOpen(menuKey)}
+  onMouseLeave={() => menuKey && handleMenuClose()}
 >
   {/* Nav Link */}
   <Link
   to={item.href}
   onClick={() => {
-    setActive(item.name);
     setOpenMenu(null);
+    // Clear any pending timers
+    if (closeTimer.current) {
+      clearTimeout(closeTimer.current);
+      closeTimer.current = null;
+    }
   }}
  className={`relative px-4 py-2 rounded-full text-sm font-medium transition-all duration-300
   ${
@@ -93,25 +122,37 @@ const isActive = (path) => location.pathname === path;
 
 
   {/* 🔥 Hover buffer (prevents gap flicker) */}
-  {menuKey && (
-    <div className="absolute left-0 top-full h-4 w-full"></div>
+  {menuKey && openMenu === menuKey && (
+    <div className="absolute left-0 top-full h-6 w-full"></div>
   )}
 
   {/* Mega Menu */}
   {menuKey === "programs" && openMenu === "programs" && (
-    <div className="absolute left-0 top-[calc(100%+1rem)]">
+    <div 
+      className="absolute left-0 top-[calc(100%+1rem)]"
+      onMouseEnter={() => handleMenuOpen("programs")}
+      onMouseLeave={() => handleMenuClose()}
+    >
       <OurProgramsMegaMenu />
     </div>
   )}
 
   {menuKey === "research" && openMenu === "research" && (
-    <div className="absolute left-0 top-[calc(100%+1rem)]">
+    <div 
+      className="absolute left-0 top-[calc(100%+1rem)]"
+      onMouseEnter={() => handleMenuOpen("research")}
+      onMouseLeave={() => handleMenuClose()}
+    >
       <ResearchIdeasMegaMenu />
     </div>
   )}
 
   {menuKey === "about" && openMenu === "about" && (
-    <div className="absolute left-0 top-[calc(100%+1rem)]">
+    <div 
+      className="absolute left-0 top-[calc(100%+1rem)]"
+      onMouseEnter={() => handleMenuOpen("about")}
+      onMouseLeave={() => handleMenuClose()}
+    >
       <AboutFoundationMegaMenu />
     </div>
   )}

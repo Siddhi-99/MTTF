@@ -1,4 +1,6 @@
 import React from "react";
+import { Link } from "react-router-dom";
+import { Users, Building2, Award, GraduationCap } from "lucide-react";
 
 export default function AboutFoundationMegaMenu() {
   return (
@@ -13,50 +15,94 @@ export default function AboutFoundationMegaMenu() {
 
         <div className="grid grid-cols-4 gap-10 text-sm">
 
-          {/* OUR ORGANISATION */}
+          {/* OUR ORGANISATION - WITH WORKING LINKS */}
           <div>
-            <h3 className="mb-4 font-semibold text-white uppercase tracking-wide">
-              Our Organisation
-            </h3>
+            <div className="flex items-center gap-3 text-blue-400 mb-4">
+              <Users size={22} />
+              <h3 className="font-semibold uppercase tracking-wider">
+                Our Organisation
+              </h3>
+            </div>
             <ul className="space-y-3">
-              <li className="text-white/80 hover:text-white hover:translate-x-1 transition-all cursor-pointer">
-                Advisors
+              <li>
+                <Link
+                  to="/about/organisation/advisors"
+                  className="text-white/80 hover:text-white hover:translate-x-1 transition-all inline-block"
+                >
+                  Advisors
+                </Link>
               </li>
-              <li className="text-white/80 hover:text-white hover:translate-x-1 transition-all cursor-pointer">
-                Leaders
+              <li>
+                <Link
+                  to="/about/organisation/leaders"
+                  className="text-white/80 hover:text-white hover:translate-x-1 transition-all inline-block"
+                >
+                  Leaders
+                </Link>
               </li>
-              <li className="text-white/80 hover:text-white hover:translate-x-1 transition-all cursor-pointer">
-                Executives
+              <li>
+                <Link
+                  to="/about/organisation/executives"
+                  className="text-white/80 hover:text-white hover:translate-x-1 transition-all inline-block"
+                >
+                  Executives
+                </Link>
               </li>
-              <li className="text-white/80 hover:text-white hover:translate-x-1 transition-all cursor-pointer">
-                Mentors
+              <li>
+                <Link
+                  to="/about/organisation/mentors"
+                  className="text-white/80 hover:text-white hover:translate-x-1 transition-all inline-block"
+                >
+                  Mentors
+                </Link>
               </li>
-              <li className="text-white/80 hover:text-white hover:translate-x-1 transition-all cursor-pointer">
-                Technical Team
+              <li>
+                <Link
+                  to="/about/organisation/technical-team"
+                  className="text-white/80 hover:text-white hover:translate-x-1 transition-all inline-block"
+                >
+                  Technical Team
+                </Link>
               </li>
             </ul>
           </div>
 
-          {/* ABOUT MTTF */}
+          {/* ABOUT MTTF - WITH WORKING LINKS */}
           <div>
-            <h3 className="mb-4 font-semibold text-white uppercase tracking-wide">
-              About MTTF
-            </h3>
+            <div className="flex items-center gap-3 text-blue-400 mb-4">
+              <Building2 size={22} />
+              <h3 className="font-semibold uppercase tracking-wider">
+                About MTTF
+              </h3>
+            </div>
             <ul className="space-y-3">
-              <li className="text-white/80 hover:text-white hover:translate-x-1 transition-all cursor-pointer">
-                About
+              <li>
+                <Link
+                  to="/about/mttf/about"
+                  className="text-white/80 hover:text-white hover:translate-x-1 transition-all inline-block"
+                >
+                  About
+                </Link>
               </li>
-              <li className="text-white/80 hover:text-white hover:translate-x-1 transition-all cursor-pointer">
-                Contact
+              <li>
+                <Link
+                  to="/about/mttf/contact"
+                  className="text-white/80 hover:text-white hover:translate-x-1 transition-all inline-block"
+                >
+                  Contact
+                </Link>
               </li>
             </ul>
           </div>
 
-          {/* MATHTECH CIRCLE */}
+          {/* MATHTECH CIRCLE - NOT CLICKABLE YET */}
           <div>
-            <h3 className="mb-4 font-semibold text-white uppercase tracking-wide">
-              MathTech Circle
-            </h3>
+            <div className="flex items-center gap-3 text-blue-400 mb-4">
+              <Award size={22} />
+              <h3 className="font-semibold uppercase tracking-wider">
+                MathTech Circle
+              </h3>
+            </div>
             <ul className="space-y-3">
               <li className="text-white/80 hover:text-white hover:translate-x-1 transition-all cursor-pointer">
                 Individual Membership
@@ -67,11 +113,14 @@ export default function AboutFoundationMegaMenu() {
             </ul>
           </div>
 
-          {/* CHAPTERS */}
+          {/* CHAPTERS - NOT CLICKABLE YET */}
           <div>
-            <h3 className="mb-4 font-semibold text-white uppercase tracking-wide">
-              Chapters
-            </h3>
+            <div className="flex items-center gap-3 text-blue-400 mb-4">
+              <GraduationCap size={22} />
+              <h3 className="font-semibold uppercase tracking-wider">
+                Chapters
+              </h3>
+            </div>
             <ul className="space-y-3">
               <li className="text-white/80 hover:text-white hover:translate-x-1 transition-all cursor-pointer">
                 Student Chapter

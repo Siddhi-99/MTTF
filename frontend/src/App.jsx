@@ -25,6 +25,17 @@ import Awards2024 from "./pages/OurPrograms/Awards/Awards2024";
 /* ===================== CONTACT ===================== */
 import Contact from "./pages/Contacts/Contact";
 
+/* ===================== ABOUT THE FOUNDATION - OUR ORGANISATION ===================== */
+import Advisors from "./pages/About_The_Foundation/OurOrganisation/Advisors";
+import Leaders from "./pages/About_The_Foundation/OurOrganisation/Leaders";
+import Executives from "./pages/About_The_Foundation/OurOrganisation/Executives";
+import Mentors from "./pages/About_The_Foundation/OurOrganisation/Mentors";
+import TechnicalTeam from "./pages/About_The_Foundation/OurOrganisation/TechnicalTeam";
+
+/* ===================== ABOUT THE FOUNDATION - MTTF ABOUT ===================== */
+import About from "./Pages/About_The_Foundation/MTTF_About/About";
+import MTTFContact from "./Pages/About_The_Foundation/MTTF_About/MTTFContact";
+
 function App() {
   return (
     <Router>
@@ -91,6 +102,21 @@ function App() {
         {/* ===================== CONTACT ===================== */}
         <Route path="/contact" element={<Contact />} />
 
+        {/* ===================== ABOUT THE FOUNDATION - OUR ORGANISATION ===================== */}
+        <Route path="/about/organisation/advisors" element={<Advisors />} />
+        <Route path="/about/organisation/leaders" element={<Leaders />} />
+        <Route path="/about/organisation/executives" element={<Executives />} />
+        <Route path="/about/organisation/mentors" element={<Mentors />} />
+        <Route path="/about/organisation/technical-team" element={<TechnicalTeam />} />
+
+        {/* ===================== ABOUT THE FOUNDATION - MTTF ABOUT ===================== */}
+        <Route path="/about/mttf/about" element={<About />} />
+        <Route path="/about/mttf/contact" element={<MTTFContact />} />
+
+        {/* ===================== ABOUT THE FOUNDATION - MAIN ===================== */}
+        {/* Redirect /about to the first organisation page */}
+        <Route path="/about" element={<Navigate to="/about/organisation/advisors" replace />} />
+
         {/* ===================== FALLBACK ===================== */}
         <Route path="*" element={<Navigate to="/" replace />} />
 
@@ -99,4 +125,4 @@ function App() {
   );
 }
 
-export default App; 
+export default App;
