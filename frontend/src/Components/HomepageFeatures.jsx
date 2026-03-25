@@ -1,13 +1,697 @@
 import React, { useState } from 'react';
 import { ChevronLeft, ChevronRight, Users, Target, Lightbulb, Rocket, Shield } from 'lucide-react';
 
+const styles = `
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+  :root {
+    --gold: #C9A84C;
+    --gold-light: #E8C96A;
+    --gold-pale: rgba(201,168,76,0.10);
+    --cream: #FAF8F3;
+    --beige: #F2EDE4;
+    --charcoal: #1C1A17;
+    --mid: #6B6560;
+    --divider: rgba(201,168,76,0.2);
+  }
+
+  /* ── Shared typography ── */
+  .lux-section-eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 16px;
+  }
+
+  .lux-section-eyebrow-line {
+    display: block;
+    width: 32px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.6;
+  }
+
+  .lux-serif-heading {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--charcoal);
+    letter-spacing: -0.01em;
+  }
+
+  .lux-serif-heading em {
+    font-style: italic;
+    color: var(--gold);
+  }
+
+  .lux-body {
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 300;
+    color: var(--mid);
+    line-height: 1.75;
+  }
+
+  .lux-gold-rule {
+    width: 48px;
+    height: 1px;
+    background: var(--gold);
+    opacity: 0.5;
+    margin: 20px 0;
+  }
+
+  /* ── Welcome Section ── */
+  .lux-welcome {
+    background: var(--cream);
+    padding: 112px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .lux-welcome::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, var(--gold) 40%, var(--gold) 60%, transparent);
+    opacity: 0.5;
+  }
+
+  /* Decorative large letter */
+  .lux-welcome-deco {
+    position: absolute;
+    top: 40px;
+    right: -20px;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 320px;
+    font-weight: 600;
+    color: rgba(201,168,76,0.045);
+    line-height: 1;
+    pointer-events: none;
+    user-select: none;
+    letter-spacing: -0.05em;
+  }
+
+  .lux-welcome-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+    position: relative;
+    z-index: 1;
+  }
+
+  .lux-welcome-heading {
+    font-size: clamp(52px, 6vw, 80px);
+  }
+
+  .lux-welcome-card {
+    border: 1px solid var(--divider);
+    background: #fff;
+    padding: 32px 36px;
+    margin: 28px 0;
+    position: relative;
+  }
+
+  .lux-welcome-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 3px;
+    height: 100%;
+    background: var(--gold);
+  }
+
+  .lux-btn-primary {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 14px 32px;
+    background: var(--charcoal);
+    color: var(--gold-light);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+    text-decoration: none;
+  }
+
+  .lux-btn-primary::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gold);
+    transform: translateX(-101%);
+    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .lux-btn-primary:hover::before { transform: translateX(0); }
+  .lux-btn-primary:hover { color: var(--charcoal); }
+  .lux-btn-primary span, .lux-btn-primary svg { position: relative; z-index: 1; }
+  .lux-btn-primary svg { transition: transform 0.3s ease; }
+  .lux-btn-primary:hover svg { transform: translateX(3px); }
+
+  /* Right panel */
+  .lux-welcome-panel {
+    border: 1px solid var(--divider);
+    background: #fff;
+    padding: 56px 48px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 28px;
+    position: relative;
+    min-height: 420px;
+  }
+
+  .lux-welcome-panel::after {
+    content: '';
+    position: absolute;
+    bottom: 0; right: 0;
+    width: 80px;
+    height: 80px;
+    border-right: 2px solid var(--gold);
+    border-bottom: 2px solid var(--gold);
+    opacity: 0.25;
+  }
+
+  .lux-welcome-panel::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    width: 80px;
+    height: 80px;
+    border-left: 2px solid var(--gold);
+    border-top: 2px solid var(--gold);
+    opacity: 0.25;
+  }
+
+  .lux-icon-ring {
+    width: 120px;
+    height: 120px;
+    border: 1px solid var(--divider);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    background: var(--cream);
+  }
+
+  .lux-icon-ring::before {
+    content: '';
+    position: absolute;
+    inset: 6px;
+    border: 1px solid var(--gold);
+    opacity: 0.3;
+  }
+
+  .lux-badge-pill {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+    border: 1px solid var(--divider);
+    padding: 6px 16px;
+    background: var(--cream);
+  }
+
+  /* ── Services Section ── */
+  .lux-services {
+    background: #fff;
+    padding: 112px 24px;
+    position: relative;
+  }
+
+  .lux-services-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+  }
+
+  .lux-services-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 72px;
+    gap: 40px;
+  }
+
+  .lux-services-heading {
+    font-size: clamp(42px, 5vw, 64px);
+  }
+
+  .lux-services-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 1px;
+    background: var(--divider);
+    border: 1px solid var(--divider);
+  }
+
+  .lux-service-card {
+    background: #fff;
+    padding: 40px 28px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    position: relative;
+    transition: background 0.3s ease;
+    cursor: default;
+    overflow: hidden;
+  }
+
+  .lux-service-card::after {
+    content: '';
+    position: absolute;
+    bottom: 0; left: 0;
+    width: 100%;
+    height: 2px;
+    background: var(--gold);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  .lux-service-card:hover {
+    background: var(--cream);
+  }
+
+  .lux-service-card:hover::after {
+    transform: scaleX(1);
+  }
+
+  .lux-service-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--gold);
+    letter-spacing: 0.1em;
+    opacity: 0.8;
+  }
+
+  .lux-service-icon {
+    width: 52px;
+    height: 52px;
+    border: 1px solid var(--divider);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--charcoal);
+    transition: border-color 0.3s ease, background 0.3s ease;
+    background: #fff;
+  }
+
+  .lux-service-card:hover .lux-service-icon {
+    border-color: var(--gold);
+    background: var(--gold-pale);
+  }
+
+  .lux-service-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--charcoal);
+    letter-spacing: 0.04em;
+  }
+
+  .lux-service-subtitle {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gold);
+  }
+
+  .lux-service-desc {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 300;
+    color: var(--mid);
+    line-height: 1.7;
+  }
+
+  .lux-service-more {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-top: auto;
+    opacity: 0;
+    transform: translateY(6px);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+  }
+
+  .lux-service-card:hover .lux-service-more {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* ── Partners Section ── */
+  .lux-partners {
+    background: var(--charcoal);
+    padding: 112px 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .lux-partners::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--gold) 40%, var(--gold) 60%, transparent);
+    opacity: 0.3;
+  }
+
+  .lux-partners-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+  }
+
+  .lux-partners-top {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: start;
+    margin-bottom: 80px;
+  }
+
+  .lux-partners-heading {
+    font-size: clamp(40px, 4.5vw, 60px);
+    color: var(--cream);
+  }
+
+  .lux-partners-heading em {
+    color: var(--gold-light);
+  }
+
+  .lux-partners-text {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 15px;
+    font-weight: 300;
+    color: rgba(250,248,243,0.65);
+    line-height: 1.8;
+    margin-bottom: 32px;
+  }
+
+  .lux-btn-outline-gold {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    border: 1px solid rgba(201,168,76,0.4);
+    color: var(--gold-light);
+    font-family: 'DM Sans', sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    background: transparent;
+    cursor: pointer;
+    transition: all 0.3s ease;
+  }
+
+  .lux-btn-outline-gold:hover {
+    background: var(--gold);
+    border-color: var(--gold);
+    color: var(--charcoal);
+  }
+
+  /* Partner grid header */
+  .lux-partners-right-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.24em;
+    text-transform: uppercase;
+    color: rgba(250,248,243,0.35);
+    margin-bottom: 28px;
+  }
+
+  .lux-partner-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: rgba(201,168,76,0.1);
+    border: 1px solid rgba(201,168,76,0.1);
+  }
+
+  .lux-partner-item {
+    background: rgba(250,248,243,0.03);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 28px;
+    transition: background 0.25s ease;
+    cursor: pointer;
+  }
+
+  .lux-partner-item:hover {
+    background: rgba(201,168,76,0.08);
+  }
+
+  .lux-partner-logo {
+    width: 48px;
+    height: 48px;
+    border: 1px solid rgba(201,168,76,0.2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 14px;
+    font-weight: 500;
+    color: rgba(250,248,243,0.5);
+    letter-spacing: 0.05em;
+    transition: color 0.25s ease, border-color 0.25s ease;
+  }
+
+  .lux-partner-item:hover .lux-partner-logo {
+    color: var(--gold-light);
+    border-color: rgba(201,168,76,0.45);
+  }
+
+  /* Brand strip */
+  .lux-brand-strip {
+    border-top: 1px solid rgba(201,168,76,0.12);
+    padding-top: 64px;
+  }
+
+  .lux-brand-strip-label {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    letter-spacing: 0.28em;
+    text-transform: uppercase;
+    color: rgba(250,248,243,0.3);
+    margin-bottom: 32px;
+    text-align: center;
+  }
+
+  .lux-brand-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 1px;
+    background: rgba(201,168,76,0.08);
+    border: 1px solid rgba(201,168,76,0.08);
+  }
+
+  .lux-brand-item {
+    background: transparent;
+    padding: 32px 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    color: rgba(250,248,243,0.3);
+    letter-spacing: 0.08em;
+    transition: color 0.25s ease, background 0.25s ease;
+    cursor: pointer;
+  }
+
+  .lux-brand-item:hover {
+    color: var(--gold-light);
+    background: rgba(201,168,76,0.05);
+  }
+
+  /* ── Glimpses Section ── */
+  .lux-glimpses {
+    background: var(--cream);
+    padding: 112px 24px;
+  }
+
+  .lux-glimpses-inner {
+    max-width: 1320px;
+    margin: 0 auto;
+  }
+
+  .lux-glimpses-header {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    margin-bottom: 56px;
+    gap: 32px;
+  }
+
+  .lux-glimpses-heading {
+    font-size: clamp(40px, 5vw, 60px);
+  }
+
+  .lux-glimpse-slide {
+    border: 1px solid var(--divider);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .lux-glimpse-frame {
+    height: 480px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .lux-glimpse-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(28,26,23,0.65) 0%, transparent 60%);
+  }
+
+  .lux-glimpse-label {
+    position: absolute;
+    bottom: 40px;
+    left: 48px;
+    z-index: 2;
+  }
+
+  .lux-glimpse-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 32px;
+    font-weight: 400;
+    color: #fff;
+    letter-spacing: 0.02em;
+    display: block;
+    margin-bottom: 8px;
+  }
+
+  .lux-glimpse-sub {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
+    font-weight: 400;
+    letter-spacing: 0.22em;
+    text-transform: uppercase;
+    color: var(--gold-light);
+  }
+
+  /* Nav arrows */
+  .lux-slider-nav {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .lux-arrow-btn {
+    width: 48px;
+    height: 48px;
+    border: 1px solid var(--divider);
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: var(--charcoal);
+    transition: all 0.25s ease;
+  }
+
+  .lux-arrow-btn:hover {
+    background: var(--charcoal);
+    border-color: var(--charcoal);
+    color: var(--gold-light);
+  }
+
+  /* Indicators */
+  .lux-glimpse-indicators {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 24px;
+  }
+
+  .lux-glimpse-dot {
+    height: 1px;
+    background: rgba(28,26,23,0.2);
+    transition: all 0.4s ease;
+    cursor: pointer;
+    width: 20px;
+    border: none;
+    padding: 0;
+  }
+
+  .lux-glimpse-dot.active {
+    background: var(--gold);
+    width: 40px;
+  }
+
+  /* Gradient backgrounds for glimpse slides */
+  .glimpse-bg-1 { background: linear-gradient(135deg, #2a3a6b, #4a6aad); }
+  .glimpse-bg-2 { background: linear-gradient(135deg, #6a92c8, #2a3a6b); }
+  .glimpse-bg-3 { background: linear-gradient(135deg, #243060, #4a6aad); }
+  .glimpse-bg-4 { background: linear-gradient(135deg, #4a6aad, #243060); }
+  .glimpse-bg-5 { background: linear-gradient(135deg, #6a92c8, #4a6aad); }
+
+  /* Responsive */
+  @media (max-width: 1024px) {
+    .lux-services-grid { grid-template-columns: repeat(3, 1fr); }
+    .lux-brand-grid { grid-template-columns: repeat(4, 1fr); }
+  }
+
+  @media (max-width: 768px) {
+    .lux-welcome-inner { grid-template-columns: 1fr; gap: 48px; }
+    .lux-services-header { flex-direction: column; align-items: flex-start; }
+    .lux-services-grid { grid-template-columns: 1fr 1fr; }
+    .lux-partners-top { grid-template-columns: 1fr; gap: 48px; }
+    .lux-partner-grid { grid-template-columns: repeat(3, 1fr); }
+    .lux-brand-grid { grid-template-columns: repeat(3, 1fr); }
+    .lux-glimpses-header { flex-direction: column; align-items: flex-start; }
+  }
+
+  @media (max-width: 480px) {
+    .lux-services-grid { grid-template-columns: 1fr; }
+    .lux-brand-grid { grid-template-columns: repeat(2, 1fr); }
+  }
+`;
+
 const MTTFHomepage = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const services = [
     {
       id: 1,
-      icon: <Users className="w-10 h-10" />,
+      icon: <Users className="w-5 h-5" />,
       title: "CONSULTING",
       subtitle: "Community Building",
       description: "Connect with like-minded individuals and build lasting professional relationships.",
@@ -17,7 +701,7 @@ const MTTFHomepage = () => {
     },
     {
       id: 2,
-      icon: <Target className="w-10 h-10" />,
+      icon: <Target className="w-5 h-5" />,
       title: "STRATEGY",
       subtitle: "Skill Development",
       description: "Access workshops and resources to enhance your capabilities with strategic planning.",
@@ -27,7 +711,7 @@ const MTTFHomepage = () => {
     },
     {
       id: 3,
-      icon: <Lightbulb className="w-10 h-10" />,
+      icon: <Lightbulb className="w-5 h-5" />,
       title: "IDEAS",
       subtitle: "Innovation Hub",
       description: "Transform your creative concepts into reality with our innovative approach.",
@@ -37,7 +721,7 @@ const MTTFHomepage = () => {
     },
     {
       id: 4,
-      icon: <Rocket className="w-10 h-10" />,
+      icon: <Rocket className="w-5 h-5" />,
       title: "NEW MEDIA",
       subtitle: "Digital Solutions",
       description: "Stay ahead with cutting-edge digital media strategies and modern technology.",
@@ -47,7 +731,7 @@ const MTTFHomepage = () => {
     },
     {
       id: 5,
-      icon: <Shield className="w-10 h-10" />,
+      icon: <Shield className="w-5 h-5" />,
       title: "SECURITY",
       subtitle: "Data Protection",
       description: "Ensure robust security measures and protect your valuable data.",
@@ -86,305 +770,225 @@ const MTTFHomepage = () => {
     setCurrentSlide((prev) => (prev - 1 + glimpses.length) % glimpses.length);
   };
 
+  const glimpseBgs = ['glimpse-bg-1','glimpse-bg-2','glimpse-bg-3','glimpse-bg-4','glimpse-bg-5'];
+
   return (
-    <div className="min-h-screen bg-[#F8F8F8]">
-      {/* Welcome Section */}
-      <section className="relative overflow-hidden py-24 px-4 bg-gradient-to-br from-[#32457B] via-[#5067AA] to-[#86A6DE]">
-        <div className="absolute inset-0">
-          <div className="absolute top-20 left-10 w-96 h-96 bg-[#86A6DE]/20 rounded-full blur-3xl animate-pulse"></div>
-          <div className="absolute bottom-20 right-10 w-80 h-80 bg-[#5067AA]/20 rounded-full blur-3xl animate-pulse" style={{animationDelay: '1s'}}></div>
-        </div>
-        
-        <div className="max-w-7xl mx-auto relative z-10">
-          <div className="grid md:grid-cols-2 gap-16 items-center">
-            <div className="space-y-8">
-              <div className="inline-block backdrop-blur-xl bg-white/10 px-6 py-2 rounded-full border border-white/20 shadow-lg">
-                <span className="text-white/90 font-semibold text-sm tracking-widest uppercase">Welcome</span>
+    <>
+      <style>{styles}</style>
+
+      <div style={{ fontFamily: "'DM Sans', sans-serif" }}>
+
+        {/* ── Welcome Section ── */}
+        <section className="lux-welcome">
+          <div className="lux-welcome-deco">M</div>
+          <div className="lux-welcome-inner">
+
+            {/* Left */}
+            <div>
+              <div className="lux-section-eyebrow">
+                <span className="lux-section-eyebrow-line" />
+                Welcome
+                <span className="lux-section-eyebrow-line" />
               </div>
-              
-              <h1 className="text-6xl md:text-7xl font-bold text-white leading-tight">
-                Welcome to <span className="text-[#86A6DE]">MTTF</span>
+
+              <h1 className="lux-serif-heading lux-welcome-heading">
+                Welcome to <br /><em>MTTF</em>
               </h1>
-              
-              <div className="backdrop-blur-xl bg-white/10 p-8 rounded-3xl border border-white/20 shadow-2xl">
-                <p className="text-lg text-white/90 leading-relaxed">
-                  Join our vibrant community dedicated to fostering growth, innovation, and collaboration. 
+
+              <div className="lux-gold-rule" />
+
+              <div className="lux-welcome-card">
+                <p className="lux-body" style={{ fontSize: "15px" }}>
+                  Join our vibrant community dedicated to fostering growth, innovation, and collaboration.
                   We bring together passionate individuals to create meaningful impact through technology and shared learning experiences.
                 </p>
               </div>
-              
-              <button className="group relative bg-gradient-to-r from-[#5067AA] to-[#86A6DE] text-white px-10 py-4 rounded-full font-bold text-lg shadow-xl hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105">
-                <span className="flex items-center gap-3">
-                  Explore More
-                  <span className="group-hover:translate-x-2 transition-transform duration-300">→</span>
-                </span>
+
+              <button className="lux-btn-primary">
+                <span>Explore More</span>
+                <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
+                  <path d="M1 6.5H12M7.5 2L12 6.5L7.5 11" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
               </button>
             </div>
-            
-            <div className="relative">
-              <div className="w-full h-[500px] backdrop-blur-2xl bg-white/10 rounded-[3rem] shadow-2xl border border-white/20 overflow-hidden transform hover:scale-105 transition-all duration-700">
-                <div className="relative h-full flex flex-col items-center justify-center text-white p-8">
-                  <div className="relative mb-8">
-                    <div className="absolute inset-0 w-48 h-48 -m-8 border-2 border-[#86A6DE]/30 rounded-full animate-ping" style={{animationDuration: '3s'}}></div>
-                    
-                    <div className="relative w-40 h-40 bg-gradient-to-br from-[#5067AA]/40 to-[#86A6DE]/40 backdrop-blur-xl rounded-full flex items-center justify-center border-4 border-white/30 shadow-2xl">
-                      <Users className="w-20 h-20 drop-shadow-2xl" />
-                    </div>
-                  </div>
-                  
-                  <div className="text-center space-y-3">
-                    <p className="text-3xl font-bold drop-shadow-2xl">
-                      Join Our Community
-                    </p>
-                    <p className="text-white/80 text-sm backdrop-blur-sm bg-white/10 px-6 py-2 rounded-full border border-white/20">
-                      1000+ Active Members
-                    </p>
-                  </div>
-                </div>
+
+            {/* Right panel */}
+            <div className="lux-welcome-panel">
+              <div className="lux-icon-ring">
+                <Users style={{ width: 36, height: 36, color: "var(--charcoal)" }} />
               </div>
-            </div>
-          </div>
-        </div>
-      </section>
 
-      {/* Services Section */}
-      <section className="py-24 px-4 bg-[#F8F8F8]">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-20">
-            <div className="inline-block bg-[#86A6DE]/10 px-6 py-2 rounded-full border border-[#86A6DE]/30 mb-6">
-              <span className="text-[#32457B] font-semibold text-sm tracking-wider">WHAT WE OFFER</span>
-            </div>
-            <h2 className="text-5xl md:text-6xl font-bold text-[#32457B] mb-6">
-              OUR SERVICES
-            </h2>
-            <p className="text-[#5067AA] text-lg max-w-3xl mx-auto">
-              Comprehensive solutions designed to elevate your business and drive innovation
-            </p>
-          </div>
+              <div style={{ textAlign: "center" }}>
+                <p className="lux-serif-heading" style={{ fontSize: "28px", marginBottom: "12px" }}>
+                  Join Our Community
+                </p>
+                <div className="lux-gold-rule" style={{ margin: "0 auto 16px" }} />
+              </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
-            {services.map((service, index) => (
-              <div
-                key={service.id}
-                className="group relative bg-white rounded-3xl border border-[#86A6DE]/20 p-6 hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 hover:border-[#5067AA]/40"
-                style={{
-                  animation: `fadeInUp 0.6s ease-out ${index * 0.1}s both`
-                }}
-              >
-                <div className="absolute top-4 right-4 text-[#86A6DE]/20 font-bold text-4xl group-hover:text-[#86A6DE]/40 transition-colors duration-300">
-                  {service.number}
+              <span className="lux-badge-pill">1000+ Active Members</span>
+            </div>
+
+          </div>
+        </section>
+
+        {/* ── Services Section ── */}
+        <section className="lux-services">
+          <div className="lux-services-inner">
+            <div className="lux-services-header">
+              <div>
+                <div className="lux-section-eyebrow">
+                  <span className="lux-section-eyebrow-line" />
+                  What We Offer
                 </div>
+                <h2 className="lux-serif-heading lux-services-heading">
+                  Our <em>Services</em>
+                </h2>
+              </div>
+              <p className="lux-body" style={{ maxWidth: "360px", fontSize: "14px", textAlign: "right" }}>
+                Comprehensive solutions designed to elevate your work and drive innovation
+              </p>
+            </div>
 
-                <div className={`w-20 h-20 mb-6 rounded-2xl bg-gradient-to-br ${service.color} p-0.5 shadow-lg mx-auto group-hover:scale-110 group-hover:rotate-6 transition-all duration-500`}>
-                  <div className="w-full h-full bg-white/90 rounded-2xl flex items-center justify-center text-[#32457B]">
+            <div className="lux-services-grid">
+              {services.map((service) => (
+                <div key={service.id} className="lux-service-card">
+                  <span className="lux-service-num">{service.number}</span>
+                  <div className="lux-service-icon">
                     {service.icon}
                   </div>
-                </div>
-
-                <h3 className="text-xl font-bold text-[#32457B] mb-2 text-center group-hover:text-[#5067AA] transition-colors duration-300">
-                  {service.title}
-                </h3>
-
-                <p className="text-sm text-[#5067AA] mb-4 font-medium text-center group-hover:text-[#32457B] transition-colors duration-300">
-                  {service.subtitle}
-                </p>
-
-                <p className="text-sm text-[#5067AA]/80 leading-relaxed text-center">
-                  {service.description}
-                </p>
-
-                <button className={`mt-6 px-6 py-2 rounded-full text-sm font-semibold text-white ${service.bgColor} opacity-0 group-hover:opacity-100 transition-all duration-300 mx-auto block hover:shadow-lg hover:scale-105`}>
-                  more info
-                </button>
-              </div>
-            ))}
-          </div>
-        </div>
-        
-        <style>{`
-          @keyframes fadeInUp {
-            from {
-              opacity: 0;
-              transform: translateY(30px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
-        `}</style>
-      </section>
-
-      {/* Partners Section */}
-      <section className="py-24 px-4 bg-gradient-to-br from-[#32457B] via-[#5067AA] to-[#86A6DE]">
-        <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6 backdrop-blur-xl bg-white/10 p-10 rounded-3xl border border-white/30 shadow-2xl hover:shadow-white/20 transition-all duration-500">
-              <div className="inline-block bg-white/10 px-5 py-2 rounded-full border border-white/30">
-                <span className="text-white font-bold text-xs tracking-widest uppercase">Team • Customer • Community</span>
-              </div>
-              
-              <h2 className="text-4xl lg:text-5xl font-bold text-white leading-tight">
-                We Work With the <br/>
-                <span className="text-[#86A6DE]">Best Partners</span>
-              </h2>
-              
-              <p className="text-white/90 text-lg leading-relaxed backdrop-blur-sm bg-white/5 p-4 rounded-xl border border-white/10">
-                While we are at the forefront and specialize in design-build, we constantly collaborate with a number of delivery methods and are confident we can find the process that will best help you meet your goals.
-              </p>
-              
-              <button className="group bg-gradient-to-r from-[#86A6DE] to-white text-[#32457B] px-8 py-3 rounded-full font-bold hover:shadow-2xl transform hover:-translate-y-1 hover:scale-105 transition-all duration-300 flex items-center gap-2">
-                Read More
-                <span className="group-hover:translate-x-1 transition-transform duration-300">→</span>
-              </button>
-            </div>
-
-            <div className="backdrop-blur-xl bg-white/10 p-10 rounded-3xl border border-white/30 shadow-2xl">
-              <div className="mb-8 text-center">
-                <h3 className="text-2xl font-bold text-white mb-2">Our Business Partners</h3>
-                <p className="text-white/70 text-sm">Trusted collaborations driving innovation and excellence</p>
-              </div>
-              
-              <div className="grid grid-cols-3 gap-6">
-                {partners.map((partner, index) => (
-                  <div
-                    key={index}
-                    className="group backdrop-blur-lg bg-white/10 p-6 rounded-2xl shadow-lg flex items-center justify-center border border-white/20 hover:border-[#86A6DE]/60 cursor-pointer transform hover:scale-110 hover:-translate-y-2 hover:rotate-3 transition-all duration-500"
-                    style={{
-                      animation: `fadeInScale 0.8s ease-out ${index * 0.1}s both`
-                    }}
-                  >
-                    <div className="relative">
-                      <div className="w-16 h-16 bg-gradient-to-br from-[#5067AA] to-[#86A6DE] rounded-xl flex items-center justify-center text-white font-bold text-lg shadow-lg group-hover:scale-110 transition-all duration-300">
-                        {partner.logo}
-                      </div>
-                    </div>
+                  <div>
+                    <p className="lux-service-title">{service.title}</p>
+                    <p className="lux-service-subtitle" style={{ marginTop: "6px" }}>{service.subtitle}</p>
                   </div>
-                ))}
-              </div>
-              
-              <div className="mt-8 text-center">
-                <p className="text-white/60 text-xs italic bg-white/5 px-4 py-2 rounded-full inline-block border border-white/10">
-                  Trusted by industry-leading companies worldwide
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div className="mt-20 backdrop-blur-xl bg-white/10 p-12 rounded-3xl border border-white/30 shadow-2xl">
-            <div className="text-center mb-12">
-              <div className="inline-block bg-white/10 px-6 py-2 rounded-full border border-white/20 mb-4">
-                <span className="text-white font-semibold text-sm tracking-wider uppercase">Brand Partners</span>
-              </div>
-              <h3 className="text-3xl font-bold text-white mb-3">
-                Brands We've <span className="text-[#86A6DE]">Collaborated With</span>
-              </h3>
-            </div>
-            
-            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-6">
-              {[...partners, ...partners.slice(0, 2)].map((partner, index) => (
-                <div
-                  key={index}
-                  className="group backdrop-blur-md bg-white/10 p-8 rounded-xl border border-white/20 flex items-center justify-center hover:bg-white/20 hover:border-white/40 transition-all duration-300 transform hover:scale-105"
-                  style={{
-                    animation: `slideInLeft 1s ease-out ${index * 0.15}s both`
-                  }}
-                >
-                  <div className="text-white/80 group-hover:text-white font-bold text-sm transition-colors duration-300">
-                    {partner.logo}
-                  </div>
+                  <p className="lux-service-desc">{service.description}</p>
+                  <button className="lux-service-more">
+                    More Info
+                    <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+                      <path d="M1 5.5H10M6.5 2L10 5.5L6.5 9" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round"/>
+                    </svg>
+                  </button>
                 </div>
               ))}
             </div>
           </div>
-        </div>
-        
-        <style>{`
-          @keyframes fadeInScale {
-            from {
-              opacity: 0;
-              transform: scale(0.8) translateY(20px);
-            }
-            to {
-              opacity: 1;
-              transform: scale(1) translateY(0);
-            }
-          }
+        </section>
 
-          @keyframes slideInLeft {
-            from {
-              opacity: 0;
-              transform: translateX(-30px);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0);
-            }
-          }
-        `}</style>
-      </section>
+        {/* ── Partners Section ── */}
+        <section className="lux-partners">
+          <div className="lux-partners-inner">
+            <div className="lux-partners-top">
 
-      {/* Glimpses Section */}
-      <section className="py-20 px-4 bg-[#F8F8F8]">
-        <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-4xl font-bold text-[#32457B] mb-4">Glimpses</h2>
-            <p className="text-[#5067AA] text-lg bg-white px-6 py-2 rounded-full border border-[#86A6DE]/30 inline-block">
-              Moments from our events and activities
-            </p>
+              {/* Left */}
+              <div>
+                <div className="lux-section-eyebrow" style={{ color: "rgba(232,201,106,0.7)" }}>
+                  <span className="lux-section-eyebrow-line" />
+                  Team · Customer · Community
+                </div>
+                <h2 className="lux-serif-heading lux-partners-heading">
+                  We Work With the <br /><em>Best Partners</em>
+                </h2>
+                <div className="lux-gold-rule" style={{ opacity: 0.3 }} />
+                <p className="lux-partners-text">
+                  While we are at the forefront and specialize in design-build, we constantly collaborate with a number of delivery methods and are confident we can find the process that will best help you meet your goals.
+                </p>
+                <button className="lux-btn-outline-gold">
+                  Read More
+                  <svg width="11" height="11" viewBox="0 0 11 11" fill="none">
+                    <path d="M1 5.5H10M6.5 2L10 5.5L6.5 9" stroke="currentColor" strokeWidth="1.1" strokeLinecap="round"/>
+                  </svg>
+                </button>
+              </div>
+
+              {/* Right */}
+              <div>
+                <p className="lux-partners-right-label">Our Business Partners</p>
+                <div className="lux-partner-grid">
+                  {partners.map((partner, index) => (
+                    <div key={index} className="lux-partner-item">
+                      <div className="lux-partner-logo">{partner.logo}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Brand strip */}
+            <div className="lux-brand-strip">
+              <p className="lux-brand-strip-label">Brands We've Collaborated With</p>
+              <div className="lux-brand-grid">
+                {[...partners, ...partners.slice(0, 2)].map((partner, index) => (
+                  <div key={index} className="lux-brand-item">
+                    {partner.logo}
+                  </div>
+                ))}
+              </div>
+            </div>
           </div>
-          
-          <div className="relative">
-            <div className="overflow-hidden rounded-3xl shadow-2xl border border-[#86A6DE]/30">
+        </section>
+
+        {/* ── Glimpses Section ── */}
+        <section className="lux-glimpses">
+          <div className="lux-glimpses-inner">
+            <div className="lux-glimpses-header">
+              <div>
+                <div className="lux-section-eyebrow">
+                  <span className="lux-section-eyebrow-line" />
+                  Gallery
+                </div>
+                <h2 className="lux-serif-heading lux-glimpses-heading">
+                  <em>Glimpses</em>
+                </h2>
+              </div>
+              <div style={{ display: "flex", flexDirection: "column", alignItems: "flex-end", gap: "12px" }}>
+                <p className="lux-body" style={{ fontSize: "13px" }}>
+                  Moments from our events and activities
+                </p>
+                <div className="lux-slider-nav">
+                  <button className="lux-arrow-btn" onClick={prevSlide}>
+                    <ChevronLeft className="w-4 h-4" />
+                  </button>
+                  <button className="lux-arrow-btn" onClick={nextSlide}>
+                    <ChevronRight className="w-4 h-4" />
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            {/* Slide */}
+            <div className="lux-glimpse-slide">
               <div
                 className="flex transition-transform duration-500"
                 style={{ transform: `translateX(-${currentSlide * 100}%)` }}
               >
-                {glimpses.map((glimpse) => (
-                  <div key={glimpse.id} className="min-w-full">
-                    <div className={`h-96 bg-gradient-to-br ${glimpse.color} rounded-3xl flex items-center justify-center shadow-2xl relative overflow-hidden group`}>
-                      <div className="absolute inset-0 bg-white/10 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                      <div className="text-white text-center relative z-10 transform group-hover:scale-110 transition-transform duration-500">
-                        <p className="text-3xl font-bold mb-2">{glimpse.title}</p>
-                        <p className="text-lg opacity-90">Event Photo {glimpse.id}</p>
+                {glimpses.map((glimpse, i) => (
+                  <div key={glimpse.id} style={{ minWidth: "100%" }}>
+                    <div className={`lux-glimpse-frame ${glimpseBgs[i]}`}>
+                      <div className="lux-glimpse-overlay" />
+                      <div className="lux-glimpse-label">
+                        <span className="lux-glimpse-title">{glimpse.title}</span>
+                        <span className="lux-glimpse-sub">Event Photo {glimpse.id}</span>
                       </div>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
-            
-            <button
-              onClick={prevSlide}
-              className="absolute left-4 top-1/2 -translate-y-1/2 bg-white hover:bg-[#F8F8F8] p-3 rounded-full shadow-xl transition-all duration-300 border border-[#86A6DE]/30 transform hover:scale-110"
-            >
-              <ChevronLeft className="w-6 h-6 text-[#32457B]" />
-            </button>
-            
-            <button
-              onClick={nextSlide}
-              className="absolute right-4 top-1/2 -translate-y-1/2 bg-white hover:bg-[#F8F8F8] p-3 rounded-full shadow-xl transition-all duration-300 border border-[#86A6DE]/30 transform hover:scale-110"
-            >
-              <ChevronRight className="w-6 h-6 text-[#32457B]" />
-            </button>
 
-            <div className="flex justify-center mt-6 space-x-2">
+            {/* Indicators */}
+            <div className="lux-glimpse-indicators">
               {glimpses.map((_, index) => (
                 <button
                   key={index}
+                  className={`lux-glimpse-dot${currentSlide === index ? " active" : ""}`}
                   onClick={() => setCurrentSlide(index)}
-                  className={`h-3 rounded-full transition-all duration-300 border border-[#86A6DE]/30 ${
-                    currentSlide === index 
-                      ? 'bg-[#5067AA] w-8' 
-                      : 'bg-[#86A6DE] w-3 hover:scale-125'
-                  }`}
                 />
               ))}
             </div>
           </div>
-        </div>
-      </section>
-    </div>
+        </section>
+
+      </div>
+    </>
   );
 };
 

@@ -1,731 +1,733 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef } from "react";
+import Header from "../../../Components/Header";
+import Footer from "../../../Components/Footer";
 
-const MTTFMembership = () => {
-  const [menuOpen, setMenuOpen] = useState(false);
-  const observerRef = useRef(null);
+const benefits = [
+  {
+    id: "01",
+    category: "Access to Resources",
+    accent: "#C8A96E",
+    items: [
+      {
+        title: "Journals & Publications",
+        desc: "Gain unlimited access to a vast array of scholarly journals, publications, and databases, providing valuable research materials to support academic and scientific endeavors.",
+      },
+      {
+        title: "Educational Materials",
+        desc: "Benefit from comprehensive access to a variety of educational resources, including webinars, online courses, and training modules, designed to enhance learning and skill development.",
+      },
+    ],
+  },
+  {
+    id: "02",
+    category: "Professional Development",
+    accent: "#7EB8C9",
+    items: [
+      {
+        title: "Workshops & Conferences",
+        desc: "Enjoy discounted or complimentary registration for MTTF-organized workshops, conferences, and seminars, ensuring your institution stays updated on the latest advancements in STEM.",
+      },
+      {
+        title: "Certification Programs",
+        desc: "Access certification and credentialing programs that enhance the qualifications and expertise of your staff members.",
+      },
+    ],
+  },
+  {
+    id: "03",
+    category: "Networking Opportunities",
+    accent: "#A89BC8",
+    items: [
+      {
+        title: "Events & Meetups",
+        desc: "Receive invitations to exclusive networking events, regional meetups, and forums, providing opportunities to connect with peers, industry leaders, and experts in STEM fields.",
+      },
+      {
+        title: "Special Interest Groups",
+        desc: "Participate in special interest groups or committees that align with your institution's focus areas, fostering targeted discussions and collaborations.",
+      },
+    ],
+  },
+  {
+    id: "04",
+    category: "Collaboration & Partnerships",
+    accent: "#7EC9A8",
+    items: [
+      {
+        title: "Research Collaborations",
+        desc: "Engage in collaborative research projects with other member institutions, gaining access to funding opportunities and grants to support innovative research.",
+      },
+      {
+        title: "Industry Partnerships",
+        desc: "Establish partnerships with industry leaders for internships, joint ventures, and knowledge exchange, bridging the gap between academia and industry.",
+      },
+    ],
+  },
+  {
+    id: "05",
+    category: "Recognition & Awards",
+    accent: "#C8A96E",
+    items: [
+      {
+        title: "Institutional Awards",
+        desc: "Become eligible for institutional awards and recognition, celebrating and honoring your institution's contributions to the STEM community and beyond.",
+      },
+      {
+        title: "Member Achievements",
+        desc: "Highlight the individual and collective achievements of your institution's members in MTTF publications and at events, showcasing your institution's excellence.",
+      },
+    ],
+  },
+  {
+    id: "06",
+    category: "Community Engagement",
+    accent: "#C97E7E",
+    items: [
+      {
+        title: "Outreach Programs",
+        desc: "Participate in outreach and community engagement programs aimed at promoting STEM education and raising awareness about the importance of STEM in society.",
+      },
+      {
+        title: "Mentorship Opportunities",
+        desc: "Engage in mentorship programs, offering both mentoring and mentee opportunities to support the professional growth of your staff and students.",
+      },
+    ],
+  },
+  {
+    id: "07",
+    category: "Exclusive Member Benefits",
+    accent: "#7EB8C9",
+    items: [
+      {
+        title: "Customized Training",
+        desc: "Access tailored training programs and workshops specifically designed to meet the unique needs and goals of your institution.",
+      },
+      {
+        title: "Institutional Representation",
+        desc: "Gain representation in MTTF's governance and decision-making processes, giving your institution a voice in shaping the policies and initiatives of the foundation.",
+      },
+    ],
+  },
+];
 
+const pricing = [
+  {
+    tier: "Small",
+    sub: "Up to 100 members",
+    amount: "INR 50,000",
+    tag: "Starter",
+    featured: false,
+  },
+  {
+    tier: "Medium",
+    sub: "101 to 500 members",
+    amount: "INR 1,00,000",
+    tag: "Most Popular",
+    featured: true,
+  },
+  {
+    tier: "Large",
+    sub: "Over 500 members",
+    amount: "INR 2,00,000",
+    tag: "Enterprise",
+    featured: false,
+  },
+];
+
+function useInView(threshold = 0.15) {
+  const ref = useRef(null);
+  const [visible, setVisible] = useState(false);
   useEffect(() => {
-    // Intersection Observer for scroll animations
-    const observerOptions = {
-      threshold: 0.1,
-      rootMargin: '0px 0px -100px 0px'
-    };
+    const obs = new IntersectionObserver(
+      ([e]) => { if (e.isIntersecting) { setVisible(true); obs.disconnect(); } },
+      { threshold }
+    );
+    if (ref.current) obs.observe(ref.current);
+    return () => obs.disconnect();
+  }, [threshold]);
+  return [ref, visible];
+}
 
-    observerRef.current = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          entry.target.style.opacity = '1';
-          entry.target.style.transform = 'translateY(0)';
-        }
-      });
-    }, observerOptions);
-
-    document.querySelectorAll('.fade-in').forEach(el => {
-      observerRef.current.observe(el);
-    });
-
-    return () => {
-      if (observerRef.current) {
-        observerRef.current.disconnect();
-      }
-    };
-  }, []);
-
-  const toggleMenu = () => {
-    setMenuOpen(!menuOpen);
-  };
-
-  const handleNavClick = (e, href) => {
-    e.preventDefault();
-    const target = document.querySelector(href);
-    if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      setMenuOpen(false);
-    }
-  };
-
-  const styles = {
-    global: {
-      margin: 0,
-      padding: 0,
-      boxSizing: 'border-box',
-      fontFamily: "'Inter', sans-serif",
-    },
-    body: {
-      margin: 0,
-      padding: 0,
-      overflowX: 'hidden',
-      lineHeight: 1.6,
-      color: '#333',
-    },
-    header: {
-      background: 'linear-gradient(135deg, #1a1f3a 0%, #2d3b6f 100%)',
-      padding: '1.5rem 2rem',
-      position: 'fixed',
-      width: '100%',
-      top: 0,
-      zIndex: 1000,
-      boxShadow: '0 4px 20px rgba(0, 0, 0, 0.15)',
-    },
-    headerContainer: {
-      maxWidth: '1400px',
-      margin: '0 auto',
-      display: 'flex',
-      justifyContent: 'space-between',
-      alignItems: 'center',
-    },
-    logo: {
-      display: 'flex',
-      alignItems: 'center',
-      gap: '1rem',
-    },
-    logoIcon: {
-      width: '50px',
-      height: '50px',
-      background: 'white',
-      borderRadius: '50%',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      fontWeight: 800,
-      fontSize: '1.5rem',
-      color: '#2d3b6f',
-    },
-    logoTextContainer: {
-      display: 'flex',
-      flexDirection: 'column',
-    },
-    logoText: {
-      color: 'white',
-      fontSize: '1.8rem',
-      fontWeight: 800,
-      fontFamily: "'Poppins', sans-serif",
-      letterSpacing: '2px',
-    },
-    logoSubtitle: {
-      color: '#e8eaf0',
-      fontSize: '0.75rem',
-      marginTop: '-5px',
-      letterSpacing: '1px',
-    },
-    menuBtn: {
-      background: 'none',
-      border: 'none',
-      color: 'white',
-      cursor: 'pointer',
-      display: 'flex',
-      flexDirection: 'column',
-      gap: '5px',
-      padding: '10px',
-    },
-    menuBtnSpan: {
-      display: 'block',
-      width: '30px',
-      height: '3px',
-      background: 'white',
-      borderRadius: '2px',
-      transition: 'all 0.3s ease',
-    },
-    hero: {
-      background: 'linear-gradient(135deg, #1a1f3a 0%, #2d3b6f 50%, #1a1f3a 100%)',
-      minHeight: '100vh',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      padding: '8rem 2rem 4rem',
-      position: 'relative',
-      overflow: 'hidden',
-    },
-    heroContent: {
-      textAlign: 'center',
-      maxWidth: '900px',
-      position: 'relative',
-      zIndex: 1,
-      animation: 'fadeInUp 1s ease-out',
-    },
-    heroH1: {
-      fontSize: '4rem',
-      fontWeight: 800,
-      color: 'white',
-      marginBottom: '1rem',
-      fontFamily: "'Poppins', sans-serif",
-      lineHeight: 1.2,
-    },
-    heroSubtitle: {
-      fontSize: '1.8rem',
-      color: '#e8eaf0',
-      marginBottom: '3rem',
-      fontWeight: 500,
-    },
-    ctaButtons: {
-      display: 'flex',
-      gap: '1.5rem',
-      justifyContent: 'center',
-      flexWrap: 'wrap',
-    },
-    btn: {
-      padding: '1.2rem 3rem',
-      fontSize: '1.1rem',
-      fontWeight: 600,
-      border: 'none',
-      borderRadius: '50px',
-      cursor: 'pointer',
-      transition: 'all 0.3s ease',
-      textDecoration: 'none',
-      display: 'inline-block',
-    },
-    btnPrimary: {
-      background: '#4169e1',
-      color: 'white',
-      boxShadow: '0 8px 25px rgba(65, 105, 225, 0.4)',
-      padding: '1.2rem 3rem',
-      fontSize: '1.1rem',
-      fontWeight: 600,
-      border: 'none',
-      borderRadius: '50px',
-      cursor: 'pointer',
-      transition: 'all 0.3s ease',
-    },
-    btnSecondary: {
-      background: 'transparent',
-      color: 'white',
-      border: '2px solid white',
-      padding: '1.2rem 3rem',
-      fontSize: '1.1rem',
-      fontWeight: 600,
-      borderRadius: '50px',
-      cursor: 'pointer',
-      transition: 'all 0.3s ease',
-    },
-    contentSection: {
-      padding: '5rem 2rem',
-      maxWidth: '1200px',
-      margin: '0 auto',
-    },
-    sectionIntro: {
-      textAlign: 'center',
-      marginBottom: '4rem',
-    },
-    sectionH2: {
-      fontSize: '2.5rem',
-      fontWeight: 700,
-      color: '#1a1f3a',
-      marginBottom: '1rem',
-    },
-    sectionP: {
-      fontSize: '1.2rem',
-      color: '#6b7280',
-      maxWidth: '800px',
-      margin: '0 auto',
-      lineHeight: 1.8,
-    },
-    benefitsGrid: {
-      display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-      gap: '2rem',
-      marginTop: '3rem',
-    },
-    benefitCard: {
-      background: 'white',
-      borderRadius: '20px',
-      padding: '2.5rem',
-      boxShadow: '0 10px 40px rgba(0, 0, 0, 0.08)',
-      transition: 'all 0.3s ease',
-      borderLeft: '4px solid #4169e1',
-    },
-    benefitH3: {
-      color: '#4169e1',
-      fontSize: '1.5rem',
-      marginBottom: '1.5rem',
-      fontWeight: 700,
-    },
-    benefitList: {
-      listStyle: 'none',
-      padding: 0,
-      margin: 0,
-    },
-    benefitListItem: {
-      marginBottom: '1.5rem',
-    },
-    benefitStrong: {
-      display: 'block',
-      color: '#1a1f3a',
-      fontSize: '1.1rem',
-      marginBottom: '0.5rem',
-    },
-    benefitP: {
-      color: '#6b7280',
-      lineHeight: 1.7,
-      margin: 0,
-    },
-    pricingSection: {
-      background: 'linear-gradient(135deg, #f5f7fa 0%, #e8eaf0 100%)',
-      padding: '5rem 2rem',
-    },
-    pricingContainer: {
-      maxWidth: '1200px',
-      margin: '0 auto',
-    },
-    pricingGrid: {
-      display: 'grid',
-      gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))',
-      gap: '2rem',
-      marginTop: '3rem',
-    },
-    pricingCard: {
-      background: 'white',
-      borderRadius: '25px',
-      padding: '3rem',
-      boxShadow: '0 10px 40px rgba(0, 0, 0, 0.1)',
-      transition: 'all 0.3s ease',
-      position: 'relative',
-      overflow: 'hidden',
-    },
-    pricingCardBefore: {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      right: 0,
-      height: '6px',
-      background: 'linear-gradient(90deg, #4169e1, #5a7de8)',
-    },
-    pricingTier: {
-      fontSize: '1.8rem',
-      fontWeight: 700,
-      color: '#4169e1',
-      marginBottom: '0.5rem',
-    },
-    pricingSubtitle: {
-      color: '#6b7280',
-      fontSize: '0.95rem',
-      marginBottom: '2rem',
-    },
-    pricingAmount: {
-      fontSize: '3rem',
-      fontWeight: 800,
-      color: '#1a1f3a',
-      marginBottom: '0.5rem',
-    },
-    pricingPeriod: {
-      color: '#6b7280',
-      fontSize: '1rem',
-      marginBottom: '2rem',
-    },
-    pricingNote: {
-      textAlign: 'center',
-      marginTop: '3rem',
-      padding: '2rem',
-      background: 'white',
-      borderRadius: '15px',
-      boxShadow: '0 5px 20px rgba(0, 0, 0, 0.08)',
-    },
-    overlay: {
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      background: 'rgba(0, 0, 0, 0.5)',
-      opacity: menuOpen ? 1 : 0,
-      visibility: menuOpen ? 'visible' : 'hidden',
-      transition: 'all 0.3s ease',
-      zIndex: 1500,
-    },
-    navMenu: {
-      position: 'fixed',
-      top: 0,
-      right: menuOpen ? 0 : '-100%',
-      width: '350px',
-      height: '100vh',
-      background: 'linear-gradient(135deg, #1a1f3a 0%, #2d3b6f 100%)',
-      padding: '2rem',
-      transition: 'right 0.4s ease',
-      zIndex: 2000,
-      overflowY: 'auto',
-      boxShadow: '-5px 0 25px rgba(0, 0, 0, 0.3)',
-    },
-    navClose: {
-      background: 'none',
-      border: 'none',
-      color: 'white',
-      fontSize: '2.5rem',
-      cursor: 'pointer',
-      float: 'right',
-      marginBottom: '2rem',
-    },
-    navH3: {
-      color: 'white',
-      fontSize: '1.5rem',
-      margin: '2rem 0 1rem',
-      borderBottom: '2px solid rgba(255, 255, 255, 0.2)',
-      paddingBottom: '0.5rem',
-    },
-    navUl: {
-      listStyle: 'none',
-      padding: 0,
-      margin: 0,
-    },
-    navLi: {
-      margin: '0.8rem 0',
-    },
-    navA: {
-      color: '#e8eaf0',
-      textDecoration: 'none',
-      fontSize: '1.1rem',
-      padding: '0.5rem',
-      display: 'block',
-      transition: 'all 0.3s ease',
-      borderRadius: '8px',
-    },
-    fadeIn: {
-      opacity: 0,
-      transform: 'translateY(30px)',
-      transition: 'opacity 0.8s ease, transform 0.8s ease',
-    },
-  };
-
-  const benefitsData = [
-    {
-      title: 'Access to Resources:',
-      items: [
-        {
-          name: 'Educational Materials:',
-          description: 'Gain access to a wealth of educational resources, including research papers, case studies, and instructional content designed to support your institution\'s academic and professional goals.'
-        }
-      ]
-    },
-    {
-      title: 'Professional Development:',
-      items: [
-        {
-          name: 'Workshops and Conferences:',
-          description: 'Enjoy discounted or complimentary registration for MTTF-organized workshops, conferences, and seminars, ensuring that your institution stays updated on the latest advancements and trends in STEM.'
-        },
-        {
-          name: 'Certification Programs:',
-          description: 'Access certification and credentialing programs that enhance the qualifications and expertise of your staff members.'
-        }
-      ]
-    },
-    {
-      title: 'Networking Opportunities:',
-      items: [
-        {
-          name: 'Events and Meetups:',
-          description: 'Receive invitations to exclusive networking events, regional meetups, and forums, providing opportunities to connect with peers, industry leaders, and experts in STEM fields.'
-        },
-        {
-          name: 'Special Interest Groups:',
-          description: 'Participate in special interest groups or committees that align with your institution\'s focus areas, fostering targeted discussions and collaborations.'
-        }
-      ]
-    },
-    {
-      title: 'Collaboration and Partnerships:',
-      items: [
-        {
-          name: 'Research Collaborations:',
-          description: 'Engage in collaborative research projects with other member institutions, gaining access to funding opportunities and grants to support innovative research.'
-        },
-        {
-          name: 'Industry Partnerships:',
-          description: 'Establish partnerships with industry leaders for internships, joint ventures, and knowledge exchange, bridging the gap between academia and industry.'
-        }
-      ]
-    },
-    {
-      title: 'Recognition and Awards:',
-      items: [
-        {
-          name: 'Institutional Awards:',
-          description: 'Become eligible for institutional awards and recognition, celebrating and honoring your institution\'s contributions to the STEM community and beyond.'
-        },
-        {
-          name: 'Member Achievements:',
-          description: 'Highlight the individual and collective achievements of your institution\'s members in MTTF publications and at events, showcasing your institution\'s excellence.'
-        }
-      ]
-    },
-    {
-      title: 'Community Engagement:',
-      items: [
-        {
-          name: 'Outreach Programs:',
-          description: 'Participate in outreach and community engagement programs aimed at promoting STEM education and raising awareness about the importance of STEM in society.'
-        },
-        {
-          name: 'Mentorship Opportunities:',
-          description: 'Engage in mentorship programs, offering both mentoring and mentee opportunities to support the professional growth of your staff and students.'
-        }
-      ]
-    },
-    {
-      title: 'Exclusive Member Benefits:',
-      items: [
-        {
-          name: 'Customized Training:',
-          description: 'Access tailored training programs and workshops specifically designed to meet the unique needs and goals of your institution.'
-        },
-        {
-          name: 'Institutional Representation:',
-          description: 'Gain representation in MTTF\'s governance and decision-making processes, giving your institution a voice in shaping the policies and initiatives of the foundation.'
-        }
-      ]
-    }
-  ];
-
-  const pricingData = [
-    {
-      tier: 'Small Institutions',
-      subtitle: '(up to 100 members)',
-      amount: 'INR 50,000',
-      featured: false
-    },
-    {
-      tier: 'Medium Institutions',
-      subtitle: '(101 to 500 members)',
-      amount: 'INR 100,000',
-      featured: true
-    },
-    {
-      tier: 'Large Institutions',
-      subtitle: '(over 500 members)',
-      amount: 'INR 200,000',
-      featured: false
-    }
-  ];
-
+function BenefitCard({ benefit, index }) {
+  const [ref, visible] = useInView();
+  const [hovered, setHovered] = useState(false);
   return (
-    <div style={styles.body}>
-      <style>
-        {`
-          @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Poppins:wght@700;800&display=swap');
-          
-          * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-          }
+    <div
+      ref={ref}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible ? "translateY(0)" : "translateY(40px)",
+        transition: `opacity 0.7s ease ${index * 0.08}s, transform 0.7s ease ${index * 0.08}s`,
+        background: hovered ? "#1C1F2E" : "#171A27",
+        border: `1px solid ${hovered ? benefit.accent + "60" : "rgba(255,255,255,0.06)"}`,
+        borderRadius: "2px",
+        padding: "2rem",
+        position: "relative",
+        overflow: "hidden",
+        cursor: "default",
+        boxShadow: hovered ? `0 20px 50px rgba(0,0,0,0.4), 0 0 0 1px ${benefit.accent}20` : "none",
+      }}
+    >
+      {/* Left accent bar */}
+      <div style={{
+        position: "absolute",
+        left: 0,
+        top: 0,
+        bottom: 0,
+        width: hovered ? "3px" : "2px",
+        background: benefit.accent,
+        transition: "width 0.3s",
+      }} />
 
-          body {
-            margin: 0;
-            padding: 0;
-          }
+      {/* ID */}
+      <div style={{
+        fontFamily: "'DM Mono', monospace",
+        fontSize: "0.6rem",
+        color: benefit.accent,
+        letterSpacing: "0.2em",
+        marginBottom: "0.5rem",
+        opacity: 0.7,
+      }}>
+        {benefit.id} / {String(benefits.length).padStart(2, "0")}
+      </div>
 
-          @keyframes fadeInUp {
-            from {
-              opacity: 0;
-              transform: translateY(30px);
-            }
-            to {
-              opacity: 1;
-              transform: translateY(0);
-            }
-          }
+      {/* Category */}
+      <h3 style={{
+        fontFamily: "'Cormorant Garamond', serif",
+        fontSize: "1.25rem",
+        fontWeight: 600,
+        color: "#F0EDE8",
+        marginBottom: "1.5rem",
+        letterSpacing: "0.01em",
+      }}>
+        {benefit.category}
+      </h3>
 
-          @keyframes pulse {
-            0%, 100% { opacity: 0.3; }
-            50% { opacity: 0.6; }
-          }
-
-          .hero::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            bottom: 0;
-            background: 
-              radial-gradient(circle at 20% 50%, rgba(65, 105, 225, 0.1) 0%, transparent 50%),
-              radial-gradient(circle at 80% 80%, rgba(65, 105, 225, 0.1) 0%, transparent 50%);
-            animation: pulse 8s ease-in-out infinite;
-          }
-
-          .benefit-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 50px rgba(0, 0, 0, 0.12);
-          }
-
-          .pricing-card:hover {
-            transform: translateY(-10px) scale(1.02);
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.15);
-          }
-
-          .pricing-card.featured {
-            border: 3px solid #4169e1;
-            transform: scale(1.05);
-          }
-
-          .btn-primary:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 12px 35px rgba(65, 105, 225, 0.5);
-          }
-
-          .btn-secondary:hover {
-            background: white;
-            color: #2d3b6f;
-            transform: translateY(-3px);
-          }
-
-          .nav-link:hover {
-            background: rgba(255, 255, 255, 0.1);
-            padding-left: 1rem;
-            color: white;
-          }
-
-          @media (max-width: 768px) {
-            .hero h1 {
-              font-size: 2.5rem !important;
-            }
-            .hero-subtitle {
-              font-size: 1.3rem !important;
-            }
-            .nav-menu {
-              width: 100% !important;
-            }
-          }
-        `}
-      </style>
-
-      {/* Header */}
-      <header style={styles.header}>
-        <div style={styles.headerContainer}>
-          <div style={styles.logo}>
-            <div style={styles.logoIcon}>M</div>
-            <div style={styles.logoTextContainer}>
-              <div style={styles.logoText}>MTTF</div>
-              <div style={styles.logoSubtitle}>MathTech Thinking Foundation</div>
+      {/* Items */}
+      <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+        {benefit.items.map((item, i) => (
+          <div key={i}>
+            <div style={{
+              display: "flex",
+              alignItems: "center",
+              gap: "0.5rem",
+              marginBottom: "0.35rem",
+            }}>
+              <span style={{
+                width: 5,
+                height: 5,
+                borderRadius: "50%",
+                background: benefit.accent,
+                flexShrink: 0,
+              }} />
+              <span style={{
+                fontFamily: "'DM Sans', sans-serif",
+                fontSize: "0.85rem",
+                fontWeight: 600,
+                color: benefit.accent,
+                letterSpacing: "0.02em",
+              }}>
+                {item.title}
+              </span>
             </div>
-          </div>
-          <button style={styles.menuBtn} onClick={toggleMenu}>
-            <span style={styles.menuBtnSpan}></span>
-            <span style={styles.menuBtnSpan}></span>
-            <span style={styles.menuBtnSpan}></span>
-          </button>
-        </div>
-      </header>
-
-      {/* Overlay */}
-      <div style={styles.overlay} onClick={toggleMenu}></div>
-
-      {/* Navigation Menu */}
-      <nav style={styles.navMenu}>
-        <button style={styles.navClose} onClick={toggleMenu}>×</button>
-        
-        <h3 style={styles.navH3}>WHO WE ARE</h3>
-        <ul style={styles.navUl}>
-          <li style={styles.navLi}><a href="#organisation" style={styles.navA} className="nav-link" onClick={(e) => handleNavClick(e, '#organisation')}>Our Organisation</a></li>
-          <li style={styles.navLi}><a href="#advisors" style={styles.navA} className="nav-link" onClick={(e) => handleNavClick(e, '#advisors')}>Advisors</a></li>
-          <li style={styles.navLi}><a href="#leaders" style={styles.navA} className="nav-link" onClick={(e) => handleNavClick(e, '#leaders')}>Leaders</a></li>
-          <li style={styles.navLi}><a href="#executives" style={styles.navA} className="nav-link" onClick={(e) => handleNavClick(e, '#executives')}>Executives</a></li>
-          <li style={styles.navLi}><a href="#mentors" style={styles.navA} className="nav-link" onClick={(e) => handleNavClick(e, '#mentors')}>Mentors</a></li>
-          <li style={styles.navLi}><a href="#technical" style={styles.navA} className="nav-link" onClick={(e) => handleNavClick(e, '#technical')}>Technical Team</a></li>
-        </ul>
-
-        <h3 style={styles.navH3}>ABOUT MTTF</h3>
-        <ul style={styles.navUl}>
-          <li style={styles.navLi}><a href="#about" style={styles.navA} className="nav-link" onClick={(e) => handleNavClick(e, '#about')}>About</a></li>
-          <li style={styles.navLi}><a href="#contact" style={styles.navA} className="nav-link" onClick={(e) => handleNavClick(e, '#contact')}>Contact</a></li>
-        </ul>
-
-        <h3 style={styles.navH3}>MATHTECH CIRCLE</h3>
-        <ul style={styles.navUl}>
-          <li style={styles.navLi}><a href="#individual" style={styles.navA} className="nav-link" onClick={(e) => handleNavClick(e, '#individual')}>Individual Membership</a></li>
-          <li style={styles.navLi}><a href="#institutional" style={styles.navA} className="nav-link" onClick={(e) => handleNavClick(e, '#institutional')}>Institutional Membership</a></li>
-        </ul>
-
-        <h3 style={styles.navH3}>CHAPTERS</h3>
-        <ul style={styles.navUl}>
-          <li style={styles.navLi}><a href="#student-chapter" style={styles.navA} className="nav-link" onClick={(e) => handleNavClick(e, '#student-chapter')}>Student Chapter</a></li>
-          <li style={styles.navLi}><a href="#about-chapter" style={styles.navA} className="nav-link" onClick={(e) => handleNavClick(e, '#about-chapter')}>About Chapter</a></li>
-        </ul>
-      </nav>
-
-      {/* Hero Section */}
-      <section style={styles.hero} className="hero">
-        <div style={styles.heroContent}>
-          <h1 style={styles.heroH1}>Institutional Membership</h1>
-          <p style={styles.heroSubtitle}>MathTech Thinking Foundation (MTTF) Institutional Membership</p>
-          <div style={styles.ctaButtons}>
-            <button style={styles.btnPrimary} className="btn-primary" onClick={(e) => handleNavClick(e, '#learn-more')}>Learn More</button>
-            <button style={styles.btnSecondary} className="btn-secondary" onClick={(e) => handleNavClick(e, '#contact')}>Contact Us</button>
-          </div>
-        </div>
-      </section>
-
-      {/* About Section */}
-      <section style={styles.contentSection} id="learn-more">
-        <div style={styles.sectionIntro} className="fade-in">
-          <h2 style={styles.sectionH2}>Institutional Membership with MTTF</h2>
-          <p style={styles.sectionP}>
-            Joining MTTF provides organizations with the tools and opportunities needed to drive innovation, 
-            foster professional development, and contribute significantly to the global STEM community. 
-            Be a part of a prestigious network dedicated to advancing science, technology, engineering, and mathematics.
-          </p>
-        </div>
-      </section>
-
-      {/* Benefits Section */}
-      <section style={styles.contentSection}>
-        <h2 style={{...styles.sectionH2, textAlign: 'center', marginBottom: '3rem'}}>
-          Benefits of Institutional Membership
-        </h2>
-        
-        <div style={styles.benefitsGrid}>
-          {benefitsData.map((benefit, index) => (
-            <div key={index} style={styles.benefitCard} className="fade-in benefit-card">
-              <h3 style={styles.benefitH3}>{benefit.title}</h3>
-              <ul style={styles.benefitList}>
-                {benefit.items.map((item, itemIndex) => (
-                  <li key={itemIndex} style={styles.benefitListItem}>
-                    <strong style={styles.benefitStrong}>{item.name}</strong>
-                    <p style={styles.benefitP}>{item.description}</p>
-                  </li>
-                ))}
-              </ul>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Pricing Section */}
-      <section style={styles.pricingSection}>
-        <div style={styles.pricingContainer}>
-          <div style={styles.sectionIntro} className="fade-in">
-            <h2 style={styles.sectionH2}>Institutional Membership Fee</h2>
-            <p style={styles.sectionP}>
-              The MathTech Thinking Foundation (MTTF) offers a tiered membership fee structure to 
-              accommodate institutions of varying sizes and needs. The membership fees are as follows:
+            <p style={{
+              fontFamily: "'DM Sans', sans-serif",
+              fontSize: "0.82rem",
+              color: "rgba(240,237,232,0.45)",
+              lineHeight: 1.8,
+              margin: 0,
+              paddingLeft: "0.85rem",
+            }}>
+              {item.desc}
             </p>
           </div>
-
-          <div style={styles.pricingGrid}>
-            {pricingData.map((pricing, index) => (
-              <div 
-                key={index} 
-                style={styles.pricingCard} 
-                className={`fade-in pricing-card ${pricing.featured ? 'featured' : ''}`}
-              >
-                <div style={styles.pricingCardBefore}></div>
-                <div style={styles.pricingTier}>{pricing.tier}</div>
-                <div style={styles.pricingSubtitle}>{pricing.subtitle}</div>
-                <div style={styles.pricingAmount}>{pricing.amount}</div>
-                <div style={styles.pricingPeriod}>Annual Fee</div>
-              </div>
-            ))}
-          </div>
-
-          <div style={styles.pricingNote} className="fade-in">
-            <p style={{...styles.sectionP, margin: 0}}>
-              These fees provide institutions with comprehensive access to MTTF's resources, 
-              professional development programs, and networking opportunities, ensuring that all 
-              members can benefit from the extensive offerings of the foundation.
-            </p>
-          </div>
-        </div>
-      </section>
+        ))}
+      </div>
     </div>
   );
-};
+}
 
-export default MTTFMembership;
+function PricingCard({ plan, index }) {
+  const [ref, visible] = useInView();
+  const [hovered, setHovered] = useState(false);
+  return (
+    <div
+      ref={ref}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        opacity: visible ? 1 : 0,
+        transform: visible
+          ? plan.featured ? "scale(1.04)" : "scale(1)"
+          : "translateY(40px)",
+        transition: `opacity 0.7s ease ${index * 0.12}s, transform 0.7s ease ${index * 0.12}s`,
+        position: "relative",
+        background: plan.featured
+          ? "linear-gradient(160deg, #1C2240 0%, #1A2038 100%)"
+          : "#171A27",
+        border: plan.featured
+          ? "1px solid rgba(200,169,110,0.4)"
+          : `1px solid ${hovered ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.06)"}`,
+        borderRadius: "2px",
+        padding: "2.5rem 2rem",
+        overflow: "hidden",
+        boxShadow: plan.featured
+          ? "0 30px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(200,169,110,0.15)"
+          : hovered ? "0 20px 40px rgba(0,0,0,0.3)" : "none",
+        cursor: "default",
+        flexShrink: 0,
+        flex: plan.featured ? "0 0 calc(34% - 1rem)" : "0 0 calc(28% - 1rem)",
+      }}
+    >
+      {/* Top bar */}
+      <div style={{
+        position: "absolute",
+        top: 0,
+        left: 0,
+        right: 0,
+        height: "2px",
+        background: plan.featured
+          ? "linear-gradient(90deg, #C8A96E, #E8C98E, #C8A96E)"
+          : "rgba(255,255,255,0.06)",
+      }} />
+
+      {/* Tag */}
+      <div style={{
+        fontFamily: "'DM Mono', monospace",
+        fontSize: "0.58rem",
+        letterSpacing: "0.2em",
+        textTransform: "uppercase",
+        color: plan.featured ? "#C8A96E" : "rgba(240,237,232,0.3)",
+        marginBottom: "1.5rem",
+        padding: "0.25rem 0.6rem",
+        border: `1px solid ${plan.featured ? "rgba(200,169,110,0.3)" : "rgba(255,255,255,0.08)"}`,
+        display: "inline-block",
+      }}>
+        {plan.tag}
+      </div>
+
+      <div style={{
+        fontFamily: "'Cormorant Garamond', serif",
+        fontSize: "2rem",
+        fontWeight: 700,
+        color: plan.featured ? "#F0EDE8" : "rgba(240,237,232,0.85)",
+        marginBottom: "0.25rem",
+      }}>
+        {plan.tier}
+      </div>
+
+      <div style={{
+        fontFamily: "'DM Sans', sans-serif",
+        fontSize: "0.78rem",
+        color: "rgba(240,237,232,0.35)",
+        marginBottom: "2rem",
+        letterSpacing: "0.02em",
+      }}>
+        {plan.sub}
+      </div>
+
+      {/* Divider */}
+      <div style={{
+        height: "1px",
+        background: plan.featured
+          ? "rgba(200,169,110,0.2)"
+          : "rgba(255,255,255,0.06)",
+        marginBottom: "1.5rem",
+      }} />
+
+      <div style={{
+        fontFamily: "'DM Mono', monospace",
+        fontSize: "0.6rem",
+        color: "rgba(240,237,232,0.3)",
+        letterSpacing: "0.15em",
+        textTransform: "uppercase",
+        marginBottom: "0.4rem",
+      }}>
+        Annual Fee
+      </div>
+
+      <div style={{
+        fontFamily: "'Cormorant Garamond', serif",
+        fontSize: "1.9rem",
+        fontWeight: 600,
+        color: plan.featured ? "#C8A96E" : "#F0EDE8",
+        letterSpacing: "-0.01em",
+      }}>
+        {plan.amount}
+      </div>
+    </div>
+  );
+}
+
+export default function Institutional() {
+  const [heroRef, heroVisible] = useInView(0.05);
+
+  useEffect(() => {
+    const link = document.createElement("link");
+    link.rel = "stylesheet";
+    link.href =
+      "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap";
+    document.head.appendChild(link);
+  }, []);
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      {/* Header */}
+      <Header />
+
+      {/* Main Content */}
+      <main className="flex-grow">
+        <>
+          <style>{`
+            @keyframes fadeUp {
+              from { opacity: 0; transform: translateY(30px); }
+              to { opacity: 1; transform: translateY(0); }
+            }
+            @keyframes shimmer {
+              0% { background-position: -200% center; }
+              100% { background-position: 200% center; }
+            }
+            @keyframes floatDot {
+              0%, 100% { transform: translateY(0); opacity: 0.4; }
+              50% { transform: translateY(-8px); opacity: 0.8; }
+            }
+            ::-webkit-scrollbar { width: 3px; }
+            ::-webkit-scrollbar-track { background: #0F111C; }
+            ::-webkit-scrollbar-thumb { background: #C8A96E; border-radius: 2px; }
+          `}</style>
+
+          <div style={{
+            background: "#0F111C",
+            color: "#F0EDE8",
+            fontFamily: "'DM Sans', sans-serif",
+            overflowX: "hidden",
+          }}>
+
+            {/* ── HERO ── */}
+            <div
+              ref={heroRef}
+              style={{
+                position: "relative",
+                minHeight: "100vh",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: "6rem 2rem",
+                textAlign: "center",
+                overflow: "hidden",
+              }}
+            >
+              {/* Background grid */}
+              <div style={{
+                position: "absolute",
+                inset: 0,
+                backgroundImage: `
+                  linear-gradient(rgba(200,169,110,0.04) 1px, transparent 1px),
+                  linear-gradient(90deg, rgba(200,169,110,0.04) 1px, transparent 1px)
+                `,
+                backgroundSize: "72px 72px",
+                pointerEvents: "none",
+              }} />
+
+              {/* Radial glow */}
+              <div style={{
+                position: "absolute",
+                top: "50%",
+                left: "50%",
+                transform: "translate(-50%,-50%)",
+                width: "700px",
+                height: "500px",
+                background: "radial-gradient(ellipse, rgba(200,169,110,0.07) 0%, transparent 70%)",
+                pointerEvents: "none",
+              }} />
+
+              {/* Floating dots */}
+              {[
+                { top: "18%", left: "12%", delay: "0s" },
+                { top: "72%", left: "8%", delay: "0.8s" },
+                { top: "22%", right: "10%", delay: "0.4s" },
+                { top: "68%", right: "14%", delay: "1.2s" },
+              ].map((dot, i) => (
+                <div key={i} style={{
+                  position: "absolute",
+                  width: 6,
+                  height: 6,
+                  borderRadius: "50%",
+                  background: "#C8A96E",
+                  animation: `floatDot ${3 + i * 0.5}s ease-in-out infinite`,
+                  animationDelay: dot.delay,
+                  ...dot,
+                }} />
+              ))}
+
+              <div style={{
+                position: "relative",
+                zIndex: 1,
+                opacity: heroVisible ? 1 : 0,
+                transform: heroVisible ? "translateY(0)" : "translateY(30px)",
+                transition: "opacity 1s ease, transform 1s ease",
+              }}>
+                {/* Eyebrow */}
+                <div style={{
+                  display: "inline-flex",
+                  alignItems: "center",
+                  gap: "0.75rem",
+                  border: "1px solid rgba(200,169,110,0.25)",
+                  padding: "0.4rem 1.25rem",
+                  marginBottom: "2.5rem",
+                  background: "rgba(200,169,110,0.04)",
+                }}>
+                  <span style={{
+                    width: 5, height: 5, borderRadius: "50%", background: "#C8A96E",
+                  }} />
+                  <span style={{
+                    fontFamily: "'DM Mono', monospace",
+                    fontSize: "0.6rem",
+                    letterSpacing: "0.25em",
+                    textTransform: "uppercase",
+                    color: "#C8A96E",
+                  }}>
+                    MathTech Thinking Foundation
+                  </span>
+                  <span style={{
+                    width: 5, height: 5, borderRadius: "50%", background: "#C8A96E",
+                  }} />
+                </div>
+
+                <h1 style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: "clamp(3rem, 8vw, 6.5rem)",
+                  fontWeight: 600,
+                  lineHeight: 1,
+                  letterSpacing: "-0.02em",
+                  marginBottom: "1rem",
+                  color: "#F0EDE8",
+                }}>
+                  Institutional
+                  <br />
+                  <span style={{
+                    fontStyle: "italic",
+                    background: "linear-gradient(120deg, #C8A96E 0%, #E8C98E 40%, #C8A96E 80%)",
+                    backgroundSize: "200% auto",
+                    WebkitBackgroundClip: "text",
+                    WebkitTextFillColor: "transparent",
+                    animation: "shimmer 4s linear infinite",
+                  }}>
+                    Membership
+                  </span>
+                </h1>
+
+                <p style={{
+                  fontFamily: "'DM Sans', sans-serif",
+                  fontSize: "1.05rem",
+                  color: "rgba(240,237,232,0.45)",
+                  maxWidth: "540px",
+                  margin: "1.5rem auto 3rem",
+                  lineHeight: 1.8,
+                }}>
+                  Joining MTTF provides organizations with the tools and opportunities needed to drive
+                  innovation, foster professional development, and contribute significantly to the global
+                  STEM community.
+                </p>
+
+                {/* Stats row */}
+                <div style={{
+                  display: "flex",
+                  gap: "0",
+                  justifyContent: "center",
+                  flexWrap: "wrap",
+                  border: "1px solid rgba(200,169,110,0.15)",
+                  background: "rgba(200,169,110,0.03)",
+                  maxWidth: "560px",
+                  margin: "0 auto",
+                }}>
+                  {[["07", "Benefit Areas"], ["03", "Membership Tiers"], ["∞", "STEM Reach"]].map(([val, label], i) => (
+                    <div key={label} style={{
+                      flex: "1 1 140px",
+                      padding: "1.25rem 1rem",
+                      textAlign: "center",
+                      borderRight: i < 2 ? "1px solid rgba(200,169,110,0.15)" : "none",
+                    }}>
+                      <div style={{
+                        fontFamily: "'Cormorant Garamond', serif",
+                        fontSize: "2rem",
+                        fontWeight: 600,
+                        color: "#C8A96E",
+                      }}>{val}</div>
+                      <div style={{
+                        fontFamily: "'DM Mono', monospace",
+                        fontSize: "0.55rem",
+                        color: "rgba(240,237,232,0.25)",
+                        letterSpacing: "0.15em",
+                        textTransform: "uppercase",
+                        marginTop: "0.2rem",
+                      }}>{label}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* ── INTRO STRIP ── */}
+            <div style={{
+              borderTop: "1px solid rgba(200,169,110,0.12)",
+              borderBottom: "1px solid rgba(200,169,110,0.12)",
+              background: "rgba(200,169,110,0.03)",
+              padding: "3rem 2rem",
+              textAlign: "center",
+            }}>
+              <p style={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: "clamp(1.1rem, 2.5vw, 1.5rem)",
+                fontStyle: "italic",
+                color: "rgba(240,237,232,0.6)",
+                maxWidth: "820px",
+                margin: "0 auto",
+                lineHeight: 1.7,
+              }}>
+                "Be a part of a prestigious network dedicated to advancing science, technology,
+                engineering, and mathematics."
+              </p>
+            </div>
+
+            {/* ── BENEFITS ── */}
+            <div style={{ maxWidth: "1300px", margin: "0 auto", padding: "6rem 2rem" }}>
+              {/* Section header */}
+              <div style={{
+                display: "flex",
+                alignItems: "center",
+                gap: "1.5rem",
+                marginBottom: "4rem",
+              }}>
+                <div style={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: "clamp(2rem, 5vw, 3.5rem)",
+                  fontWeight: 600,
+                  color: "#F0EDE8",
+                  letterSpacing: "-0.02em",
+                  flexShrink: 0,
+                }}>
+                  Member Benefits
+                </div>
+                <div style={{ flex: 1, height: "1px", background: "rgba(200,169,110,0.15)" }} />
+                <div style={{
+                  fontFamily: "'DM Mono', monospace",
+                  fontSize: "0.6rem",
+                  color: "rgba(200,169,110,0.5)",
+                  letterSpacing: "0.15em",
+                  flexShrink: 0,
+                }}>
+                  07 AREAS
+                </div>
+              </div>
+
+              {/* Benefits grid */}
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
+                gap: "1px",
+                background: "rgba(255,255,255,0.04)",
+                border: "1px solid rgba(255,255,255,0.04)",
+              }}>
+                {benefits.map((benefit, i) => (
+                  <div key={benefit.id} style={{ background: "#0F111C", padding: "1px" }}>
+                    <BenefitCard benefit={benefit} index={i} />
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* ── PRICING ── */}
+            <div style={{
+              background: "#0B0D18",
+              borderTop: "1px solid rgba(200,169,110,0.1)",
+              padding: "6rem 2rem",
+            }}>
+              <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
+                {/* Header */}
+                <div style={{ textAlign: "center", marginBottom: "4rem" }}>
+                  <div style={{
+                    fontFamily: "'DM Mono', monospace",
+                    fontSize: "0.6rem",
+                    letterSpacing: "0.25em",
+                    textTransform: "uppercase",
+                    color: "#C8A96E",
+                    marginBottom: "1rem",
+                    opacity: 0.7,
+                  }}>
+                    Annual Fee Structure
+                  </div>
+                  <h2 style={{
+                    fontFamily: "'Cormorant Garamond', serif",
+                    fontSize: "clamp(2rem, 5vw, 3.5rem)",
+                    fontWeight: 600,
+                    color: "#F0EDE8",
+                    letterSpacing: "-0.02em",
+                    marginBottom: "1rem",
+                  }}>
+                    Institutional Membership Fee
+                  </h2>
+                  <p style={{
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontSize: "0.9rem",
+                    color: "rgba(240,237,232,0.4)",
+                    maxWidth: "560px",
+                    margin: "0 auto",
+                    lineHeight: 1.8,
+                  }}>
+                    MTTF offers a tiered membership fee structure to accommodate institutions of varying
+                    sizes and needs.
+                  </p>
+                </div>
+
+                {/* Pricing cards */}
+                <div style={{
+                  display: "flex",
+                  gap: "1.5rem",
+                  justifyContent: "center",
+                  flexWrap: "wrap",
+                  alignItems: "center",
+                }}>
+                  {pricing.map((plan, i) => (
+                    <PricingCard key={plan.tier} plan={plan} index={i} />
+                  ))}
+                </div>
+
+                {/* Note */}
+                <div style={{
+                  marginTop: "3rem",
+                  padding: "2rem 2.5rem",
+                  border: "1px solid rgba(200,169,110,0.15)",
+                  background: "rgba(200,169,110,0.03)",
+                  textAlign: "center",
+                }}>
+                  <p style={{
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontSize: "0.85rem",
+                    color: "rgba(240,237,232,0.4)",
+                    lineHeight: 1.85,
+                    margin: 0,
+                    maxWidth: "720px",
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                  }}>
+                    These fees provide institutions with comprehensive access to MTTF's resources,
+                    professional development programs, and networking opportunities, ensuring that all
+                    members can benefit from the extensive offerings of the foundation.
+                  </p>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </>
+      </main>
+
+      {/* Footer */}
+      <Footer />
+    </div>
+  );
+}

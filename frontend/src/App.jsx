@@ -2,35 +2,48 @@ import React from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 
 /* ===================== MAIN ===================== */
-import MainPage from "./pages/Mainpage";
+import MainPage from "./Pages/Mainpage";
 
 /* ===================== CONSULTANCY SERVICES ===================== */
-import ConsultancyServices from "./pages/OurPrograms/Consultancy_Services/ConsultancyServices";
-import ExpertConsultancyServices from "./pages/OurPrograms/Consultancy_Services/ExpertConsultancyServices";
-import LogisticSupportServices from "./pages/OurPrograms/Consultancy_Services/LogisticSupportServices";
-import ConferenceSupportServices from "./pages/OurPrograms/Consultancy_Services/ConferenceSupportServices";
+import ConsultancyServices from "./Pages/OurPrograms/Consultancy_Services/ConsultancyServices";
+import ExpertConsultancyServices from "./Pages/OurPrograms/Consultancy_Services/ExpertConsultancyServices";
+import LogisticSupportServices from "./Pages/OurPrograms/Consultancy_Services/LogisticSupportServices";
+import ConferenceSupportServices from "./Pages/OurPrograms/Consultancy_Services/ConferenceSupportServices";
 
 /* ===================== CAPABILITY PAGES ===================== */
-import ArtificialIntelligence from "./pages/OurPrograms/Capability/ArtificialIntelligence";
-import BusinessIntelligence from "./pages/OurPrograms/Capability/BusinessIntelligence";
-import Bioinformatics from "./pages/OurPrograms/Capability/Bioinformatics";
-import ComputationalMathematics from "./pages/OurPrograms/Capability/ComputationalMathematics";
-import DataAnalytics from "./pages/OurPrograms/Capability/DataAnalytics";
-import QuantumComputing from "./pages/OurPrograms/Capability/QuantumComputing";
+import ArtificialIntelligence from "./Pages/OurPrograms/Capability/ArtificialIntelligence";
+import BusinessIntelligence from "./Pages/OurPrograms/Capability/BusinessIntelligence";
+import Bioinformatics from "./Pages/OurPrograms/Capability/Bioinformatics";
+import ComputationalMathematics from "./Pages/OurPrograms/Capability/ComputationalMathematics";
+import DataAnalytics from "./Pages/OurPrograms/Capability/DataAnalytics";
+import QuantumComputing from "./Pages/OurPrograms/Capability/QuantumComputing";
+
+/* ===================== RESEARCH & IDEAS - BLOGS ===================== */
+import AiMachineLearning from "./Pages/Research&Ideas/Blogs/Ai&Machinelearning";
+import DataScience from "./Pages/Research&Ideas/Blogs/Datascience";
+import STEMEducation from "./Pages/Research&Ideas/Blogs/STEMEducation";
+
+/* ===================== ABOUT THE FOUNDATION - CIRCLE ===================== */
+import Individual from "./Pages/About_The_Foundation/MathTechCircle/Individual";
+import Institutional from "./Pages/About_The_Foundation/MathTechCircle/Institutional";
+
+/* ===================== ABOUT THE FOUNDATION - MATH TECH CIRCLE ===================== */
+import StudentChapter from "./Pages/About_The_Foundation/chapters/StudentChapter";
+import AboutStudentChapter from "./Pages/About_The_Foundation/chapters/AboutStudentChapter";
 
 /* ===================== AWARDS ===================== */
-import Awards2025 from "./pages/OurPrograms/Awards/Awards2025";
-import Awards2024 from "./pages/OurPrograms/Awards/Awards2024";
+import Awards2025 from "./Pages/OurPrograms/Awards/Awards2025";
+import Awards2024 from "./Pages/OurPrograms/Awards/Awards2024";
 
 /* ===================== CONTACT ===================== */
-import Contact from "./pages/Contacts/Contact";
+import Contact from "./Pages/Contacts/Contact";
 
 /* ===================== ABOUT THE FOUNDATION - OUR ORGANISATION ===================== */
-import Advisors from "./pages/About_The_Foundation/OurOrganisation/Advisors";
-import Leaders from "./pages/About_The_Foundation/OurOrganisation/Leaders";
-import Executives from "./pages/About_The_Foundation/OurOrganisation/Executives";
-import Mentors from "./pages/About_The_Foundation/OurOrganisation/Mentors";
-import TechnicalTeam from "./pages/About_The_Foundation/OurOrganisation/TechnicalTeam";
+import Advisors from "./Pages/About_The_Foundation/OurOrganisation/Advisors";
+import Leaders from "./Pages/About_The_Foundation/OurOrganisation/Leaders";
+import Executives from "./Pages/About_The_Foundation/OurOrganisation/Executives";
+import Mentors from "./Pages/About_The_Foundation/OurOrganisation/Mentors";
+import TechnicalTeam from "./Pages/About_The_Foundation/OurOrganisation/TechnicalTeam";
 
 /* ===================== ABOUT THE FOUNDATION - MTTF ABOUT ===================== */
 import About from "./Pages/About_The_Foundation/MTTF_About/About";
@@ -94,6 +107,10 @@ function App() {
           path="/programs/capability/quantum-computing"
           element={<QuantumComputing />}
         />
+        {/* ===================== RESEARCH & IDEAS - BLOGS ===================== */}
+<Route path="/blogs/ai-ml" element={<AiMachineLearning />} />
+<Route path="/blogs/data-science" element={<DataScience />} />
+<Route path="/blogs/education" element={<STEMEducation />} />
 
         {/* ===================== AWARDS ===================== */}
         <Route path="/programs/awards/2025" element={<Awards2025 />} />
@@ -112,6 +129,14 @@ function App() {
         {/* ===================== ABOUT THE FOUNDATION - MTTF ABOUT ===================== */}
         <Route path="/about/mttf/about" element={<About />} />
         <Route path="/about/mttf/contact" element={<MTTFContact />} />
+
+       {/* ===================== ABOUT THE FOUNDATION - MATH TECH CIRCLE ===================== */}
+<Route path="/about/mathtech/individual" element={<Individual />} />
+<Route path="/about/mathtech/institutional" element={<Institutional />} />
+
+{/* ===================== ABOUT THE FOUNDATION - MATH TECH CIRCLE ===================== */}
+<Route path="/about/mathtech/student-chapter" element={<StudentChapter />} />
+<Route path="/about/mathtech/about-chapter" element={<AboutStudentChapter />} />
 
         {/* ===================== ABOUT THE FOUNDATION - MAIN ===================== */}
         {/* Redirect /about to the first organisation page */}
