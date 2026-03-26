@@ -6,7 +6,6 @@ import Footer from '../../../Components/Footer';
 
 function BusinessIntelligence() {
   const [isVisible, setIsVisible] = useState({});
-  const [chartAnimations, setChartAnimations] = useState([]);
   const observerRefs = useRef([]);
 
   useEffect(() => {
@@ -16,23 +15,15 @@ function BusinessIntelligence() {
           entries.forEach((entry) => {
             if (entry.isIntersecting) {
               setIsVisible((prev) => ({ ...prev, [index]: true }));
-              if (index === 1) {
-                // Trigger chart animations when services section is visible
-                setTimeout(() => setChartAnimations([0, 1, 2, 3]), 200);
-              }
             }
           });
         },
         { threshold: 0.1 }
       );
-
       if (ref) observer.observe(ref);
       return observer;
     });
-
-    return () => {
-      observers.forEach((observer) => observer.disconnect());
-    };
+    return () => observers.forEach((o) => o.disconnect());
   }, []);
 
   const services = [
@@ -40,33 +31,33 @@ function BusinessIntelligence() {
       icon: BarChart,
       title: "Data Visualization",
       description: "Interactive dashboards, real-time reporting, and visual analytics for better decision-making.",
-      color: "from-blue-500 to-cyan-400",
       stats: "95%",
-      statLabel: "Clarity"
+      statLabel: "Clarity",
+      number: "01",
     },
     {
       icon: TrendingUp,
       title: "Predictive Analytics",
       description: "Forecasting future trends, behavior prediction, and advanced statistical modeling.",
-      color: "from-cyan-500 to-blue-500",
       stats: "87%",
-      statLabel: "Accuracy"
+      statLabel: "Accuracy",
+      number: "02",
     },
     {
       icon: Target,
       title: "Performance Metrics",
       description: "KPI tracking, performance monitoring, and strategic business intelligence solutions.",
-      color: "from-blue-600 to-indigo-500",
       stats: "92%",
-      statLabel: "Efficiency"
+      statLabel: "Efficiency",
+      number: "03",
     },
     {
       icon: Database,
       title: "Data Warehousing",
       description: "Centralized data management, ETL processes, and enterprise data integration.",
-      color: "from-indigo-500 to-purple-500",
       stats: "99%",
-      statLabel: "Reliability"
+      statLabel: "Reliability",
+      number: "04",
     }
   ];
 
@@ -77,201 +68,659 @@ function BusinessIntelligence() {
     { label: "ROI Increase", value: "250%", icon: LineChart }
   ];
 
+  const useCases = [
+    { title: "Retail Analytics", desc: "Customer behavior tracking and sales optimization", icon: "🛒" },
+    { title: "Financial Forecasting", desc: "Revenue prediction and risk analysis", icon: "📈" },
+    { title: "Healthcare Insights", desc: "Patient data analysis and treatment optimization", icon: "🏥" },
+  ];
+
   return (
     <>
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+        .bi-page * { box-sizing: border-box; }
+
+        .bi-page {
+          --cream: #FAF7F2;
+          --warm-white: #FDFBF8;
+          --accent-yellow: #D4A843;
+          --accent-yellow-light: #F5E6C0;
+          --text-dark: #1A1614;
+          --text-mid: #4A3F35;
+          --text-light: #8A7A6E;
+          --border: #E8E0D4;
+          font-family: 'DM Sans', sans-serif;
+          background: var(--cream);
+          min-height: 100vh;
+        }
+
+        .bi-page h1, .bi-page h2, .bi-page h3, .bi-page h4 {
+          font-family: 'Cormorant Garamond', serif;
+        }
+
+        /* Hero */
+        .bi-hero {
+          background: var(--text-dark);
+          min-height: 65vh;
+          display: flex;
+          align-items: center;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .bi-hero::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: url('https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1600&q=80') center/cover;
+          opacity: 0.12;
+        }
+
+        .bi-hero-line {
+          position: absolute;
+          left: 0; right: 0; bottom: 0;
+          height: 1px;
+          background: linear-gradient(90deg, transparent, var(--accent-yellow), transparent);
+        }
+
+        .bi-back {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          color: rgba(212,168,67,0.8);
+          text-decoration: none;
+          font-size: 12px;
+          letter-spacing: 1.5px;
+          text-transform: uppercase;
+          font-weight: 500;
+          transition: color 0.3s ease;
+          margin-bottom: 40px;
+          font-family: 'DM Sans', sans-serif;
+        }
+
+        .bi-back:hover { color: var(--accent-yellow); }
+        .bi-back svg { width: 14px; height: 14px; }
+
+        .bi-hero-badge {
+          display: inline-flex;
+          align-items: center;
+          gap: 8px;
+          padding: 6px 16px;
+          border: 1px solid rgba(212,168,67,0.4);
+          border-radius: 2px;
+          margin-bottom: 32px;
+          font-size: 11px;
+          letter-spacing: 2.5px;
+          text-transform: uppercase;
+          color: var(--accent-yellow);
+          font-family: 'DM Sans', sans-serif;
+          font-weight: 500;
+        }
+
+        .bi-hero-badge .dot {
+          width: 5px; height: 5px;
+          background: var(--accent-yellow);
+          border-radius: 50%;
+          display: inline-block;
+        }
+
+        .bi-hero h1 {
+          font-size: clamp(44px, 7vw, 88px);
+          font-weight: 300;
+          color: #FAF7F2;
+          line-height: 1.0;
+          margin: 0 0 24px;
+          letter-spacing: -1px;
+          max-width: 800px;
+        }
+
+        .bi-hero h1 em {
+          font-style: italic;
+          color: var(--accent-yellow);
+        }
+
+        .bi-hero p {
+          font-size: 16px;
+          color: rgba(250,247,242,0.6);
+          max-width: 520px;
+          line-height: 1.9;
+          font-weight: 300;
+          margin: 0 0 40px;
+        }
+
+        .bi-btn-primary {
+          display: inline-flex;
+          align-items: center;
+          gap: 10px;
+          background: var(--accent-yellow);
+          color: var(--text-dark);
+          padding: 14px 32px;
+          font-size: 13px;
+          font-weight: 500;
+          letter-spacing: 1px;
+          text-transform: uppercase;
+          text-decoration: none;
+          border-radius: 2px;
+          transition: all 0.3s ease;
+          font-family: 'DM Sans', sans-serif;
+        }
+
+        .bi-btn-primary:hover {
+          background: #c49a38;
+          transform: translateY(-1px);
+          box-shadow: 0 8px 30px rgba(212,168,67,0.3);
+        }
+
+        /* Sections */
+        .bi-section {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 80px 40px;
+        }
+
+        .bi-section-sm {
+          max-width: 1200px;
+          margin: 0 auto;
+          padding: 0 40px 80px;
+        }
+
+        .bi-label {
+          font-size: 10px;
+          letter-spacing: 3px;
+          text-transform: uppercase;
+          color: var(--accent-yellow);
+          font-weight: 500;
+          margin-bottom: 16px;
+          display: block;
+          font-family: 'DM Sans', sans-serif;
+        }
+
+        .bi-section-title {
+          font-size: clamp(32px, 4.5vw, 56px);
+          font-weight: 300;
+          color: var(--text-dark);
+          line-height: 1.1;
+          margin: 0 0 20px;
+        }
+
+        .bi-section-title em {
+          font-style: italic;
+          color: var(--accent-yellow);
+        }
+
+        .bi-divider {
+          width: 60px;
+          height: 1px;
+          background: var(--accent-yellow);
+          margin: 0 0 48px;
+        }
+
+        /* Metrics strip */
+        .bi-metrics {
+          display: grid;
+          grid-template-columns: repeat(4, 1fr);
+          border: 1px solid var(--border);
+          border-radius: 4px;
+          overflow: hidden;
+          background: var(--warm-white);
+        }
+
+        @media (max-width: 768px) {
+          .bi-metrics { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        .bi-metric {
+          padding: 36px 32px;
+          border-right: 1px solid var(--border);
+          text-align: center;
+          transition: background 0.3s ease;
+          cursor: default;
+        }
+
+        .bi-metric:last-child { border-right: none; }
+        .bi-metric:hover { background: var(--accent-yellow-light); }
+
+        .bi-metric-icon {
+          width: 36px; height: 36px;
+          color: var(--accent-yellow);
+          margin: 0 auto 12px;
+        }
+
+        .bi-metric .val {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 40px;
+          font-weight: 300;
+          color: var(--text-dark);
+          display: block;
+          line-height: 1;
+          margin-bottom: 6px;
+        }
+
+        .bi-metric .lbl {
+          font-size: 11px;
+          letter-spacing: 1.5px;
+          text-transform: uppercase;
+          color: var(--text-light);
+          font-weight: 500;
+        }
+
+        /* Overview split */
+        .bi-overview {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          gap: 2px;
+          background: var(--border);
+          border: 1px solid var(--border);
+          border-radius: 4px;
+          overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+          .bi-overview { grid-template-columns: 1fr; }
+        }
+
+        .bi-overview-text {
+          background: var(--warm-white);
+          padding: 56px;
+        }
+
+        .bi-overview-text p {
+          font-size: 15px;
+          color: var(--text-mid);
+          line-height: 1.9;
+          margin: 0 0 16px;
+          font-weight: 300;
+        }
+
+        .bi-overview-chart {
+          background: var(--text-dark);
+          padding: 56px;
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-end;
+          gap: 12px;
+        }
+
+        .bi-chart-bar-row {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+        }
+
+        .bi-chart-bar-label {
+          font-size: 11px;
+          color: rgba(250,247,242,0.5);
+          width: 80px;
+          text-align: right;
+          font-weight: 300;
+          letter-spacing: 0.5px;
+          flex-shrink: 0;
+        }
+
+        .bi-chart-bar-track {
+          flex: 1;
+          height: 6px;
+          background: rgba(255,255,255,0.08);
+          border-radius: 3px;
+          overflow: hidden;
+        }
+
+        .bi-chart-bar-fill {
+          height: 100%;
+          background: var(--accent-yellow);
+          border-radius: 3px;
+          transition: width 1.2s ease;
+        }
+
+        .bi-chart-bar-val {
+          font-size: 12px;
+          color: var(--accent-yellow);
+          font-weight: 500;
+          width: 36px;
+          flex-shrink: 0;
+        }
+
+        /* Services list */
+        .bi-services-list {
+          border: 1px solid var(--border);
+          border-radius: 4px;
+          overflow: hidden;
+          background: var(--warm-white);
+        }
+
+        .bi-service-item {
+          display: grid;
+          grid-template-columns: 80px 1fr auto;
+          gap: 32px;
+          align-items: center;
+          padding: 40px 48px;
+          border-bottom: 1px solid var(--border);
+          transition: background 0.3s ease;
+          cursor: pointer;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .bi-service-item:last-child { border-bottom: none; }
+
+        .bi-service-item::before {
+          content: '';
+          position: absolute;
+          left: 0; top: 0; bottom: 0;
+          width: 3px;
+          background: var(--accent-yellow);
+          transform: scaleY(0);
+          transition: transform 0.3s ease;
+        }
+
+        .bi-service-item:hover { background: #fdfaf5; }
+        .bi-service-item:hover::before { transform: scaleY(1); }
+
+        .bi-service-num {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 40px;
+          font-weight: 300;
+          color: var(--border);
+          line-height: 1;
+          transition: color 0.3s ease;
+        }
+
+        .bi-service-item:hover .bi-service-num { color: var(--accent-yellow); }
+
+        .bi-service-icon {
+          width: 44px; height: 44px;
+          background: var(--accent-yellow-light);
+          border-radius: 2px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          flex-shrink: 0;
+          transition: background 0.3s ease;
+        }
+
+        .bi-service-item:hover .bi-service-icon { background: var(--accent-yellow); }
+        .bi-service-item:hover .bi-service-icon svg { color: var(--text-dark); }
+        .bi-service-icon svg { width: 20px; height: 20px; color: var(--accent-yellow); transition: color 0.3s ease; }
+
+        .bi-service-body {
+          display: flex;
+          align-items: center;
+          gap: 24px;
+          flex: 1;
+        }
+
+        .bi-service-text h3 {
+          font-size: 22px;
+          font-weight: 400;
+          color: var(--text-dark);
+          margin: 0 0 6px;
+        }
+
+        .bi-service-text p {
+          font-size: 13px;
+          color: var(--text-light);
+          line-height: 1.7;
+          margin: 0;
+          font-weight: 300;
+          max-width: 360px;
+        }
+
+        .bi-service-stat {
+          text-align: right;
+          flex-shrink: 0;
+        }
+
+        .bi-service-stat .val {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 36px;
+          font-weight: 300;
+          color: var(--accent-yellow);
+          display: block;
+          line-height: 1;
+        }
+
+        .bi-service-stat .lbl {
+          font-size: 10px;
+          letter-spacing: 1.5px;
+          text-transform: uppercase;
+          color: var(--text-light);
+          font-weight: 500;
+        }
+
+        @media (max-width: 768px) {
+          .bi-service-item { grid-template-columns: 1fr; padding: 32px; gap: 16px; }
+          .bi-service-body { flex-direction: column; align-items: flex-start; }
+        }
+
+        /* Use cases */
+        .bi-usecases {
+          background: var(--text-dark);
+          padding: 72px 64px;
+          border-radius: 4px;
+          position: relative;
+          overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+          .bi-usecases { padding: 40px 32px; }
+        }
+
+        .bi-usecases-grid {
+          display: grid;
+          grid-template-columns: repeat(3, 1fr);
+          gap: 1px;
+          background: rgba(255,255,255,0.07);
+          margin-top: 48px;
+          border: 1px solid rgba(255,255,255,0.07);
+          border-radius: 2px;
+          overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+          .bi-usecases-grid { grid-template-columns: 1fr; }
+        }
+
+        .bi-usecase-item {
+          background: rgba(255,255,255,0.02);
+          padding: 40px 32px;
+          transition: background 0.3s ease;
+          cursor: pointer;
+        }
+
+        .bi-usecase-item:hover { background: rgba(212,168,67,0.07); }
+        .bi-usecase-emoji { font-size: 32px; display: block; margin-bottom: 20px; }
+
+        .bi-usecase-item h4 {
+          font-size: 20px;
+          font-weight: 400;
+          color: var(--cream);
+          margin: 0 0 10px;
+        }
+
+        .bi-usecase-item p {
+          font-size: 13px;
+          color: rgba(250,247,242,0.45);
+          line-height: 1.8;
+          margin: 0;
+          font-weight: 300;
+        }
+
+        /* CTA */
+        .bi-cta {
+          background: var(--accent-yellow-light);
+          border: 1px solid rgba(212,168,67,0.3);
+          border-radius: 4px;
+          padding: 80px;
+          text-align: center;
+          position: relative;
+          overflow: hidden;
+        }
+
+        @media (max-width: 768px) {
+          .bi-cta { padding: 48px 32px; }
+        }
+
+        .bi-cta::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23D4A843' fill-opacity='0.06'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        .bi-cta h2 {
+          font-size: clamp(32px, 4.5vw, 52px);
+          font-weight: 300;
+          color: var(--text-dark);
+          margin: 0 0 16px;
+          position: relative;
+        }
+
+        .bi-cta h2 em { font-style: italic; color: #c49a38; }
+
+        .bi-cta p {
+          font-size: 15px;
+          color: var(--text-mid);
+          margin: 0 0 40px;
+          font-weight: 300;
+          position: relative;
+        }
+
+        @media (max-width: 600px) {
+          .bi-section { padding: 48px 20px; }
+          .bi-section-sm { padding: 0 20px 48px; }
+        }
+      `}</style>
+
       <Header />
 
-      <div className="min-h-screen bg-gradient-to-br from-blue-900 via-blue-800 to-cyan-900 relative overflow-hidden">
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {/* Data Stream Lines */}
-          <div className="absolute inset-0">
-            {[...Array(20)].map((_, i) => (
-              <div
-                key={i}
-                className="absolute h-px bg-gradient-to-r from-transparent via-blue-400/30 to-transparent animate-data-stream"
-                style={{
-                  top: `${Math.random() * 100}%`,
-                  left: '-100%',
-                  width: '100%',
-                  animationDelay: `${i * 0.5}s`,
-                  animationDuration: `${8 + Math.random() * 4}s`
-                }}
-              ></div>
-            ))}
-          </div>
-
-          {/* Floating Data Points */}
-          <div className="absolute top-20 right-20 w-80 h-80 bg-cyan-500/20 rounded-full blur-3xl animate-pulse-slow"></div>
-          <div className="absolute bottom-40 left-20 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }}></div>
-          
-          {/* Grid Pattern */}
-          <div className="absolute inset-0 bg-grid-pattern opacity-10"></div>
-        </div>
-
-        {/* Back Button */}
-        <div className="max-w-7xl mx-auto px-4 pt-8 relative z-10">
-          <Link
-            to="/programs/capability"
-            className="inline-flex items-center text-blue-300 hover:text-white transition-all duration-300 hover:translate-x-[-4px] group"
-          >
-            <ArrowLeft className="w-5 h-5 mr-2 transition-transform group-hover:translate-x-[-4px]" />
-            Back to Capabilities
-          </Link>
-        </div>
-
-        {/* Hero Section */}
-        <div 
-          className="max-w-7xl mx-auto px-4 pt-20 pb-16 text-center relative z-10"
-          ref={(el) => (observerRefs.current[0] = el)}
-        >
-          <div className={`transition-all duration-1000 ${isVisible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            {/* Animated Icon */}
-            <div className="relative inline-block mb-6">
-              <div className="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-blue-600 to-cyan-500 flex items-center justify-center shadow-2xl shadow-blue-500/50 animate-float">
-                <TrendingUp className="w-10 h-10 text-white animate-pulse-gentle" />
-              </div>
-              {/* Orbiting Dots */}
-              <div className="absolute inset-0 animate-spin-slow">
-                <div className="absolute top-0 left-1/2 w-2 h-2 bg-cyan-400 rounded-full -translate-x-1/2"></div>
-                <div className="absolute bottom-0 left-1/2 w-2 h-2 bg-blue-400 rounded-full -translate-x-1/2"></div>
-                <div className="absolute top-1/2 left-0 w-2 h-2 bg-indigo-400 rounded-full -translate-y-1/2"></div>
-                <div className="absolute top-1/2 right-0 w-2 h-2 bg-purple-400 rounded-full -translate-y-1/2"></div>
-              </div>
+      <div className="bi-page">
+        {/* Hero */}
+        <section className="bi-hero">
+          <div className="bi-hero-line" />
+          <div className="bi-section" style={{ paddingTop: 100, paddingBottom: 88 }}>
+            <Link to="/programs/capability" className="bi-back">
+              <ArrowLeft />
+              Back to Capabilities
+            </Link>
+            <div className="bi-hero-badge">
+              <span className="dot" />
+              Analytics & Strategy
             </div>
-
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 animate-fade-in-up">
-              <span className="bg-gradient-to-r from-blue-200 via-cyan-200 to-blue-200 bg-clip-text text-transparent animate-gradient-x">
-                Business Intelligence
-              </span>
+            <h1>
+              Business <em>Intelligence</em>
             </h1>
-            
-            <p className="text-xl text-blue-100 max-w-3xl mx-auto leading-relaxed animate-fade-in-up" style={{ animationDelay: '200ms' }}>
-              Transform data into actionable insights and drive strategic decision-making with cutting-edge analytics.
+            <p>
+              Transform data into actionable insights and drive strategic decision-making
+              with cutting-edge analytics.
             </p>
-
-            {/* Key Metrics */}
-            <div className="flex justify-center gap-6 mt-12 flex-wrap animate-fade-in-up" style={{ animationDelay: '400ms' }}>
-              {benefits.map((benefit, index) => {
-                const Icon = benefit.icon;
-                return (
-                  <div 
-                    key={index}
-                    className="bg-white/10 backdrop-blur-md rounded-2xl px-6 py-4 border border-white/20 hover:scale-110 hover:bg-white/20 transition-all duration-300 group cursor-pointer"
-                    style={{ animationDelay: `${400 + index * 100}ms` }}
-                  >
-                    <Icon className="w-6 h-6 text-cyan-400 mx-auto mb-2 group-hover:scale-110 transition-transform" />
-                    <div className="text-2xl font-bold text-white">{benefit.value}</div>
-                    <div className="text-blue-200 text-sm">{benefit.label}</div>
-                  </div>
-                );
-              })}
-            </div>
+            <Link to="/membership" className="bi-btn-primary">
+              Get Started Today
+              <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M9 5l7 7-7 7" />
+              </svg>
+            </Link>
           </div>
-        </div>
+        </section>
 
-        {/* Overview Section */}
-        <div className="max-w-7xl mx-auto px-4 pb-16 relative z-10">
-          <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 md:p-12 border border-white/20 hover:bg-white/15 transition-all duration-500 hover:shadow-2xl hover:shadow-cyan-500/30">
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              <div>
-                <h2 className="text-3xl font-bold text-white mb-6">
-                  Why Business Intelligence?
-                </h2>
-                <p className="text-blue-100 text-lg leading-relaxed mb-4">
-                  In today's data-driven world, organizations need powerful tools to extract meaningful insights from their data and make informed decisions quickly.
-                </p>
-                <p className="text-blue-100 text-lg leading-relaxed">
-                  Our BI solutions combine advanced analytics, intuitive visualization, and predictive modeling to give you a competitive edge.
-                </p>
-              </div>
-              
-              {/* Animated Chart Visualization */}
-              <div className="relative h-64 bg-gradient-to-br from-blue-500/20 to-cyan-500/20 rounded-2xl p-6 border border-blue-400/30">
-                <div className="absolute inset-0 flex items-end justify-around p-6">
-                  {[65, 85, 72, 95, 78].map((height, i) => (
-                    <div key={i} className="flex flex-col items-center gap-2 flex-1">
-                      <div 
-                        className="w-full bg-gradient-to-t from-cyan-500 to-blue-500 rounded-t-lg transition-all duration-1000 hover:scale-105 relative overflow-hidden group"
-                        style={{ 
-                          height: isVisible[0] ? `${height}%` : '0%',
-                          transitionDelay: `${i * 100}ms`
-                        }}
-                      >
-                        <div className="absolute inset-0 bg-white/20 translate-y-full group-hover:translate-y-0 transition-transform duration-300"></div>
-                      </div>
-                      <div className="w-2 h-2 bg-cyan-400 rounded-full animate-pulse"></div>
-                    </div>
-                  ))}
-                </div>
-                <PieChart className="absolute top-4 right-4 w-8 h-8 text-cyan-400 animate-spin-very-slow" />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Services Grid */}
-        <div 
-          className="max-w-7xl mx-auto px-4 pb-20 relative z-10"
-          ref={(el) => (observerRefs.current[1] = el)}
+        {/* Metrics */}
+        <div
+          className="bi-section"
+          ref={(el) => (observerRefs.current[0] = el)}
+          style={{ opacity: isVisible[0] ? 1 : 0, transform: isVisible[0] ? 'translateY(0)' : 'translateY(30px)', transition: 'all 0.8s ease' }}
         >
-          <h2 className={`text-4xl font-bold text-white mb-12 text-center transition-all duration-1000 ${isVisible[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            Our Services
-          </h2>
-          
-          <div className="grid md:grid-cols-2 gap-8">
-            {services.map((service, i) => {
-              const Icon = service.icon;
-              const isAnimated = chartAnimations.includes(i);
-              
+          <div className="bi-metrics">
+            {benefits.map((b, i) => {
+              const Icon = b.icon;
               return (
-                <div 
-                  key={i} 
-                  className={`bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 hover:scale-105 hover:bg-white/20 transition-all duration-500 hover:shadow-2xl group cursor-pointer relative overflow-hidden ${isVisible[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-                  style={{ 
-                    transitionDelay: `${i * 150}ms`,
-                    animationDelay: `${i * 150}ms`
-                  }}
-                >
-                  {/* Gradient Overlay */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
-                  
-                  {/* Content */}
-                  <div className="relative z-10">
-                    <div className="flex items-start justify-between mb-6">
-                      <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${service.color} flex items-center justify-center group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 shadow-lg`}>
-                        <Icon className="w-7 h-7 text-white group-hover:scale-110 transition-transform duration-300" />
-                      </div>
-                      
-                      {/* Stat Badge */}
-                      <div className="text-right">
-                        <div className={`text-2xl font-bold text-white transition-all duration-1000 ${isAnimated ? 'opacity-100 scale-100' : 'opacity-0 scale-50'}`}>
-                          {service.stats}
-                        </div>
-                        <div className="text-xs text-blue-300">{service.statLabel}</div>
-                      </div>
+                <div key={i} className="bi-metric">
+                  <Icon className="bi-metric-icon" />
+                  <span className="val">{b.value}</span>
+                  <span className="lbl">{b.label}</span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Overview */}
+        <div
+          className="bi-section-sm"
+          ref={(el) => (observerRefs.current[1] = el)}
+          style={{ opacity: isVisible[1] ? 1 : 0, transform: isVisible[1] ? 'translateY(0)' : 'translateY(30px)', transition: 'all 0.8s ease 0.1s' }}
+        >
+          <div style={{ marginBottom: 40 }}>
+            <span className="bi-label">Why It Matters</span>
+            <h2 className="bi-section-title">Why Business <em>Intelligence?</em></h2>
+            <div className="bi-divider" />
+          </div>
+
+          <div className="bi-overview">
+            <div className="bi-overview-text">
+              <p>
+                In today's data-driven world, organizations need powerful tools to extract
+                meaningful insights from their data and make informed decisions quickly.
+              </p>
+              <p>
+                Our BI solutions combine advanced analytics, intuitive visualization, and
+                predictive modeling to give you a competitive edge.
+              </p>
+            </div>
+            <div className="bi-overview-chart">
+              <p style={{ color: 'rgba(250,247,242,0.4)', fontSize: 10, letterSpacing: 2, textTransform: 'uppercase', margin: '0 0 20px', fontFamily: 'DM Sans', fontWeight: 500 }}>
+                Performance Overview
+              </p>
+              {[
+                { label: 'Q1', val: 65 },
+                { label: 'Q2', val: 78 },
+                { label: 'Q3', val: 85 },
+                { label: 'Q4', val: 92 },
+              ].map((bar, i) => (
+                <div key={i} className="bi-chart-bar-row">
+                  <span className="bi-chart-bar-label">{bar.label}</span>
+                  <div className="bi-chart-bar-track">
+                    <div
+                      className="bi-chart-bar-fill"
+                      style={{ width: isVisible[1] ? `${bar.val}%` : '0%', transitionDelay: `${i * 150}ms` }}
+                    />
+                  </div>
+                  <span className="bi-chart-bar-val">{bar.val}%</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+
+        {/* Services */}
+        <div
+          className="bi-section-sm"
+          ref={(el) => (observerRefs.current[2] = el)}
+          style={{ opacity: isVisible[2] ? 1 : 0, transform: isVisible[2] ? 'translateY(0)' : 'translateY(30px)', transition: 'all 0.8s ease 0.1s' }}
+        >
+          <div style={{ marginBottom: 40 }}>
+            <span className="bi-label">What We Offer</span>
+            <h2 className="bi-section-title">Our <em>Services</em></h2>
+            <div className="bi-divider" />
+          </div>
+
+          <div className="bi-services-list">
+            {services.map((s, i) => {
+              const Icon = s.icon;
+              return (
+                <div key={i} className="bi-service-item">
+                  <span className="bi-service-num">{s.number}</span>
+                  <div className="bi-service-body">
+                    <div className="bi-service-icon">
+                      <Icon />
                     </div>
-                    
-                    <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-cyan-200 transition-colors duration-300">
-                      {service.title}
-                    </h3>
-                    
-                    <p className="text-blue-100 leading-relaxed group-hover:text-white transition-colors duration-300">
-                      {service.description}
-                    </p>
-                    
-                    {/* Animated Progress Bar */}
-                    <div className="mt-6 h-1 bg-white/20 rounded-full overflow-hidden">
-                      <div 
-                        className={`h-full bg-gradient-to-r ${service.color} transition-all duration-1000 ease-out`}
-                        style={{ width: isAnimated ? service.stats : '0%' }}
-                      ></div>
+                    <div className="bi-service-text">
+                      <h3>{s.title}</h3>
+                      <p>{s.description}</p>
                     </div>
                   </div>
-
-                  {/* Decorative Corner */}
-                  <div className="absolute bottom-0 right-0 w-32 h-32 opacity-0 group-hover:opacity-10 transition-opacity duration-500">
-                    <div className={`absolute bottom-0 right-0 w-full h-full bg-gradient-to-tl ${service.color} rounded-tl-full`}></div>
+                  <div className="bi-service-stat">
+                    <span className="val">{s.stats}</span>
+                    <span className="lbl">{s.statLabel}</span>
                   </div>
                 </div>
               );
@@ -279,211 +728,52 @@ function BusinessIntelligence() {
           </div>
         </div>
 
-        {/* Use Cases Section */}
-        <div className="max-w-7xl mx-auto px-4 pb-20 relative z-10">
-          <div className="bg-gradient-to-r from-blue-600/30 to-cyan-600/30 backdrop-blur-lg rounded-3xl p-8 md:p-12 border border-white/20 hover:from-blue-600/40 hover:to-cyan-600/40 transition-all duration-500">
-            <h2 className="text-3xl font-bold text-white mb-8 text-center">
-              Real-World Applications
+        {/* Use Cases */}
+        <div
+          className="bi-section-sm"
+          ref={(el) => (observerRefs.current[3] = el)}
+          style={{ opacity: isVisible[3] ? 1 : 0, transform: isVisible[3] ? 'translateY(0)' : 'translateY(30px)', transition: 'all 0.8s ease 0.2s' }}
+        >
+          <div className="bi-usecases">
+            <span className="bi-label" style={{ color: 'var(--accent-yellow)' }}>Applications</span>
+            <h2 className="bi-section-title" style={{ color: 'var(--cream)' }}>
+              Real-World <em>Applications</em>
             </h2>
-            
-            <div className="grid md:grid-cols-3 gap-6">
-              {[
-                { title: "Retail Analytics", desc: "Customer behavior tracking and sales optimization", icon: Target },
-                { title: "Financial Forecasting", desc: "Revenue prediction and risk analysis", icon: TrendingUp },
-                { title: "Healthcare Insights", desc: "Patient data analysis and treatment optimization", icon: BarChart }
-              ].map((useCase, index) => {
-                const Icon = useCase.icon;
-                return (
-                  <div
-                    key={index}
-                    className="bg-white/10 rounded-xl p-6 hover:bg-white/20 transition-all duration-300 hover:scale-105 group cursor-pointer animate-fade-in-up"
-                    style={{ animationDelay: `${index * 150}ms` }}
-                  >
-                    <Icon className="w-10 h-10 text-cyan-400 mb-4 group-hover:scale-110 group-hover:rotate-12 transition-all duration-300" />
-                    <h4 className="text-xl font-semibold text-white mb-3 group-hover:text-cyan-200 transition-colors">
-                      {useCase.title}
-                    </h4>
-                    <p className="text-blue-100 group-hover:text-white transition-colors">
-                      {useCase.desc}
-                    </p>
-                  </div>
-                );
-              })}
+            <p style={{ color: 'rgba(250,247,242,0.5)', fontSize: 14, lineHeight: 1.9, maxWidth: 480, fontWeight: 300 }}>
+              Start leveraging business intelligence to make smarter decisions and drive growth.
+            </p>
+
+            <div className="bi-usecases-grid">
+              {useCases.map((uc, i) => (
+                <div key={i} className="bi-usecase-item">
+                  <span className="bi-usecase-emoji">{uc.icon}</span>
+                  <h4>{uc.title}</h4>
+                  <p>{uc.desc}</p>
+                </div>
+              ))}
             </div>
           </div>
         </div>
 
-        {/* CTA Section */}
-        <div className="max-w-7xl mx-auto px-4 pb-24 relative z-10">
-          <div className="bg-gradient-to-r from-blue-600 to-cyan-600 rounded-3xl p-12 text-center relative overflow-hidden group hover:shadow-2xl hover:shadow-cyan-500/50 transition-all duration-500">
-            {/* Animated Background */}
-            <div className="absolute inset-0 opacity-20">
-              <div className="absolute inset-0 bg-grid-pattern-dense animate-slide-diagonal"></div>
-            </div>
-            
-            <div className="relative z-10">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Ready to Transform Your Data?
-              </h2>
-              <p className="text-blue-100 text-lg mb-8 max-w-2xl mx-auto">
-                Start leveraging business intelligence to make smarter decisions and drive growth.
-              </p>
-              <Link
-                to="/membership"
-                className="inline-flex items-center gap-2 bg-white text-blue-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-blue-50 transition-all duration-300 hover:scale-110 hover:shadow-2xl group/btn"
-              >
-                Get Started Today
-                <TrendingUp className="w-5 h-5 group-hover/btn:translate-x-1 group-hover/btn:-translate-y-1 transition-transform" />
-              </Link>
-            </div>
+        {/* CTA */}
+        <div
+          className="bi-section-sm"
+          ref={(el) => (observerRefs.current[4] = el)}
+          style={{ opacity: isVisible[4] ? 1 : 0, transform: isVisible[4] ? 'translateY(0)' : 'translateY(30px)', transition: 'all 0.8s ease 0.3s' }}
+        >
+          <div className="bi-cta">
+            <span className="bi-label" style={{ position: 'relative' }}>Get Started</span>
+            <h2>Ready to Transform <em>Your Data?</em></h2>
+            <p>Start leveraging business intelligence to make smarter decisions and drive growth.</p>
+            <Link to="/membership" className="bi-btn-primary" style={{ position: 'relative' }}>
+              Get Started Today
+              <TrendingUp style={{ width: 16, height: 16 }} />
+            </Link>
           </div>
         </div>
       </div>
 
       <Footer />
-
-      <style jsx>{`
-        @keyframes data-stream {
-          0% {
-            left: -100%;
-            opacity: 0;
-          }
-          50% {
-            opacity: 1;
-          }
-          100% {
-            left: 100%;
-            opacity: 0;
-          }
-        }
-
-        @keyframes float {
-          0%, 100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(-20px);
-          }
-        }
-
-        @keyframes pulse-slow {
-          0%, 100% {
-            opacity: 0.3;
-            transform: scale(1);
-          }
-          50% {
-            opacity: 0.5;
-            transform: scale(1.1);
-          }
-        }
-
-        @keyframes pulse-gentle {
-          0%, 100% {
-            opacity: 0.8;
-          }
-          50% {
-            opacity: 1;
-          }
-        }
-
-        @keyframes spin-slow {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
-
-        @keyframes spin-very-slow {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
-
-        @keyframes gradient-x {
-          0%, 100% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-        }
-
-        @keyframes fade-in-up {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes slide-diagonal {
-          0% {
-            transform: translate(0, 0);
-          }
-          100% {
-            transform: translate(-50%, -50%);
-          }
-        }
-
-        .animate-data-stream {
-          animation: data-stream linear infinite;
-        }
-
-        .animate-float {
-          animation: float 3s ease-in-out infinite;
-        }
-
-        .animate-pulse-slow {
-          animation: pulse-slow 4s ease-in-out infinite;
-        }
-
-        .animate-pulse-gentle {
-          animation: pulse-gentle 2s ease-in-out infinite;
-        }
-
-        .animate-spin-slow {
-          animation: spin-slow 30s linear infinite;
-        }
-
-        .animate-spin-very-slow {
-          animation: spin-very-slow 20s linear infinite;
-        }
-
-        .animate-gradient-x {
-          background-size: 200% 200%;
-          animation: gradient-x 3s ease infinite;
-        }
-
-        .animate-fade-in-up {
-          animation: fade-in-up 1s ease-out forwards;
-        }
-
-        .animate-slide-diagonal {
-          animation: slide-diagonal 30s linear infinite;
-        }
-
-        .bg-grid-pattern {
-          background-image: 
-            linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
-          background-size: 50px 50px;
-        }
-
-        .bg-grid-pattern-dense {
-          background-image: 
-            linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-          background-size: 30px 30px;
-        }
-      `}</style>
     </>
   );
 }

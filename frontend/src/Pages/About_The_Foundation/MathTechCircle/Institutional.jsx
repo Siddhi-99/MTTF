@@ -2,11 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import Header from "../../../Components/Header";
 import Footer from "../../../Components/Footer";
 
+// ─── DATA (unchanged) ────────────────────────────────────────────────────────
 const benefits = [
   {
     id: "01",
     category: "Access to Resources",
-    accent: "#C8A96E",
     items: [
       {
         title: "Journals & Publications",
@@ -21,7 +21,6 @@ const benefits = [
   {
     id: "02",
     category: "Professional Development",
-    accent: "#7EB8C9",
     items: [
       {
         title: "Workshops & Conferences",
@@ -36,7 +35,6 @@ const benefits = [
   {
     id: "03",
     category: "Networking Opportunities",
-    accent: "#A89BC8",
     items: [
       {
         title: "Events & Meetups",
@@ -51,7 +49,6 @@ const benefits = [
   {
     id: "04",
     category: "Collaboration & Partnerships",
-    accent: "#7EC9A8",
     items: [
       {
         title: "Research Collaborations",
@@ -66,7 +63,6 @@ const benefits = [
   {
     id: "05",
     category: "Recognition & Awards",
-    accent: "#C8A96E",
     items: [
       {
         title: "Institutional Awards",
@@ -81,7 +77,6 @@ const benefits = [
   {
     id: "06",
     category: "Community Engagement",
-    accent: "#C97E7E",
     items: [
       {
         title: "Outreach Programs",
@@ -96,7 +91,6 @@ const benefits = [
   {
     id: "07",
     category: "Exclusive Member Benefits",
-    accent: "#7EB8C9",
     items: [
       {
         title: "Customized Training",
@@ -134,6 +128,7 @@ const pricing = [
   },
 ];
 
+// ─── HOOK (unchanged) ────────────────────────────────────────────────────────
 function useInView(threshold = 0.15) {
   const ref = useRef(null);
   const [visible, setVisible] = useState(false);
@@ -148,9 +143,11 @@ function useInView(threshold = 0.15) {
   return [ref, visible];
 }
 
+// ─── BENEFIT CARD (luxury redesign) ──────────────────────────────────────────
 function BenefitCard({ benefit, index }) {
   const [ref, visible] = useInView();
   const [hovered, setHovered] = useState(false);
+
   return (
     <div
       ref={ref}
@@ -158,87 +155,107 @@ function BenefitCard({ benefit, index }) {
       onMouseLeave={() => setHovered(false)}
       style={{
         opacity: visible ? 1 : 0,
-        transform: visible ? "translateY(0)" : "translateY(40px)",
-        transition: `opacity 0.7s ease ${index * 0.08}s, transform 0.7s ease ${index * 0.08}s`,
-        background: hovered ? "#1C1F2E" : "#171A27",
-        border: `1px solid ${hovered ? benefit.accent + "60" : "rgba(255,255,255,0.06)"}`,
+        transform: visible ? "translateY(0)" : "translateY(32px)",
+        transition: `opacity 0.7s ease ${index * 0.08}s, transform 0.7s ease ${index * 0.08}s, background 0.35s ease, border-color 0.35s ease`,
+        background: hovered ? "rgba(201,168,76,0.04)" : "#FBF6EC",
+        border: `1px solid ${hovered ? "rgba(201,168,76,0.35)" : "rgba(139,112,72,0.12)"}`,
         borderRadius: "2px",
-        padding: "2rem",
+        padding: "2rem 2rem 2rem 2.25rem",
         position: "relative",
         overflow: "hidden",
         cursor: "default",
-        boxShadow: hovered ? `0 20px 50px rgba(0,0,0,0.4), 0 0 0 1px ${benefit.accent}20` : "none",
       }}
     >
       {/* Left accent bar */}
       <div style={{
         position: "absolute",
-        left: 0,
-        top: 0,
-        bottom: 0,
+        left: 0, top: 0, bottom: 0,
         width: hovered ? "3px" : "2px",
-        background: benefit.accent,
-        transition: "width 0.3s",
+        background: "linear-gradient(180deg, #C9A84C 0%, #E8C97A 100%)",
+        transition: "width 0.3s ease",
       }} />
+
+      {/* Ghost number */}
+      <div style={{
+        position: "absolute",
+        right: "1rem", top: "50%",
+        transform: "translateY(-50%)",
+        fontFamily: "'Playfair Display', serif",
+        fontSize: "5rem", fontWeight: 700,
+        color: "rgba(201,168,76,0.06)",
+        lineHeight: 1, userSelect: "none", pointerEvents: "none",
+      }}>
+        {benefit.id}
+      </div>
 
       {/* ID */}
       <div style={{
-        fontFamily: "'DM Mono', monospace",
-        fontSize: "0.6rem",
-        color: benefit.accent,
+        fontFamily: "'Cormorant Garamond', serif",
+        fontSize: "0.65rem",
+        color: "#C9A84C",
         letterSpacing: "0.2em",
         marginBottom: "0.5rem",
-        opacity: 0.7,
+        fontWeight: 600,
       }}>
         {benefit.id} / {String(benefits.length).padStart(2, "0")}
       </div>
 
       {/* Category */}
       <h3 style={{
-        fontFamily: "'Cormorant Garamond', serif",
-        fontSize: "1.25rem",
-        fontWeight: 600,
-        color: "#F0EDE8",
-        marginBottom: "1.5rem",
-        letterSpacing: "0.01em",
+        fontFamily: "'Playfair Display', serif",
+        fontSize: "1.15rem",
+        fontWeight: 700,
+        color: "#1A120A",
+        margin: "0 0 0.75rem",
+        letterSpacing: "-0.01em",
+        lineHeight: 1.2,
       }}>
         {benefit.category}
       </h3>
 
+      {/* Divider */}
+      <div style={{
+        height: "1px",
+        background: "rgba(201,168,76,0.2)",
+        width: hovered ? "100%" : "36%",
+        transition: "width 0.4s ease",
+        marginBottom: "1.25rem",
+      }} />
+
       {/* Items */}
-      <div style={{ display: "flex", flexDirection: "column", gap: "1.25rem" }}>
+      <div style={{ display: "flex", flexDirection: "column", gap: "1.1rem" }}>
         {benefit.items.map((item, i) => (
           <div key={i}>
             <div style={{
               display: "flex",
               alignItems: "center",
               gap: "0.5rem",
-              marginBottom: "0.35rem",
+              marginBottom: "0.3rem",
             }}>
               <span style={{
-                width: 5,
-                height: 5,
+                width: 4, height: 4,
                 borderRadius: "50%",
-                background: benefit.accent,
+                background: "#C9A84C",
                 flexShrink: 0,
               }} />
               <span style={{
-                fontFamily: "'DM Sans', sans-serif",
-                fontSize: "0.85rem",
-                fontWeight: 600,
-                color: benefit.accent,
-                letterSpacing: "0.02em",
+                fontFamily: "'Playfair Display', serif",
+                fontSize: "0.88rem",
+                fontWeight: 700,
+                color: "#C9A84C",
+                letterSpacing: "0.01em",
               }}>
                 {item.title}
               </span>
             </div>
             <p style={{
-              fontFamily: "'DM Sans', sans-serif",
-              fontSize: "0.82rem",
-              color: "rgba(240,237,232,0.45)",
+              fontFamily: "'Jost', sans-serif",
+              fontSize: "0.8rem",
+              color: "#7A6040",
               lineHeight: 1.8,
               margin: 0,
-              paddingLeft: "0.85rem",
+              paddingLeft: "0.75rem",
+              fontWeight: 300,
             }}>
               {item.desc}
             </p>
@@ -249,9 +266,11 @@ function BenefitCard({ benefit, index }) {
   );
 }
 
+// ─── PRICING CARD (luxury redesign) ──────────────────────────────────────────
 function PricingCard({ plan, index }) {
   const [ref, visible] = useInView();
   const [hovered, setHovered] = useState(false);
+
   return (
     <div
       ref={ref}
@@ -261,99 +280,98 @@ function PricingCard({ plan, index }) {
         opacity: visible ? 1 : 0,
         transform: visible
           ? plan.featured ? "scale(1.04)" : "scale(1)"
-          : "translateY(40px)",
-        transition: `opacity 0.7s ease ${index * 0.12}s, transform 0.7s ease ${index * 0.12}s`,
+          : "translateY(32px)",
+        transition: `opacity 0.7s ease ${index * 0.12}s, transform 0.7s ease ${index * 0.12}s, border-color 0.3s ease, box-shadow 0.3s ease`,
         position: "relative",
-        background: plan.featured
-          ? "linear-gradient(160deg, #1C2240 0%, #1A2038 100%)"
-          : "#171A27",
+        background: plan.featured ? "#1A120A" : "#FBF6EC",
         border: plan.featured
-          ? "1px solid rgba(200,169,110,0.4)"
-          : `1px solid ${hovered ? "rgba(255,255,255,0.12)" : "rgba(255,255,255,0.06)"}`,
+          ? "1px solid rgba(201,168,76,0.4)"
+          : `1px solid ${hovered ? "rgba(201,168,76,0.3)" : "rgba(139,112,72,0.15)"}`,
         borderRadius: "2px",
         padding: "2.5rem 2rem",
         overflow: "hidden",
         boxShadow: plan.featured
-          ? "0 30px 60px rgba(0,0,0,0.5), 0 0 0 1px rgba(200,169,110,0.15)"
-          : hovered ? "0 20px 40px rgba(0,0,0,0.3)" : "none",
+          ? "0 20px 50px rgba(26,18,10,0.18)"
+          : hovered ? "0 12px 32px rgba(139,112,72,0.1)" : "none",
         cursor: "default",
         flexShrink: 0,
         flex: plan.featured ? "0 0 calc(34% - 1rem)" : "0 0 calc(28% - 1rem)",
       }}
     >
-      {/* Top bar */}
+      {/* Top gold bar */}
       <div style={{
         position: "absolute",
-        top: 0,
-        left: 0,
-        right: 0,
-        height: "2px",
+        top: 0, left: 0, right: 0,
+        height: plan.featured ? "2px" : "1px",
         background: plan.featured
-          ? "linear-gradient(90deg, #C8A96E, #E8C98E, #C8A96E)"
-          : "rgba(255,255,255,0.06)",
+          ? "linear-gradient(90deg, transparent, #C9A84C, #E8C97A, #C9A84C, transparent)"
+          : "rgba(139,112,72,0.15)",
       }} />
 
       {/* Tag */}
       <div style={{
-        fontFamily: "'DM Mono', monospace",
-        fontSize: "0.58rem",
+        fontFamily: "'Jost', sans-serif",
+        fontSize: "0.6rem",
         letterSpacing: "0.2em",
         textTransform: "uppercase",
-        color: plan.featured ? "#C8A96E" : "rgba(240,237,232,0.3)",
+        color: plan.featured ? "#C9A84C" : "#8B7048",
         marginBottom: "1.5rem",
-        padding: "0.25rem 0.6rem",
-        border: `1px solid ${plan.featured ? "rgba(200,169,110,0.3)" : "rgba(255,255,255,0.08)"}`,
+        padding: "0.25rem 0.65rem",
+        border: `1px solid ${plan.featured ? "rgba(201,168,76,0.35)" : "rgba(139,112,72,0.2)"}`,
         display: "inline-block",
+        borderRadius: "1px",
+        fontWeight: 500,
       }}>
         {plan.tag}
       </div>
 
       <div style={{
-        fontFamily: "'Cormorant Garamond', serif",
+        fontFamily: "'Playfair Display', serif",
         fontSize: "2rem",
         fontWeight: 700,
-        color: plan.featured ? "#F0EDE8" : "rgba(240,237,232,0.85)",
+        color: plan.featured ? "#E8D9C0" : "#1A120A",
         marginBottom: "0.25rem",
+        letterSpacing: "-0.02em",
       }}>
         {plan.tier}
       </div>
 
       <div style={{
-        fontFamily: "'DM Sans', sans-serif",
+        fontFamily: "'Jost', sans-serif",
         fontSize: "0.78rem",
-        color: "rgba(240,237,232,0.35)",
-        marginBottom: "2rem",
+        color: plan.featured ? "rgba(232,217,192,0.4)" : "rgba(90,65,40,0.45)",
+        marginBottom: "1.75rem",
         letterSpacing: "0.02em",
+        fontWeight: 300,
       }}>
         {plan.sub}
       </div>
 
-      {/* Divider */}
       <div style={{
         height: "1px",
-        background: plan.featured
-          ? "rgba(200,169,110,0.2)"
-          : "rgba(255,255,255,0.06)",
+        background: plan.featured ? "rgba(201,168,76,0.2)" : "rgba(139,112,72,0.12)",
         marginBottom: "1.5rem",
       }} />
 
       <div style={{
-        fontFamily: "'DM Mono', monospace",
+        fontFamily: "'Jost', sans-serif",
         fontSize: "0.6rem",
-        color: "rgba(240,237,232,0.3)",
-        letterSpacing: "0.15em",
+        color: plan.featured ? "rgba(232,217,192,0.35)" : "rgba(90,65,40,0.4)",
+        letterSpacing: "0.18em",
         textTransform: "uppercase",
         marginBottom: "0.4rem",
+        fontWeight: 400,
       }}>
         Annual Fee
       </div>
 
       <div style={{
-        fontFamily: "'Cormorant Garamond', serif",
+        fontFamily: "'Playfair Display', serif",
         fontSize: "1.9rem",
-        fontWeight: 600,
-        color: plan.featured ? "#C8A96E" : "#F0EDE8",
-        letterSpacing: "-0.01em",
+        fontWeight: 700,
+        color: "#C9A84C",
+        letterSpacing: "-0.02em",
+        lineHeight: 1,
       }}>
         {plan.amount}
       </div>
@@ -361,372 +379,412 @@ function PricingCard({ plan, index }) {
   );
 }
 
+// ─── MAIN PAGE ────────────────────────────────────────────────────────────────
 export default function Institutional() {
   const [heroRef, heroVisible] = useInView(0.05);
 
   useEffect(() => {
     const link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href =
-      "https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap";
+    link.href = "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400&family=Jost:wght@200;300;400;500;600&display=swap";
     document.head.appendChild(link);
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col">
-      {/* Header */}
+    <div style={{ minHeight: "100vh", display: "flex", flexDirection: "column", background: "#FBF6EC", color: "#1A120A" }}>
+      <style>{`
+        @keyframes goldShimmer {
+          0% { background-position: -200% center; }
+          100% { background-position: 200% center; }
+        }
+        @keyframes floatDot {
+          0%, 100% { transform: translateY(0); opacity: 0.3; }
+          50% { transform: translateY(-7px); opacity: 0.6; }
+        }
+        @keyframes rotateSlow {
+          from { transform: translate(-50%, -50%) rotate(0deg); }
+          to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-track { background: #FBF6EC; }
+        ::-webkit-scrollbar-thumb { background: #C9A84C; border-radius: 1px; }
+      `}</style>
+
       <Header />
 
-      {/* Main Content */}
-      <main className="flex-grow">
-        <>
-          <style>{`
-            @keyframes fadeUp {
-              from { opacity: 0; transform: translateY(30px); }
-              to { opacity: 1; transform: translateY(0); }
-            }
-            @keyframes shimmer {
-              0% { background-position: -200% center; }
-              100% { background-position: 200% center; }
-            }
-            @keyframes floatDot {
-              0%, 100% { transform: translateY(0); opacity: 0.4; }
-              50% { transform: translateY(-8px); opacity: 0.8; }
-            }
-            ::-webkit-scrollbar { width: 3px; }
-            ::-webkit-scrollbar-track { background: #0F111C; }
-            ::-webkit-scrollbar-thumb { background: #C8A96E; border-radius: 2px; }
-          `}</style>
+      <main style={{ flex: 1 }}>
 
+        {/* ── HERO ── */}
+        <section
+          ref={heroRef}
+          style={{
+            position: "relative",
+            minHeight: "100vh",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            justifyContent: "center",
+            padding: "6rem 2rem",
+            textAlign: "center",
+            overflow: "hidden",
+            background: "#FBF6EC",
+            borderBottom: "1px solid rgba(139,112,72,0.1)",
+          }}
+        >
+          {/* Subtle grid */}
           <div style={{
-            background: "#0F111C",
-            color: "#F0EDE8",
-            fontFamily: "'DM Sans', sans-serif",
-            overflowX: "hidden",
+            position: "absolute", inset: 0,
+            backgroundImage: `
+              linear-gradient(rgba(201,168,76,0.05) 1px, transparent 1px),
+              linear-gradient(90deg, rgba(201,168,76,0.05) 1px, transparent 1px)
+            `,
+            backgroundSize: "72px 72px",
+            pointerEvents: "none",
+          }} />
+
+          {/* Warm radial glow */}
+          <div style={{
+            position: "absolute",
+            top: "50%", left: "50%",
+            transform: "translate(-50%,-50%)",
+            width: "700px", height: "500px",
+            background: "radial-gradient(ellipse, rgba(201,168,76,0.09) 0%, transparent 70%)",
+            pointerEvents: "none",
+          }} />
+
+          {/* Rotating rings */}
+          <div style={{
+            position: "absolute",
+            top: "50%", left: "50%",
+            width: "420px", height: "420px",
+            border: "1px solid rgba(201,168,76,0.08)",
+            borderRadius: "50%",
+            animation: "rotateSlow 40s linear infinite",
+            pointerEvents: "none",
+          }} />
+          <div style={{
+            position: "absolute",
+            top: "50%", left: "50%",
+            width: "600px", height: "600px",
+            border: "1px dashed rgba(201,168,76,0.05)",
+            borderRadius: "50%",
+            animation: "rotateSlow 65s linear infinite reverse",
+            pointerEvents: "none",
+          }} />
+
+          {/* Floating dots */}
+          {[
+            { top: "18%", left: "12%", delay: "0s", dur: "3.2s" },
+            { top: "74%", left: "9%", delay: "0.8s", dur: "3.7s" },
+            { top: "20%", right: "10%", delay: "0.4s", dur: "4.1s" },
+            { top: "70%", right: "14%", delay: "1.2s", dur: "3.4s" },
+          ].map((dot, i) => (
+            <div key={i} style={{
+              position: "absolute",
+              width: 4, height: 4,
+              borderRadius: "50%",
+              background: "#C9A84C",
+              animation: `floatDot ${dot.dur} ease-in-out infinite`,
+              animationDelay: dot.delay,
+              top: dot.top, left: dot.left, right: dot.right,
+              pointerEvents: "none",
+            }} />
+          ))}
+
+          {/* Hero content */}
+          <div style={{
+            position: "relative", zIndex: 1,
+            opacity: heroVisible ? 1 : 0,
+            transform: heroVisible ? "translateY(0)" : "translateY(28px)",
+            transition: "opacity 1s ease, transform 1s ease",
           }}>
-
-            {/* ── HERO ── */}
-            <div
-              ref={heroRef}
-              style={{
-                position: "relative",
-                minHeight: "100vh",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                padding: "6rem 2rem",
-                textAlign: "center",
-                overflow: "hidden",
-              }}
-            >
-              {/* Background grid */}
-              <div style={{
-                position: "absolute",
-                inset: 0,
-                backgroundImage: `
-                  linear-gradient(rgba(200,169,110,0.04) 1px, transparent 1px),
-                  linear-gradient(90deg, rgba(200,169,110,0.04) 1px, transparent 1px)
-                `,
-                backgroundSize: "72px 72px",
-                pointerEvents: "none",
-              }} />
-
-              {/* Radial glow */}
-              <div style={{
-                position: "absolute",
-                top: "50%",
-                left: "50%",
-                transform: "translate(-50%,-50%)",
-                width: "700px",
-                height: "500px",
-                background: "radial-gradient(ellipse, rgba(200,169,110,0.07) 0%, transparent 70%)",
-                pointerEvents: "none",
-              }} />
-
-              {/* Floating dots */}
-              {[
-                { top: "18%", left: "12%", delay: "0s" },
-                { top: "72%", left: "8%", delay: "0.8s" },
-                { top: "22%", right: "10%", delay: "0.4s" },
-                { top: "68%", right: "14%", delay: "1.2s" },
-              ].map((dot, i) => (
-                <div key={i} style={{
-                  position: "absolute",
-                  width: 6,
-                  height: 6,
-                  borderRadius: "50%",
-                  background: "#C8A96E",
-                  animation: `floatDot ${3 + i * 0.5}s ease-in-out infinite`,
-                  animationDelay: dot.delay,
-                  ...dot,
-                }} />
-              ))}
-
-              <div style={{
-                position: "relative",
-                zIndex: 1,
-                opacity: heroVisible ? 1 : 0,
-                transform: heroVisible ? "translateY(0)" : "translateY(30px)",
-                transition: "opacity 1s ease, transform 1s ease",
+            {/* Eyebrow */}
+            <div style={{
+              display: "inline-flex",
+              alignItems: "center",
+              gap: "0.75rem",
+              border: "1px solid rgba(201,168,76,0.25)",
+              padding: "0.45rem 1.3rem",
+              marginBottom: "2.5rem",
+              background: "rgba(201,168,76,0.05)",
+              borderRadius: "1px",
+            }}>
+              <span style={{ width: 4, height: 4, borderRadius: "50%", background: "#C9A84C", flexShrink: 0 }} />
+              <span style={{
+                fontFamily: "'Jost', sans-serif",
+                fontSize: "0.62rem",
+                letterSpacing: "0.25em",
+                textTransform: "uppercase",
+                color: "#C9A84C",
+                fontWeight: 500,
               }}>
-                {/* Eyebrow */}
-                <div style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  gap: "0.75rem",
-                  border: "1px solid rgba(200,169,110,0.25)",
-                  padding: "0.4rem 1.25rem",
-                  marginBottom: "2.5rem",
-                  background: "rgba(200,169,110,0.04)",
-                }}>
-                  <span style={{
-                    width: 5, height: 5, borderRadius: "50%", background: "#C8A96E",
-                  }} />
-                  <span style={{
-                    fontFamily: "'DM Mono', monospace",
-                    fontSize: "0.6rem",
-                    letterSpacing: "0.25em",
-                    textTransform: "uppercase",
-                    color: "#C8A96E",
-                  }}>
-                    MathTech Thinking Foundation
-                  </span>
-                  <span style={{
-                    width: 5, height: 5, borderRadius: "50%", background: "#C8A96E",
-                  }} />
-                </div>
-
-                <h1 style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: "clamp(3rem, 8vw, 6.5rem)",
-                  fontWeight: 600,
-                  lineHeight: 1,
-                  letterSpacing: "-0.02em",
-                  marginBottom: "1rem",
-                  color: "#F0EDE8",
-                }}>
-                  Institutional
-                  <br />
-                  <span style={{
-                    fontStyle: "italic",
-                    background: "linear-gradient(120deg, #C8A96E 0%, #E8C98E 40%, #C8A96E 80%)",
-                    backgroundSize: "200% auto",
-                    WebkitBackgroundClip: "text",
-                    WebkitTextFillColor: "transparent",
-                    animation: "shimmer 4s linear infinite",
-                  }}>
-                    Membership
-                  </span>
-                </h1>
-
-                <p style={{
-                  fontFamily: "'DM Sans', sans-serif",
-                  fontSize: "1.05rem",
-                  color: "rgba(240,237,232,0.45)",
-                  maxWidth: "540px",
-                  margin: "1.5rem auto 3rem",
-                  lineHeight: 1.8,
-                }}>
-                  Joining MTTF provides organizations with the tools and opportunities needed to drive
-                  innovation, foster professional development, and contribute significantly to the global
-                  STEM community.
-                </p>
-
-                {/* Stats row */}
-                <div style={{
-                  display: "flex",
-                  gap: "0",
-                  justifyContent: "center",
-                  flexWrap: "wrap",
-                  border: "1px solid rgba(200,169,110,0.15)",
-                  background: "rgba(200,169,110,0.03)",
-                  maxWidth: "560px",
-                  margin: "0 auto",
-                }}>
-                  {[["07", "Benefit Areas"], ["03", "Membership Tiers"], ["∞", "STEM Reach"]].map(([val, label], i) => (
-                    <div key={label} style={{
-                      flex: "1 1 140px",
-                      padding: "1.25rem 1rem",
-                      textAlign: "center",
-                      borderRight: i < 2 ? "1px solid rgba(200,169,110,0.15)" : "none",
-                    }}>
-                      <div style={{
-                        fontFamily: "'Cormorant Garamond', serif",
-                        fontSize: "2rem",
-                        fontWeight: 600,
-                        color: "#C8A96E",
-                      }}>{val}</div>
-                      <div style={{
-                        fontFamily: "'DM Mono', monospace",
-                        fontSize: "0.55rem",
-                        color: "rgba(240,237,232,0.25)",
-                        letterSpacing: "0.15em",
-                        textTransform: "uppercase",
-                        marginTop: "0.2rem",
-                      }}>{label}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
+                MathTech Thinking Foundation
+              </span>
+              <span style={{ width: 4, height: 4, borderRadius: "50%", background: "#C9A84C", flexShrink: 0 }} />
             </div>
 
-            {/* ── INTRO STRIP ── */}
-            <div style={{
-              borderTop: "1px solid rgba(200,169,110,0.12)",
-              borderBottom: "1px solid rgba(200,169,110,0.12)",
-              background: "rgba(200,169,110,0.03)",
-              padding: "3rem 2rem",
-              textAlign: "center",
+            {/* Headline */}
+            <h1 style={{
+              fontFamily: "'Playfair Display', serif",
+              fontSize: "clamp(3rem, 8vw, 6.5rem)",
+              fontWeight: 700,
+              lineHeight: 1,
+              letterSpacing: "-0.025em",
+              marginBottom: "0.5rem",
+              color: "#1A120A",
             }}>
-              <p style={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontSize: "clamp(1.1rem, 2.5vw, 1.5rem)",
+              Institutional
+              <br />
+              <span style={{
                 fontStyle: "italic",
-                color: "rgba(240,237,232,0.6)",
-                maxWidth: "820px",
-                margin: "0 auto",
-                lineHeight: 1.7,
+                background: "linear-gradient(120deg, #C9A84C 0%, #E8C97A 40%, #B8965A 75%, #C9A84C 100%)",
+                backgroundSize: "200% auto",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+                backgroundClip: "text",
+                animation: "goldShimmer 5s linear infinite",
               }}>
-                "Be a part of a prestigious network dedicated to advancing science, technology,
-                engineering, and mathematics."
+                Membership
+              </span>
+            </h1>
+
+            <p style={{
+              fontFamily: "'Jost', sans-serif",
+              fontSize: "1rem",
+              color: "rgba(90,65,40,0.55)",
+              maxWidth: "540px",
+              margin: "1.5rem auto 3rem",
+              lineHeight: 1.85,
+              fontWeight: 300,
+            }}>
+              Joining MTTF provides organizations with the tools and opportunities needed to drive
+              innovation, foster professional development, and contribute significantly to the global
+              STEM community.
+            </p>
+
+            {/* Stat bar */}
+            <div style={{
+              display: "flex",
+              justifyContent: "center",
+              flexWrap: "wrap",
+              border: "1px solid rgba(201,168,76,0.2)",
+              background: "rgba(201,168,76,0.03)",
+              maxWidth: "560px",
+              margin: "0 auto",
+              borderRadius: "2px",
+            }}>
+              {[["07", "Benefit Areas"], ["03", "Membership Tiers"], ["∞", "STEM Reach"]].map(([val, label], i) => (
+                <div key={label} style={{
+                  flex: "1 1 140px",
+                  padding: "1.25rem 1rem",
+                  textAlign: "center",
+                  borderRight: i < 2 ? "1px solid rgba(201,168,76,0.15)" : "none",
+                }}>
+                  <div style={{
+                    fontFamily: "'Playfair Display', serif",
+                    fontSize: "2rem",
+                    fontWeight: 700,
+                    color: "#C9A84C",
+                    lineHeight: 1,
+                  }}>{val}</div>
+                  <div style={{
+                    fontFamily: "'Jost', sans-serif",
+                    fontSize: "0.58rem",
+                    color: "rgba(90,65,40,0.35)",
+                    letterSpacing: "0.15em",
+                    textTransform: "uppercase",
+                    marginTop: "0.3rem",
+                    fontWeight: 400,
+                  }}>{label}</div>
+                </div>
+              ))}
+            </div>
+
+            {/* CTA */}
+            <button style={{
+              marginTop: "2.5rem",
+              fontFamily: "'Jost', sans-serif",
+              fontSize: "0.72rem",
+              letterSpacing: "0.2em",
+              textTransform: "uppercase",
+              color: "#fff",
+              background: "#C9A84C",
+              border: "none",
+              padding: "0.9rem 2.4rem",
+              cursor: "pointer",
+              borderRadius: "1px",
+              transition: "all 0.3s ease",
+              fontWeight: 500,
+            }}
+              onMouseEnter={e => { e.target.style.background = "#B8965A"; e.target.style.transform = "translateY(-2px)"; }}
+              onMouseLeave={e => { e.target.style.background = "#C9A84C"; e.target.style.transform = "translateY(0)"; }}
+            >
+              Contact Now
+            </button>
+          </div>
+        </section>
+
+        {/* ── INTRO STRIP ── */}
+        <section style={{
+          borderTop: "1px solid rgba(139,112,72,0.1)",
+          borderBottom: "1px solid rgba(139,112,72,0.1)",
+          background: "rgba(201,168,76,0.03)",
+          padding: "3.5rem 2rem",
+          textAlign: "center",
+        }}>
+          <p style={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: "clamp(1.1rem, 2.5vw, 1.5rem)",
+            fontStyle: "italic",
+            color: "rgba(90,65,40,0.6)",
+            maxWidth: "820px",
+            margin: "0 auto",
+            lineHeight: 1.75,
+            fontWeight: 400,
+          }}>
+            "Be a part of a prestigious network dedicated to advancing science, technology,
+            engineering, and mathematics."
+          </p>
+        </section>
+
+        {/* ── BENEFITS ── */}
+        <section style={{ maxWidth: "1300px", margin: "0 auto", padding: "5rem 2rem" }}>
+          {/* Section header */}
+          <div style={{
+            display: "flex",
+            alignItems: "center",
+            gap: "1.5rem",
+            marginBottom: "1.5rem",
+            flexWrap: "wrap",
+          }}>
+            <h2 style={{
+              fontFamily: "'Playfair Display', serif",
+              fontSize: "clamp(1.8rem, 4.5vw, 3rem)",
+              fontWeight: 700,
+              color: "#1A120A",
+              letterSpacing: "-0.025em",
+              margin: 0,
+              flexShrink: 0,
+            }}>
+              Member Benefits
+            </h2>
+            <div style={{ flex: 1, height: "1px", background: "rgba(139,112,72,0.15)", minWidth: "30px" }} />
+            <div style={{
+              fontFamily: "'Jost', sans-serif",
+              fontSize: "0.62rem",
+              color: "rgba(201,168,76,0.6)",
+              letterSpacing: "0.18em",
+              textTransform: "uppercase",
+              flexShrink: 0,
+              fontWeight: 500,
+            }}>
+              07 Areas
+            </div>
+          </div>
+
+          {/* Benefits grid */}
+          <div style={{
+            display: "grid",
+            gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
+            gap: "1px",
+            background: "rgba(139,112,72,0.1)",
+            border: "1px solid rgba(139,112,72,0.1)",
+            borderRadius: "2px",
+            overflow: "hidden",
+          }}>
+            {benefits.map((benefit, i) => (
+              <div key={benefit.id} style={{ background: "#FBF6EC" }}>
+                <BenefitCard benefit={benefit} index={i} />
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── PRICING ── */}
+        <section style={{
+          background: "#1A120A",
+          borderTop: "1px solid rgba(201,168,76,0.15)",
+          padding: "5rem 2rem",
+        }}>
+          <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
+            {/* Header */}
+            <div style={{ textAlign: "center", marginBottom: "4rem" }}>
+              <div style={{
+                fontFamily: "'Jost', sans-serif",
+                fontSize: "0.62rem",
+                letterSpacing: "0.25em",
+                textTransform: "uppercase",
+                color: "#C9A84C",
+                marginBottom: "1rem",
+                fontWeight: 500,
+              }}>
+                Annual Fee Structure
+              </div>
+              <h2 style={{
+                fontFamily: "'Playfair Display', serif",
+                fontSize: "clamp(1.8rem, 4.5vw, 3rem)",
+                fontWeight: 700,
+                color: "#E8D9C0",
+                letterSpacing: "-0.025em",
+                marginBottom: "1rem",
+              }}>
+                Institutional Membership Fee
+              </h2>
+              <p style={{
+                fontFamily: "'Jost', sans-serif",
+                fontSize: "0.9rem",
+                color: "rgba(232,217,192,0.4)",
+                maxWidth: "520px",
+                margin: "0 auto",
+                lineHeight: 1.85,
+                fontWeight: 300,
+              }}>
+                MTTF offers a tiered membership fee structure to accommodate institutions of varying
+                sizes and needs.
               </p>
             </div>
 
-            {/* ── BENEFITS ── */}
-            <div style={{ maxWidth: "1300px", margin: "0 auto", padding: "6rem 2rem" }}>
-              {/* Section header */}
-              <div style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "1.5rem",
-                marginBottom: "4rem",
-              }}>
-                <div style={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: "clamp(2rem, 5vw, 3.5rem)",
-                  fontWeight: 600,
-                  color: "#F0EDE8",
-                  letterSpacing: "-0.02em",
-                  flexShrink: 0,
-                }}>
-                  Member Benefits
-                </div>
-                <div style={{ flex: 1, height: "1px", background: "rgba(200,169,110,0.15)" }} />
-                <div style={{
-                  fontFamily: "'DM Mono', monospace",
-                  fontSize: "0.6rem",
-                  color: "rgba(200,169,110,0.5)",
-                  letterSpacing: "0.15em",
-                  flexShrink: 0,
-                }}>
-                  07 AREAS
-                </div>
-              </div>
-
-              {/* Benefits grid */}
-              <div style={{
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fill, minmax(320px, 1fr))",
-                gap: "1px",
-                background: "rgba(255,255,255,0.04)",
-                border: "1px solid rgba(255,255,255,0.04)",
-              }}>
-                {benefits.map((benefit, i) => (
-                  <div key={benefit.id} style={{ background: "#0F111C", padding: "1px" }}>
-                    <BenefitCard benefit={benefit} index={i} />
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* ── PRICING ── */}
+            {/* Pricing cards */}
             <div style={{
-              background: "#0B0D18",
-              borderTop: "1px solid rgba(200,169,110,0.1)",
-              padding: "6rem 2rem",
+              display: "flex",
+              gap: "1.5rem",
+              justifyContent: "center",
+              flexWrap: "wrap",
+              alignItems: "center",
             }}>
-              <div style={{ maxWidth: "1100px", margin: "0 auto" }}>
-                {/* Header */}
-                <div style={{ textAlign: "center", marginBottom: "4rem" }}>
-                  <div style={{
-                    fontFamily: "'DM Mono', monospace",
-                    fontSize: "0.6rem",
-                    letterSpacing: "0.25em",
-                    textTransform: "uppercase",
-                    color: "#C8A96E",
-                    marginBottom: "1rem",
-                    opacity: 0.7,
-                  }}>
-                    Annual Fee Structure
-                  </div>
-                  <h2 style={{
-                    fontFamily: "'Cormorant Garamond', serif",
-                    fontSize: "clamp(2rem, 5vw, 3.5rem)",
-                    fontWeight: 600,
-                    color: "#F0EDE8",
-                    letterSpacing: "-0.02em",
-                    marginBottom: "1rem",
-                  }}>
-                    Institutional Membership Fee
-                  </h2>
-                  <p style={{
-                    fontFamily: "'DM Sans', sans-serif",
-                    fontSize: "0.9rem",
-                    color: "rgba(240,237,232,0.4)",
-                    maxWidth: "560px",
-                    margin: "0 auto",
-                    lineHeight: 1.8,
-                  }}>
-                    MTTF offers a tiered membership fee structure to accommodate institutions of varying
-                    sizes and needs.
-                  </p>
-                </div>
-
-                {/* Pricing cards */}
-                <div style={{
-                  display: "flex",
-                  gap: "1.5rem",
-                  justifyContent: "center",
-                  flexWrap: "wrap",
-                  alignItems: "center",
-                }}>
-                  {pricing.map((plan, i) => (
-                    <PricingCard key={plan.tier} plan={plan} index={i} />
-                  ))}
-                </div>
-
-                {/* Note */}
-                <div style={{
-                  marginTop: "3rem",
-                  padding: "2rem 2.5rem",
-                  border: "1px solid rgba(200,169,110,0.15)",
-                  background: "rgba(200,169,110,0.03)",
-                  textAlign: "center",
-                }}>
-                  <p style={{
-                    fontFamily: "'DM Sans', sans-serif",
-                    fontSize: "0.85rem",
-                    color: "rgba(240,237,232,0.4)",
-                    lineHeight: 1.85,
-                    margin: 0,
-                    maxWidth: "720px",
-                    marginLeft: "auto",
-                    marginRight: "auto",
-                  }}>
-                    These fees provide institutions with comprehensive access to MTTF's resources,
-                    professional development programs, and networking opportunities, ensuring that all
-                    members can benefit from the extensive offerings of the foundation.
-                  </p>
-                </div>
-              </div>
+              {pricing.map((plan, i) => (
+                <PricingCard key={plan.tier} plan={plan} index={i} />
+              ))}
             </div>
 
+            {/* Note */}
+            <div style={{
+              marginTop: "3rem",
+              padding: "2rem 2.5rem",
+              border: "1px solid rgba(201,168,76,0.15)",
+              background: "rgba(201,168,76,0.03)",
+              borderRadius: "2px",
+              textAlign: "center",
+            }}>
+              <p style={{
+                fontFamily: "'Jost', sans-serif",
+                fontSize: "0.85rem",
+                color: "rgba(232,217,192,0.4)",
+                lineHeight: 1.85,
+                margin: "0 auto",
+                maxWidth: "720px",
+                fontWeight: 300,
+              }}>
+                These fees provide institutions with comprehensive access to MTTF's resources,
+                professional development programs, and networking opportunities, ensuring that all
+                members can benefit from the extensive offerings of the foundation.
+              </p>
+            </div>
           </div>
-        </>
+        </section>
+
       </main>
 
-      {/* Footer */}
       <Footer />
     </div>
   );
