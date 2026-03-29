@@ -10,561 +10,526 @@ function ComputationalMathematics() {
   const observerRefs = useRef([]);
 
   useEffect(() => {
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;0,700;1,400&family=DM+Sans:wght@300;400;500&family=Playfair+Display:ital,wght@0,700;0,900;1,600&display=swap';
+    document.head.appendChild(link);
+  }, []);
+
+  useEffect(() => {
     const observers = observerRefs.current.map((ref, index) => {
       const observer = new IntersectionObserver(
         (entries) => {
           entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              setIsVisible((prev) => ({ ...prev, [index]: true }));
-            }
+            if (entry.isIntersecting) setIsVisible((prev) => ({ ...prev, [index]: true }));
           });
         },
         { threshold: 0.1 }
       );
-
       if (ref) observer.observe(ref);
       return observer;
     });
-
-    return () => {
-      observers.forEach((observer) => observer.disconnect());
-    };
+    return () => observers.forEach((o) => o.disconnect());
   }, []);
 
-  // Generate random positions for floating formulas
   useEffect(() => {
-    const positions = Array.from({ length: 15 }, () => ({
-      top: Math.random() * 100,
-      left: Math.random() * 100,
-      delay: Math.random() * 5,
-      duration: 15 + Math.random() * 10
-    }));
-    setFormulaPositions(positions);
+    setFormulaPositions(
+      Array.from({ length: 15 }, () => ({
+        top: Math.random() * 100,
+        left: Math.random() * 100,
+        delay: Math.random() * 5,
+        duration: 15 + Math.random() * 10,
+      }))
+    );
   }, []);
 
   const focusAreas = [
     {
       icon: Calculator,
-      title: "Numerical Analysis",
-      description: "Algorithms, numerical methods, and error analysis.",
-      color: "from-indigo-500 to-blue-600",
-      formula: "∫ f(x)dx",
-      stat: "99.9%",
-      statLabel: "Precision"
+      num: '01',
+      title: 'Numerical Analysis',
+      description: 'Algorithms, numerical methods, and error analysis.',
+      formula: '∫ f(x)dx',
+      stat: '99.9%',
+      statLabel: 'Precision',
     },
     {
       icon: TrendingUp,
-      title: "Optimization",
-      description: "Linear, nonlinear, and constrained optimization techniques.",
-      color: "from-blue-600 to-purple-600",
-      formula: "min f(x)",
-      stat: "O(log n)",
-      statLabel: "Complexity"
+      num: '02',
+      title: 'Optimization',
+      description: 'Linear, nonlinear, and constrained optimization techniques.',
+      formula: 'min f(x)',
+      stat: 'O(log n)',
+      statLabel: 'Complexity',
     },
     {
       icon: GitBranch,
-      title: "Mathematical Modeling",
-      description: "Simulation, differential equations, and system modeling.",
-      color: "from-purple-600 to-indigo-600",
-      formula: "dy/dx = f(x)",
-      stat: "∞",
-      statLabel: "Applications"
+      num: '03',
+      title: 'Mathematical Modeling',
+      description: 'Simulation, differential equations, and system modeling.',
+      formula: 'dy/dx = f(x)',
+      stat: '∞',
+      statLabel: 'Applications',
     },
     {
       icon: Cpu,
-      title: "Scientific Computing",
-      description: "High-performance and parallel computing solutions.",
-      color: "from-indigo-600 to-cyan-600",
-      formula: "P = NP?",
-      stat: "10⁹",
-      statLabel: "Operations/sec"
-    }
+      num: '04',
+      title: 'Scientific Computing',
+      description: 'High-performance and parallel computing solutions.',
+      formula: 'P = NP?',
+      stat: '10⁹',
+      statLabel: 'Operations/sec',
+    },
   ];
 
   const mathematicalSymbols = ['∑', '∫', '∂', '∇', 'π', 'θ', 'λ', 'Σ', '∞', '≈', '≤', '≥', '∈', '∀', '∃'];
 
   const applications = [
-    { title: "Physics Simulations", desc: "Modeling complex physical systems", icon: Cpu },
-    { title: "Financial Modeling", desc: "Risk analysis and portfolio optimization", icon: TrendingUp },
-    { title: "Engineering Solutions", desc: "Structural analysis and optimization", icon: GitBranch }
+    { title: 'Physics Simulations', desc: 'Modeling complex physical systems',          icon: Cpu        },
+    { title: 'Financial Modeling',  desc: 'Risk analysis and portfolio optimization',   icon: TrendingUp },
+    { title: 'Engineering Solutions',desc: 'Structural analysis and optimization',      icon: GitBranch  },
+  ];
+
+  const heroStats = [
+    { value: '∞',    label: 'Possibilities', icon: Infinity   },
+    { value: 'O(1)', label: 'Efficiency',     icon: TrendingUp },
+    { value: '100%', label: 'Accuracy',       icon: Calculator },
   ];
 
   return (
     <>
-      <Header />
+      <style>{`
+        @keyframes shimmer {
+          0%   { background-position: -200% center; }
+          100% { background-position:  200% center; }
+        }
+        @keyframes fadeUp {
+          from { opacity: 0; transform: translateY(22px); }
+          to   { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes pulseGold {
+          0%,100% { opacity: 1; }
+          50%      { opacity: 0.25; }
+        }
+        @keyframes rotateSlow    { from { transform: translate(-50%,-50%) rotate(0deg);   } to { transform: translate(-50%,-50%) rotate(360deg);  } }
+        @keyframes rotateReverse { from { transform: translate(-50%,-50%) rotate(0deg);   } to { transform: translate(-50%,-50%) rotate(-360deg); } }
+        @keyframes spinSlow      { from { transform: rotate(0deg);   } to { transform: rotate(360deg);  } }
+        @keyframes spinReverse   { from { transform: rotate(0deg);   } to { transform: rotate(-360deg); } }
+        @keyframes floatFormula {
+          0%,100% { transform: translateY(0)    translateX(0)    rotate(0deg);  opacity: 0.07; }
+          50%      { transform: translateY(-24px) translateX(14px) rotate(4deg); opacity: 0.12; }
+        }
+        @keyframes drawPath {
+          0%   { stroke-dasharray: 1000; stroke-dashoffset: 1000; }
+          100% { stroke-dasharray: 1000; stroke-dashoffset: 0;    }
+        }
 
-      <div className="min-h-screen bg-gradient-to-br from-indigo-900 via-blue-900 to-purple-900 relative overflow-hidden">
-        {/* Animated Background Elements */}
-        <div className="absolute inset-0 overflow-hidden pointer-events-none">
-          {/* Floating Mathematical Symbols */}
-          {formulaPositions.map((pos, i) => (
-            <div
-              key={i}
-              className="absolute text-white/5 text-4xl font-bold animate-float-formula"
-              style={{
-                top: `${pos.top}%`,
-                left: `${pos.left}%`,
-                animationDelay: `${pos.delay}s`,
-                animationDuration: `${pos.duration}s`
-              }}
-            >
-              {mathematicalSymbols[i % mathematicalSymbols.length]}
-            </div>
-          ))}
+        .cm-page { background: #F7F3EA; color: #1C1208; font-family: 'DM Sans', sans-serif; min-height: 100vh; }
+        .gold-rule { height: 1px; background: linear-gradient(90deg,transparent,#C9A84C70,transparent); }
 
-          {/* Geometric Patterns */}
-          <div className="absolute top-20 right-20 w-96 h-96 border-4 border-indigo-500/20 rounded-full animate-spin-very-slow"></div>
-          <div className="absolute bottom-20 left-20 w-80 h-80 border-4 border-purple-500/20 rotate-45 animate-pulse-slow"></div>
-          
-          {/* Gradient Orbs */}
-          <div className="absolute top-40 left-40 w-96 h-96 bg-indigo-500/20 rounded-full blur-3xl animate-pulse-slow"></div>
-          <div className="absolute bottom-40 right-40 w-80 h-80 bg-purple-500/20 rounded-full blur-3xl animate-pulse-slow" style={{ animationDelay: '1s' }}></div>
-          
-          {/* Grid Pattern */}
-          <div className="absolute inset-0 bg-math-grid opacity-10"></div>
-        </div>
+        .eyebrow {
+          font-family: 'DM Sans',sans-serif; font-size: 0.65rem; letter-spacing: 0.22em;
+          color: #C9A84C; text-transform: uppercase; font-weight: 500;
+          display: flex; align-items: center; gap: 0.5rem; justify-content: center; margin-bottom: 1rem;
+        }
+        .eyebrow-line { display: inline-block; width: 28px; height: 1px; background: #C9A84C; }
 
-        {/* Back Button */}
-        <div className="max-w-7xl mx-auto px-4 pt-8 relative z-10">
+        .focus-card {
+          background: #FAF8F2; border: 1px solid #E8E0CC; border-radius: 4px;
+          padding: 2.25rem; position: relative; overflow: hidden;
+          transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
+        }
+        .focus-card::before {
+          content:''; position:absolute; top:0; left:0;
+          width:0; height:2px;
+          background: linear-gradient(90deg,#C9A84C,#E8C96A,transparent);
+          transition: width 0.45s cubic-bezier(0.23,1,0.32,1);
+        }
+        .focus-card:hover::before { width:100%; }
+        .focus-card:hover {
+          border-color:#C9A84C; transform:translateY(-5px);
+          box-shadow:0 20px 44px rgba(139,109,56,0.12); background:#FEFCF7;
+        }
+
+        .app-card {
+          background: #FAF8F2; border: 1px solid #E8E0CC; border-radius: 4px;
+          padding: 2rem; position: relative; overflow: hidden;
+          transition: all 0.4s cubic-bezier(0.23,1,0.32,1);
+        }
+        .app-card::after {
+          content:''; position:absolute; bottom:0; left:0; right:0; height:2px;
+          background: linear-gradient(90deg,#C9A84C,transparent);
+          transform:scaleX(0); transform-origin:left;
+          transition: transform 0.45s cubic-bezier(0.23,1,0.32,1);
+        }
+        .app-card:hover::after { transform:scaleX(1); }
+        .app-card:hover { border-color:#C9A84C; transform:translateY(-4px); box-shadow:0 16px 36px rgba(139,109,56,0.1); }
+
+        .stat-pill {
+          background:#FAF8F2; border:1px solid #E8E0CC; border-radius:4px;
+          padding:1.25rem 1.5rem; text-align:center; flex:1 1 120px;
+          transition:all 0.35s ease; cursor:default;
+        }
+        .stat-pill:hover { border-color:#C9A84C; transform:translateY(-3px); box-shadow:0 12px 28px rgba(139,109,56,0.1); }
+
+        .btn-gold {
+          display:inline-flex; align-items:center; gap:0.5rem;
+          padding:0.85rem 2.25rem; background:#C9A84C; color:#fff;
+          font-family:'DM Sans',sans-serif; font-size:0.75rem; font-weight:500;
+          letter-spacing:0.14em; text-transform:uppercase;
+          border:1px solid #C9A84C; border-radius:2px;
+          cursor:pointer; transition:all 0.35s ease; text-decoration:none;
+        }
+        .btn-gold:hover { background:#B8965A; border-color:#B8965A; transform:translateY(-2px); box-shadow:0 10px 24px rgba(201,168,76,0.28); }
+
+        ::-webkit-scrollbar { width:3px; }
+        ::-webkit-scrollbar-track { background:#F7F3EA; }
+        ::-webkit-scrollbar-thumb { background:#C9A84C; border-radius:2px; }
+      `}</style>
+
+      <div className="cm-page">
+        <Header />
+
+        {/* ── Breadcrumb ── */}
+        <div style={{ maxWidth:'1200px', margin:'0 auto', padding:'7rem 2rem 1.5rem' }}>
           <Link
             to="/programs/capability"
-            className="inline-flex items-center text-indigo-300 hover:text-white transition-all duration-300 hover:translate-x-[-4px] group"
+            style={{ display:'inline-flex', alignItems:'center', gap:'0.5rem', fontFamily:"'DM Sans',sans-serif", fontSize:'0.78rem', color:'#C9A84C', textDecoration:'none', letterSpacing:'0.06em', transition:'color 0.2s' }}
+            onMouseEnter={e => e.currentTarget.style.color='#8B6D38'}
+            onMouseLeave={e => e.currentTarget.style.color='#C9A84C'}
           >
-            <ArrowLeft className="w-5 h-5 mr-2 transition-transform group-hover:translate-x-[-4px]" />
+            <ArrowLeft size={14} />
             Back to Capabilities
           </Link>
         </div>
 
-        {/* Hero Section */}
-        <div 
-          className="max-w-7xl mx-auto px-4 pt-20 pb-16 text-center relative z-10"
-          ref={(el) => (observerRefs.current[0] = el)}
+        {/* ── Hero ── */}
+        <section
+          ref={el => (observerRefs.current[0] = el)}
+          style={{
+            position:'relative', overflow:'hidden',
+            background:'linear-gradient(158deg,#F7F3EA 0%,#EDE5CC 55%,#E4D5A8 100%)',
+            padding:'3.5rem 2rem 5.5rem', textAlign:'center',
+            borderBottom:'1px solid #D8CBA8',
+          }}
         >
-          <div className={`transition-all duration-1000 ${isVisible[0] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            {/* Animated Icon with Mathematical Symbols */}
-            <div className="relative inline-block mb-6">
-              <div className="w-20 h-20 mx-auto rounded-2xl bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center shadow-2xl shadow-indigo-500/50 animate-float">
-                <Calculator className="w-10 h-10 text-white animate-pulse-gentle" />
+          {/* Gold grid */}
+          <div style={{ position:'absolute', inset:0, backgroundImage:`linear-gradient(rgba(201,168,76,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,0.05) 1px,transparent 1px)`, backgroundSize:'72px 72px', pointerEvents:'none' }} />
+          {/* Warm glow */}
+          <div style={{ position:'absolute', top:'50%', left:'50%', transform:'translate(-50%,-50%)', width:'700px', height:'420px', background:'radial-gradient(ellipse,rgba(201,168,76,0.1) 0%,transparent 70%)', pointerEvents:'none' }} />
+          {/* Rotating rings */}
+          <div style={{ position:'absolute', top:'50%', left:'50%', width:'460px', height:'460px', border:'1px solid rgba(201,168,76,0.08)', borderRadius:'50%', animation:'rotateSlow 40s linear infinite', pointerEvents:'none' }} />
+          <div style={{ position:'absolute', top:'50%', left:'50%', width:'640px', height:'640px', border:'1px dashed rgba(201,168,76,0.05)', borderRadius:'50%', animation:'rotateReverse 65s linear infinite', pointerEvents:'none' }} />
+
+          {/* Floating math symbols */}
+          {formulaPositions.map((pos, i) => (
+            <div key={i} style={{
+              position:'absolute', top:`${pos.top}%`, left:`${pos.left}%`,
+              fontFamily:"'Cormorant Garamond',serif", fontSize:'2.2rem', fontWeight:700,
+              color:'rgba(201,168,76,0.08)', pointerEvents:'none',
+              animation:`floatFormula ${pos.duration}s ease-in-out infinite`,
+              animationDelay:`${pos.delay}s`, userSelect:'none',
+            }}>
+              {mathematicalSymbols[i % mathematicalSymbols.length]}
+            </div>
+          ))}
+
+          {/* Corner brackets */}
+          {[
+            { top:'1.8rem', left:'1.8rem', borderTop:'1px solid #C9A84C', borderLeft:'1px solid #C9A84C' },
+            { top:'1.8rem', right:'1.8rem', borderTop:'1px solid #C9A84C', borderRight:'1px solid #C9A84C' },
+            { bottom:'1.8rem', left:'1.8rem', borderBottom:'1px solid #C9A84C', borderLeft:'1px solid #C9A84C' },
+            { bottom:'1.8rem', right:'1.8rem', borderBottom:'1px solid #C9A84C', borderRight:'1px solid #C9A84C' },
+          ].map((s,i) => <div key={i} style={{ position:'absolute', width:52, height:52, opacity:0.45, ...s }} />)}
+
+          <div style={{ position:'relative', zIndex:1, opacity:isVisible[0]?1:0, transform:isVisible[0]?'translateY(0)':'translateY(24px)', transition:'opacity 0.9s ease, transform 0.9s ease' }}>
+            {/* Icon with orbiting symbols */}
+            <div style={{ position:'relative', display:'inline-block', marginBottom:'1.75rem' }}>
+              <div style={{ width:'64px', height:'64px', margin:'0 auto', background:'#F5EFD8', border:'1px solid #E8D89A', borderRadius:'4px', display:'flex', alignItems:'center', justifyContent:'center', color:'#C9A84C', position:'relative', zIndex:2 }}>
+                <Calculator size={26} />
               </div>
-              
-              {/* Orbiting Mathematical Symbols */}
-              <div className="absolute inset-0 animate-spin-slow">
-                <Sigma className="absolute -top-2 left-1/2 -translate-x-1/2 w-6 h-6 text-indigo-400" />
-                <Infinity className="absolute -bottom-2 left-1/2 -translate-x-1/2 w-6 h-6 text-purple-400" />
+              {/* Orbiting Sigma + Infinity */}
+              <div style={{ position:'absolute', inset:'-12px', animation:'spinSlow 20s linear infinite', pointerEvents:'none' }}>
+                <Sigma size={14} color="#C9A84C" style={{ position:'absolute', top:0, left:'50%', transform:'translateX(-50%)', opacity:0.6 }} />
+                <Infinity size={14} color="#C9A84C" style={{ position:'absolute', bottom:0, left:'50%', transform:'translateX(-50%)', opacity:0.6 }} />
               </div>
-              <div className="absolute inset-0 animate-spin-reverse">
-                <Binary className="absolute top-1/2 -left-2 -translate-y-1/2 w-6 h-6 text-blue-400" />
-                <div className="absolute top-1/2 -right-2 -translate-y-1/2 w-6 h-6 text-indigo-400 font-bold text-xl">π</div>
+              <div style={{ position:'absolute', inset:'-12px', animation:'spinReverse 25s linear infinite', pointerEvents:'none' }}>
+                <Binary size={14} color="#C9A84C" style={{ position:'absolute', top:'50%', left:0, transform:'translateY(-50%)', opacity:0.6 }} />
+                <span style={{ position:'absolute', top:'50%', right:0, transform:'translateY(-50%)', fontFamily:"'Cormorant Garamond',serif", fontSize:'0.9rem', fontWeight:700, color:'#C9A84C', opacity:0.6 }}>π</span>
               </div>
             </div>
 
-            <h1 className="text-5xl md:text-6xl font-bold text-white mb-6 animate-fade-in-up">
-              <span className="bg-gradient-to-r from-indigo-200 via-purple-200 to-blue-200 bg-clip-text text-transparent animate-gradient-x">
+            {/* Badge */}
+            <div style={{ display:'inline-flex', alignItems:'center', gap:'0.65rem', background:'rgba(201,168,76,0.1)', border:'1px solid rgba(201,168,76,0.3)', borderRadius:'2px', padding:'0.4rem 1.2rem', marginBottom:'1.75rem' }}>
+              <span style={{ width:5, height:5, borderRadius:'50%', background:'#C9A84C', display:'inline-block', animation:'pulseGold 2s ease infinite' }} />
+              <span style={{ fontFamily:"'DM Sans',sans-serif", fontSize:'0.65rem', color:'#8B6D38', letterSpacing:'0.22em', textTransform:'uppercase', fontWeight:500 }}>
                 Computational Mathematics
               </span>
+            </div>
+
+            <h1 style={{ fontFamily:"'Playfair Display',serif", fontSize:'clamp(2.4rem,6vw,4.8rem)', fontWeight:900, lineHeight:1.05, letterSpacing:'-0.025em', color:'#1C1208', marginBottom:'0.4rem' }}>
+              Mathematical
             </h1>
-            
-            <p className="text-xl text-indigo-100 max-w-3xl mx-auto leading-relaxed animate-fade-in-up" style={{ animationDelay: '200ms' }}>
+            <h1 style={{ fontFamily:"'Playfair Display',serif", fontSize:'clamp(2.4rem,6vw,4.8rem)', fontWeight:900, lineHeight:1.05, letterSpacing:'-0.025em', marginBottom:'1.25rem', fontStyle:'italic', background:'linear-gradient(135deg,#C9A84C 0%,#8B6D38 40%,#E8C96A 100%)', backgroundSize:'200% auto', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent', animation:'shimmer 4s linear infinite' }}>
+              Computation
+            </h1>
+
+            <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:'0.95rem', color:'#6B5C3E', maxWidth:'560px', margin:'0 auto 3rem', lineHeight:1.8, fontWeight:300 }}>
               Advanced mathematical methods powered by computation to solve complex real-world problems.
             </p>
 
-            {/* Key Stats */}
-            <div className="flex justify-center gap-6 mt-12 flex-wrap animate-fade-in-up" style={{ animationDelay: '400ms' }}>
-              {[
-                { value: '∞', label: 'Possibilities', icon: Infinity },
-                { value: 'O(1)', label: 'Efficiency', icon: TrendingUp },
-                { value: '100%', label: 'Accuracy', icon: Calculator }
-              ].map((stat, index) => {
-                const Icon = stat.icon;
+            {/* Stats */}
+            <div style={{ display:'flex', justifyContent:'center', flexWrap:'wrap', gap:'1rem', maxWidth:'580px', margin:'0 auto' }}>
+              {heroStats.map((s,i) => {
+                const Icon = s.icon;
                 return (
-                  <div 
-                    key={index}
-                    className="bg-white/10 backdrop-blur-md rounded-2xl px-6 py-4 border border-white/20 hover:scale-110 hover:bg-white/20 transition-all duration-300 group cursor-pointer"
-                  >
-                    <Icon className="w-6 h-6 text-indigo-400 mx-auto mb-2 group-hover:scale-110 transition-transform" />
-                    <div className="text-2xl font-bold text-white">{stat.value}</div>
-                    <div className="text-indigo-200 text-sm">{stat.label}</div>
+                  <div className="stat-pill" key={i}>
+                    <Icon size={16} color="#C9A84C" style={{ margin:'0 auto 0.4rem', display:'block' }} />
+                    <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'1.6rem', fontWeight:700, color:'#C9A84C', lineHeight:1 }}>{s.value}</div>
+                    <div style={{ fontFamily:"'DM Sans',sans-serif", fontSize:'0.6rem', color:'#9C8B6E', letterSpacing:'0.14em', textTransform:'uppercase', marginTop:'0.25rem', fontWeight:500 }}>{s.label}</div>
                   </div>
                 );
               })}
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* Overview Section */}
-        <div className="max-w-7xl mx-auto px-4 pb-16 relative z-10">
-          <div className="bg-white/10 backdrop-blur-lg rounded-3xl p-8 md:p-12 border border-white/20 hover:bg-white/15 transition-all duration-500 hover:shadow-2xl hover:shadow-indigo-500/30">
-            <div className="grid md:grid-cols-2 gap-8 items-center">
-              <div>
-                <h2 className="text-3xl font-bold text-white mb-6">
-                  The Power of Mathematical Computation
-                </h2>
-                <p className="text-indigo-100 text-lg leading-relaxed mb-4">
-                  Computational mathematics bridges the gap between theoretical mathematics and practical problem-solving through algorithmic approaches.
-                </p>
-                <p className="text-indigo-100 text-lg leading-relaxed">
-                  From numerical analysis to optimization, we employ cutting-edge computational techniques to tackle challenges across science and engineering.
-                </p>
+        <div className="gold-rule" />
+
+        {/* ── Overview ── */}
+        <section style={{ padding:'5rem 2rem', background:'#FEFCF5' }}>
+          <div style={{ maxWidth:'1100px', margin:'0 auto', display:'grid', gridTemplateColumns:'repeat(auto-fit,minmax(300px,1fr))', gap:'3rem', alignItems:'center' }}>
+            <div>
+              <div className="eyebrow" style={{ justifyContent:'flex-start' }}>
+                <span className="eyebrow-line" />
+                Overview
               </div>
-              
-              {/* Animated Mathematical Visualization */}
-              <div className="relative h-64 bg-gradient-to-br from-indigo-500/20 to-purple-500/20 rounded-2xl p-6 border border-indigo-400/30 flex items-center justify-center overflow-hidden group">
-                {/* Animated Grid */}
-                <div className="absolute inset-0 opacity-30">
-                  <svg className="w-full h-full">
-                    <defs>
-                      <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                        <path d="M 40 0 L 0 0 0 40" fill="none" stroke="rgba(255,255,255,0.3)" strokeWidth="1"/>
-                      </pattern>
-                    </defs>
-                    <rect width="100%" height="100%" fill="url(#grid)" />
-                  </svg>
-                </div>
-                
-                {/* Animated Wave Function */}
-                <svg className="w-full h-32 relative z-10" viewBox="0 0 400 100">
-                  <path
-                    d="M0,50 Q50,20 100,50 T200,50 T300,50 T400,50"
-                    fill="none"
-                    stroke="url(#gradient)"
-                    strokeWidth="3"
-                    className="animate-draw-path"
-                  />
-                  <defs>
-                    <linearGradient id="gradient" x1="0%" y1="0%" x2="100%" y2="0%">
-                      <stop offset="0%" stopColor="#818cf8" />
-                      <stop offset="50%" stopColor="#c084fc" />
-                      <stop offset="100%" stopColor="#60a5fa" />
-                    </linearGradient>
-                  </defs>
-                </svg>
+              <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:'clamp(1.8rem,3vw,2.6rem)', fontWeight:700, color:'#1C1208', letterSpacing:'-0.02em', margin:'0 0 1.5rem', lineHeight:1.15 }}>
+                The Power of{' '}
+                <span style={{ fontStyle:'italic', color:'#8B6D38' }}>Mathematical Computation</span>
+              </h2>
+              <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:'0.9rem', color:'#6B5C3E', lineHeight:1.8, marginBottom:'0.85rem', fontWeight:300 }}>
+                Computational mathematics bridges the gap between theoretical mathematics and practical problem-solving through algorithmic approaches.
+              </p>
+              <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:'0.9rem', color:'#6B5C3E', lineHeight:1.8, fontWeight:300 }}>
+                From numerical analysis to optimization, we employ cutting-edge computational techniques to tackle challenges across science and engineering.
+              </p>
+            </div>
 
-                {/* Floating Formula */}
-                <div className="absolute top-4 right-4 text-indigo-300 text-xl font-mono animate-pulse">
-                  Σ(n=1→∞)
-                </div>
+            {/* Wave visualization */}
+            <div style={{ background:'#FAF8F2', border:'1px solid #E8E0CC', borderRadius:'4px', padding:'2rem', position:'relative', overflow:'hidden', minHeight:'220px', display:'flex', alignItems:'center', justifyContent:'center', flexDirection:'column' }}>
+              <div style={{ position:'absolute', top:0, left:0, right:0, height:'2px', background:'linear-gradient(90deg,transparent,#C9A84C,transparent)' }} />
+
+              {/* Gold grid pattern */}
+              <div style={{ position:'absolute', inset:0, opacity:0.25 }}>
+                <svg width="100%" height="100%">
+                  <defs>
+                    <pattern id="goldGrid" width="36" height="36" patternUnits="userSpaceOnUse">
+                      <path d="M 36 0 L 0 0 0 36" fill="none" stroke="rgba(201,168,76,0.4)" strokeWidth="0.8"/>
+                    </pattern>
+                  </defs>
+                  <rect width="100%" height="100%" fill="url(#goldGrid)" />
+                </svg>
+              </div>
+
+              <svg viewBox="0 0 400 90" style={{ width:'100%', position:'relative', zIndex:1 }}>
+                <defs>
+                  <linearGradient id="waveGold" x1="0%" y1="0%" x2="100%" y2="0%">
+                    <stop offset="0%"   stopColor="#C9A84C" />
+                    <stop offset="50%"  stopColor="#E8C96A" />
+                    <stop offset="100%" stopColor="#8B6D38" />
+                  </linearGradient>
+                </defs>
+                <path
+                  d="M0,45 Q50,18 100,45 T200,45 T300,45 T400,45"
+                  fill="none" stroke="url(#waveGold)" strokeWidth="2.5"
+                  strokeDasharray="1000"
+                  style={{ animation:'drawPath 3s ease-in-out infinite' }}
+                />
+                {/* Data points on wave */}
+                {[0,100,200,300,400].map((x,i) => (
+                  <circle key={i} cx={x} cy={45} r="4" fill="#C9A84C" style={{ animation:'pulseGold 2s ease-in-out infinite', animationDelay:`${i*0.3}s` }} />
+                ))}
+              </svg>
+
+              <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'1.1rem', fontWeight:600, color:'#C9A84C', letterSpacing:'0.08em', marginTop:'0.5rem', position:'relative', zIndex:1 }}>
+                Σ(n=1→∞)
               </div>
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* Focus Areas */}
-        <div 
-          className="max-w-7xl mx-auto px-4 pb-20 relative z-10"
-          ref={(el) => (observerRefs.current[1] = el)}
+        <div className="gold-rule" />
+
+        {/* ── Focus Areas ── */}
+        <section
+          ref={el => (observerRefs.current[1] = el)}
+          style={{ padding:'5rem 2rem' }}
         >
-          <h2 className={`text-4xl font-bold text-white mb-12 text-center transition-all duration-1000 ${isVisible[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}>
-            Focus Areas
-          </h2>
-          
-          <div className="grid md:grid-cols-2 gap-8">
-            {focusAreas.map((area, i) => {
-              const Icon = area.icon;
-              return (
-                <div 
-                  key={i} 
-                  className={`bg-white/10 backdrop-blur-lg rounded-2xl p-8 border border-white/20 hover:scale-105 hover:bg-white/20 transition-all duration-500 hover:shadow-2xl group cursor-pointer relative overflow-hidden ${isVisible[1] ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-10'}`}
-                  style={{ 
-                    transitionDelay: `${i * 150}ms`,
-                    animationDelay: `${i * 150}ms`
-                  }}
-                >
-                  {/* Gradient Overlay */}
-                  <div className={`absolute inset-0 bg-gradient-to-br ${area.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`}></div>
-                  
-                  {/* Mathematical Pattern Background */}
-                  <div className="absolute top-0 right-0 text-8xl font-bold text-white/5 group-hover:text-white/10 transition-colors duration-500">
-                    {area.formula}
-                  </div>
-
-                  {/* Content */}
-                  <div className="relative z-10">
-                    <div className="flex items-start justify-between mb-6">
-                      <div className={`w-14 h-14 rounded-xl bg-gradient-to-br ${area.color} flex items-center justify-center group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 shadow-lg`}>
-                        <Icon className="w-7 h-7 text-white group-hover:scale-110 transition-transform duration-300" />
-                      </div>
-                      
-                      {/* Stat Badge */}
-                      <div className="text-right bg-white/10 rounded-lg px-3 py-2 backdrop-blur-sm border border-white/20">
-                        <div className="text-xl font-bold text-white font-mono">
-                          {area.stat}
-                        </div>
-                        <div className="text-xs text-indigo-300">{area.statLabel}</div>
-                      </div>
-                    </div>
-                    
-                    <h3 className="text-2xl font-bold text-white mb-4 group-hover:text-indigo-200 transition-colors duration-300">
-                      {area.title}
-                    </h3>
-                    
-                    <p className="text-indigo-100 leading-relaxed group-hover:text-white transition-colors duration-300 mb-4">
-                      {area.description}
-                    </p>
-
-                    {/* Formula Display */}
-                    <div className="inline-block bg-indigo-900/50 rounded-lg px-4 py-2 border border-indigo-500/30">
-                      <code className="text-indigo-300 font-mono text-sm">{area.formula}</code>
-                    </div>
-                  </div>
-
-                  {/* Animated Border */}
-                  <div className="absolute inset-0 rounded-2xl opacity-0 group-hover:opacity-100 transition-opacity duration-500">
-                    <div className={`absolute inset-0 rounded-2xl bg-gradient-to-r ${area.color} animate-border-glow`}></div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Applications Section */}
-        <div className="max-w-7xl mx-auto px-4 pb-20 relative z-10">
-          <div className="bg-gradient-to-r from-indigo-600/30 to-purple-600/30 backdrop-blur-lg rounded-3xl p-8 md:p-12 border border-white/20 hover:from-indigo-600/40 hover:to-purple-600/40 transition-all duration-500">
-            <h2 className="text-3xl font-bold text-white mb-8 text-center">
-              Real-World Applications
+          <div style={{ maxWidth:'1200px', margin:'0 auto' }}>
+            <div className="eyebrow"><span className="eyebrow-line" />Focus Areas<span className="eyebrow-line" /></div>
+            <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:'clamp(1.8rem,3vw,2.8rem)', fontWeight:700, color:'#1C1208', textAlign:'center', marginBottom:'3rem', letterSpacing:'-0.02em' }}>
+              Core{' '}
+              <span style={{ fontStyle:'italic', color:'#8B6D38' }}>Focus Areas</span>
             </h2>
-            
-            <div className="grid md:grid-cols-3 gap-6">
-              {applications.map((app, index) => {
+
+            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(280px,1fr))', gap:'1.5rem' }}>
+              {focusAreas.map((area, i) => (
+                <FocusCard key={i} area={area} index={i} visible={isVisible[1]} />
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <div className="gold-rule" />
+
+        {/* ── Applications ── */}
+        <section style={{ background:'#FEFCF5', padding:'5rem 2rem' }}>
+          <div style={{ maxWidth:'1100px', margin:'0 auto' }}>
+            <div className="eyebrow"><span className="eyebrow-line" />Applications<span className="eyebrow-line" /></div>
+            <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:'clamp(1.8rem,3vw,2.8rem)', fontWeight:700, color:'#1C1208', textAlign:'center', marginBottom:'3rem', letterSpacing:'-0.02em' }}>
+              Real-World{' '}
+              <span style={{ fontStyle:'italic', color:'#8B6D38' }}>Applications</span>
+            </h2>
+
+            <div style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(260px,1fr))', gap:'1.5rem' }}>
+              {applications.map((app, i) => {
                 const Icon = app.icon;
                 return (
-                  <div
-                    key={index}
-                    className="bg-white/10 rounded-xl p-6 hover:bg-white/20 transition-all duration-300 hover:scale-105 group cursor-pointer animate-fade-in-up"
-                    style={{ animationDelay: `${index * 150}ms` }}
-                  >
-                    <Icon className="w-10 h-10 text-indigo-400 mb-4 group-hover:scale-110 group-hover:rotate-12 transition-all duration-300" />
-                    <h4 className="text-xl font-semibold text-white mb-3 group-hover:text-indigo-200 transition-colors">
-                      {app.title}
-                    </h4>
-                    <p className="text-indigo-100 group-hover:text-white transition-colors">
-                      {app.desc}
-                    </p>
+                  <div className="app-card" key={i} style={{ animationDelay:`${i*0.08}s`, animation:'fadeUp 0.6s ease both' }}>
+                    <div style={{ position:'absolute', top:0, right:0, width:18, height:18, background:'#E8DFC4', clipPath:'polygon(100% 0,0 0,100% 100%)' }} />
+                    <div style={{ width:'44px', height:'44px', background:'#F5EFD8', border:'1px solid #E8D89A', borderRadius:'4px', display:'flex', alignItems:'center', justifyContent:'center', marginBottom:'1rem', color:'#C9A84C' }}>
+                      <Icon size={20} />
+                    </div>
+                    <h4 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'1.25rem', fontWeight:700, color:'#1C1208', margin:'0 0 0.4rem' }}>{app.title}</h4>
+                    <div style={{ height:'1px', background:'#EDE4CC', marginBottom:'0.75rem' }} />
+                    <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:'0.85rem', color:'#6B5C3E', lineHeight:1.75, margin:0, fontWeight:300 }}>{app.desc}</p>
                   </div>
                 );
               })}
             </div>
           </div>
-        </div>
+        </section>
 
-        {/* CTA Section */}
-        <div className="max-w-7xl mx-auto px-4 pb-24 relative z-10">
-          <div className="bg-gradient-to-r from-indigo-600 to-purple-600 rounded-3xl p-12 text-center relative overflow-hidden group hover:shadow-2xl hover:shadow-indigo-500/50 transition-all duration-500">
-            {/* Animated Background Pattern */}
-            <div className="absolute inset-0 opacity-20">
-              <div className="absolute inset-0 bg-math-grid-dense animate-slide-diagonal"></div>
-            </div>
-            
-            <div className="relative z-10">
-              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-                Master Mathematical Computing
+        <div className="gold-rule" />
+
+        {/* ── CTA ── */}
+        <section style={{ padding:'5rem 2rem', background:'#F7F3EA' }}>
+          <div style={{ maxWidth:'780px', margin:'0 auto' }}>
+            <div style={{ background:'linear-gradient(158deg,#1C1208 0%,#2E1F08 100%)', border:'1px solid #3D2A0A', borderRadius:'4px', padding:'4rem 3rem', textAlign:'center', position:'relative', overflow:'hidden' }}>
+              <div style={{ position:'absolute', top:0, left:0, right:0, height:'2px', background:'linear-gradient(90deg,transparent,#C9A84C,transparent)' }} />
+              {[
+                { top:'1.2rem', left:'1.2rem', borderTop:'1px solid #C9A84C40', borderLeft:'1px solid #C9A84C40' },
+                { top:'1.2rem', right:'1.2rem', borderTop:'1px solid #C9A84C40', borderRight:'1px solid #C9A84C40' },
+                { bottom:'1.2rem', left:'1.2rem', borderBottom:'1px solid #C9A84C40', borderLeft:'1px solid #C9A84C40' },
+                { bottom:'1.2rem', right:'1.2rem', borderBottom:'1px solid #C9A84C40', borderRight:'1px solid #C9A84C40' },
+              ].map((s,i) => <div key={i} style={{ position:'absolute', width:36, height:36, ...s }} />)}
+
+              {/* Floating math symbols */}
+              {['∑','∫','π'].map((sym,i) => (
+                <div key={i} style={{
+                  position:'absolute', fontFamily:"'Cormorant Garamond',serif",
+                  fontSize:'2.5rem', fontWeight:700, color:'rgba(201,168,76,0.07)',
+                  animation:`floatFormula ${4+i}s ease-in-out infinite`, animationDelay:`${i*0.6}s`,
+                  top: i===2?'1.5rem':'auto', bottom: i<2?'1.5rem':'auto',
+                  left: i===0?'2rem':'auto', right: i===1?'2rem': i===2?'3rem':'auto',
+                  pointerEvents:'none', userSelect:'none',
+                }}>
+                  {sym}
+                </div>
+              ))}
+
+              <div style={{ fontFamily:"'DM Sans',sans-serif", fontSize:'0.65rem', letterSpacing:'0.22em', color:'#C9A84C', textTransform:'uppercase', fontWeight:500, marginBottom:'1.25rem', display:'flex', alignItems:'center', justifyContent:'center', gap:'0.5rem' }}>
+                <span style={{ display:'inline-block', width:22, height:1, background:'#C9A84C' }} />
+                Start Learning
+                <span style={{ display:'inline-block', width:22, height:1, background:'#C9A84C' }} />
+              </div>
+
+              <h2 style={{ fontFamily:"'Playfair Display',serif", fontSize:'clamp(1.8rem,3.5vw,2.8rem)', fontWeight:700, color:'#F7F3EA', letterSpacing:'-0.02em', margin:'0 0 1rem' }}>
+                Master{' '}
+                <span style={{ fontStyle:'italic', background:'linear-gradient(135deg,#C9A84C,#E8C96A)', WebkitBackgroundClip:'text', WebkitTextFillColor:'transparent' }}>
+                  Mathematical Computing
+                </span>
               </h2>
-              <p className="text-indigo-100 text-lg mb-8 max-w-2xl mx-auto">
+
+              <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:'0.92rem', color:'rgba(247,243,234,0.55)', maxWidth:'480px', margin:'0 auto 2.5rem', lineHeight:1.78, fontWeight:300 }}>
                 Join us to explore the intersection of mathematics and computation.
               </p>
-              <Link
-                to="/membership"
-                className="inline-flex items-center gap-2 bg-white text-indigo-600 px-8 py-4 rounded-full font-semibold text-lg hover:bg-indigo-50 transition-all duration-300 hover:scale-110 hover:shadow-2xl group/btn"
-              >
+
+              <Link to="/membership" className="btn-gold">
                 Start Learning
-                <Calculator className="w-5 h-5 group-hover/btn:rotate-12 transition-transform" />
+                <Calculator size={14} />
               </Link>
             </div>
           </div>
+        </section>
+
+        <Footer />
+      </div>
+    </>
+  );
+}
+
+// ── Focus Card ──
+function FocusCard({ area, index, visible }) {
+  const [hovered, setHovered] = useState(false);
+  const Icon = area.icon;
+
+  return (
+    <div
+      className="focus-card"
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        opacity: visible?1:0, transform: visible?'translateY(0)':'translateY(24px)',
+        transition: `opacity 0.7s ease ${index*0.12}s, transform 0.7s ease ${index*0.12}s, border-color 0.4s, box-shadow 0.4s, background 0.4s`,
+      }}
+    >
+      {/* Clipped corner */}
+      <div style={{ position:'absolute', top:0, right:0, width:18, height:18, background:hovered?'#C9A84C':'#E8DFC4', clipPath:'polygon(100% 0,0 0,100% 100%)', transition:'background 0.3s' }} />
+
+      {/* Ghost formula watermark */}
+      <div style={{
+        position:'absolute', top:'1rem', right:'1.25rem',
+        fontFamily:"'Cormorant Garamond',serif", fontSize:'2.8rem', fontWeight:700,
+        color: hovered?'rgba(201,168,76,0.1)':'rgba(201,168,76,0.05)',
+        pointerEvents:'none', lineHeight:1, transition:'color 0.3s', userSelect:'none',
+      }}>
+        {area.formula}
+      </div>
+
+      {/* Header row */}
+      <div style={{ display:'flex', alignItems:'center', justifyContent:'space-between', marginBottom:'1.25rem' }}>
+        <div style={{ display:'flex', alignItems:'center', gap:'0.75rem' }}>
+          <span style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'0.7rem', color:'#C9A84C', letterSpacing:'0.15em', fontWeight:600 }}>{area.num}</span>
+          <div style={{ width:'44px', height:'44px', background:hovered?'#FDF5E0':'#F5EFD8', border:'1px solid #E8D89A', borderRadius:'4px', display:'flex', alignItems:'center', justifyContent:'center', color:'#C9A84C', transition:'all 0.3s', transform:hovered?'scale(1.08) rotate(-4deg)':'scale(1)' }}>
+            <Icon size={20} />
+          </div>
+        </div>
+        {/* Stat badge */}
+        <div style={{ textAlign:'right' }}>
+          <div style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'1.15rem', fontWeight:700, color:'#C9A84C', lineHeight:1 }}>{area.stat}</div>
+          <div style={{ fontFamily:"'DM Sans',sans-serif", fontSize:'0.6rem', color:'#9C8B6E', letterSpacing:'0.12em', textTransform:'uppercase', fontWeight:500 }}>{area.statLabel}</div>
         </div>
       </div>
 
-      <Footer />
+      <h3 style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'1.3rem', fontWeight:700, color:'#1C1208', margin:'0 0 0.5rem', letterSpacing:'-0.01em', lineHeight:1.2 }}>
+        {area.title}
+      </h3>
 
-      <style jsx>{`
-        @keyframes float-formula {
-          0%, 100% {
-            transform: translateY(0) translateX(0) rotate(0deg);
-            opacity: 0.05;
-          }
-          25% {
-            opacity: 0.1;
-          }
-          50% {
-            transform: translateY(-30px) translateX(20px) rotate(5deg);
-            opacity: 0.05;
-          }
-          75% {
-            opacity: 0.08;
-          }
-        }
+      <div style={{ height:'1px', background:hovered?'linear-gradient(90deg,#C9A84C40,transparent)':'#EDE4CC', marginBottom:'0.85rem', transition:'background 0.3s' }} />
 
-        @keyframes float {
-          0%, 100% {
-            transform: translateY(0);
-          }
-          50% {
-            transform: translateY(-20px);
-          }
-        }
+      <p style={{ fontFamily:"'DM Sans',sans-serif", fontSize:'0.85rem', color:'#6B5C3E', lineHeight:1.8, margin:'0 0 1.25rem', fontWeight:300 }}>
+        {area.description}
+      </p>
 
-        @keyframes pulse-slow {
-          0%, 100% {
-            opacity: 0.3;
-            transform: scale(1);
-          }
-          50% {
-            opacity: 0.5;
-            transform: scale(1.05);
-          }
-        }
-
-        @keyframes pulse-gentle {
-          0%, 100% {
-            opacity: 0.8;
-          }
-          50% {
-            opacity: 1;
-          }
-        }
-
-        @keyframes spin-slow {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
-
-        @keyframes spin-reverse {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(-360deg);
-          }
-        }
-
-        @keyframes spin-very-slow {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
-
-        @keyframes gradient-x {
-          0%, 100% {
-            background-position: 0% 50%;
-          }
-          50% {
-            background-position: 100% 50%;
-          }
-        }
-
-        @keyframes fade-in-up {
-          from {
-            opacity: 0;
-            transform: translateY(20px);
-          }
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-
-        @keyframes border-glow {
-          0%, 100% {
-            opacity: 0.3;
-            filter: blur(10px);
-          }
-          50% {
-            opacity: 0.6;
-            filter: blur(15px);
-          }
-        }
-
-        @keyframes draw-path {
-          0% {
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 1000;
-          }
-          100% {
-            stroke-dasharray: 1000;
-            stroke-dashoffset: 0;
-          }
-        }
-
-        @keyframes slide-diagonal {
-          0% {
-            transform: translate(0, 0);
-          }
-          100% {
-            transform: translate(-50%, -50%);
-          }
-        }
-
-        .animate-float-formula {
-          animation: float-formula linear infinite;
-        }
-
-        .animate-float {
-          animation: float 3s ease-in-out infinite;
-        }
-
-        .animate-pulse-slow {
-          animation: pulse-slow 4s ease-in-out infinite;
-        }
-
-        .animate-pulse-gentle {
-          animation: pulse-gentle 2s ease-in-out infinite;
-        }
-
-        .animate-spin-slow {
-          animation: spin-slow 20s linear infinite;
-        }
-
-        .animate-spin-reverse {
-          animation: spin-reverse 25s linear infinite;
-        }
-
-        .animate-spin-very-slow {
-          animation: spin-very-slow 60s linear infinite;
-        }
-
-        .animate-gradient-x {
-          background-size: 200% 200%;
-          animation: gradient-x 3s ease infinite;
-        }
-
-        .animate-fade-in-up {
-          animation: fade-in-up 1s ease-out forwards;
-        }
-
-        .animate-border-glow {
-          animation: border-glow 2s ease-in-out infinite;
-        }
-
-        .animate-draw-path {
-          animation: draw-path 3s ease-in-out infinite;
-        }
-
-        .animate-slide-diagonal {
-          animation: slide-diagonal 30s linear infinite;
-        }
-
-        .bg-math-grid {
-          background-image: 
-            linear-gradient(rgba(255, 255, 255, 0.05) 2px, transparent 2px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.05) 2px, transparent 2px);
-          background-size: 60px 60px;
-        }
-
-        .bg-math-grid-dense {
-          background-image: 
-            linear-gradient(rgba(255, 255, 255, 0.1) 1px, transparent 1px),
-            linear-gradient(90deg, rgba(255, 255, 255, 0.1) 1px, transparent 1px);
-          background-size: 30px 30px;
-        }
-      `}</style>
-    </>
+      {/* Formula code badge */}
+      <div style={{ display:'inline-block', padding:'0.3rem 0.85rem', border:'1px solid rgba(201,168,76,0.35)', borderRadius:'1px', background:hovered?'rgba(201,168,76,0.06)':'transparent', transition:'background 0.3s' }}>
+        <code style={{ fontFamily:"'Cormorant Garamond',serif", fontSize:'0.95rem', color:'#C9A84C', fontWeight:600, letterSpacing:'0.04em' }}>
+          {area.formula}
+        </code>
+      </div>
+    </div>
   );
 }
 
