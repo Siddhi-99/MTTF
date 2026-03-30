@@ -3,57 +3,24 @@ import { motion } from 'framer-motion';
 import { Award, Briefcase, BookOpen, TrendingUp } from 'lucide-react';
 import Header from "../../../Components/Header";
 import Footer from "../../../Components/Footer";
+import rkUppal from "../../../assets/r_k_uppal.webp";
 
 const Advisors = () => {
   const advisors = [
-    {
-      name: 'Dr. Sarah Mitchell',
-      role: 'Chief Strategy Advisor',
-      expertise: 'Educational Technology & Innovation',
-      image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80',
-      bio: 'Former Dean of MIT Education, pioneering STEM integration methodologies with over two decades of transformative leadership.',
-      achievements: ['20+ years in EdTech', 'Published 50+ research papers', 'Global education consultant'],
-    },
-    {
-      name: 'Prof. Rajesh Kumar',
-      role: 'Academic Excellence Advisor',
-      expertise: 'Mathematics & Curriculum Development',
-      image: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?auto=format&fit=crop&w=400&q=80',
-      bio: 'Award-winning mathematician with extensive experience in curriculum design and educational policy development.',
-      achievements: ['Fields Medal nominee', 'Developed 15+ curricula', 'Educational policy maker'],
-    },
-    {
-      name: 'Dr. Emily Chen',
-      role: 'Technology Integration Advisor',
-      expertise: 'AI in Education & Digital Learning',
-      image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80',
-      bio: 'Leading expert in AI-powered learning platforms and adaptive education systems for next-generation learners.',
-      achievements: ['Founded 3 EdTech startups', 'AI researcher', 'TEDx speaker'],
-    },
-    {
-      name: 'Mr. David Thompson',
-      role: 'Industry Partnership Advisor',
-      expertise: 'Corporate Relations & Funding',
-      image: 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80',
-      bio: 'Former Fortune 500 executive specializing in education partnerships and strategic funding initiatives.',
-      achievements: ['Secured $50M+ funding', '100+ corporate partnerships', 'Business strategist'],
-    },
-    {
-      name: 'Dr. Priya Sharma',
-      role: 'Research & Development Advisor',
-      expertise: 'Computational Sciences & Research',
-      image: 'https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?auto=format&fit=crop&w=400&q=80',
-      bio: 'Distinguished researcher in computational mathematics with groundbreaking contributions to the field.',
-      achievements: ['30+ peer-reviewed publications', 'Patent holder', 'International speaker'],
-    },
-    {
-      name: 'Prof. Michael Anderson',
-      role: 'Global Outreach Advisor',
-      expertise: 'International Education & Partnerships',
-      image: 'https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80',
-      bio: 'Expert in building international education networks and fostering cross-cultural academic collaborations.',
-      achievements: ['Partnerships in 40+ countries', 'UN Education consultant', 'Cultural ambassador'],
-    },
+     {
+    name: 'Prof. R K Uppal',
+    role: 'Professor Emeritus & Principal',
+    expertise: 'Management Education & Research',
+    image: rkUppal,
+    bio: 'Professor Emeritus and Principal at GGS College of Management and Technology, Punjab, with extensive academic leadership and research expertise in management studies.',
+    achievements: [
+      'Professor Emeritus at GGS College',
+      'Experienced academic leader',
+      'Active researcher and contributor'
+    ],
+    linkedin: 'https://www.linkedin.com/in/r-k-uppal-ph-d-d-litt-professor-emeritus-and-research-professor-423005208/'
+  },
+
   ];
 
   const containerVariants = {
@@ -216,15 +183,15 @@ const Advisors = () => {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            style={{ display:'grid', gridTemplateColumns:'repeat(auto-fill,minmax(320px,1fr))', gap:'1.5rem' }}
+            style={{ display:'flex', justifyContent:'center', gap:'1.5rem' }}
           >
             {advisors.map((advisor, index) => (
               <motion.div
-                key={index}
-                variants={itemVariants}
-                whileHover={{ y:-6 }}
-                style={{ display:'flex' }}
-              >
+  key={index}
+  variants={itemVariants}
+  whileHover={{ y:-6 }}
+  style={{ display:'flex', width:'360px' }}
+>
                 <AdvisorCard advisor={advisor} index={index} />
               </motion.div>
             ))}

@@ -3,47 +3,51 @@ import { motion } from 'framer-motion';
 import { Users, Target, Zap, Globe } from 'lucide-react';
 import Header from "../../../Components/Header";
 import Footer from "../../../Components/Footer";
+import meharchand from "../../../assets/meherchand.jpg";
+import jasswinderpal from "../../../assets/jasswinderpal.jpeg";
+import gurmeetsinghsandhu from "../../../assets/gurmeetsinghsandhu.jpg";
+import sourabhkumar from "../../../assets/sourabhkumar.jpg";
 
 const Leaders = () => {
   const leaders = [
     {
-      name: 'Dr. James Morrison',
-      role: 'Executive Director',
-      expertise: 'Organizational Leadership',
-      image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=400&q=80',
-      bio: 'Visionary leader with 25 years of experience transforming educational institutions globally.',
-      contributions: ['Founded 5 educational initiatives', 'Impacted 100K+ students', 'Award-winning leader'],
-      social: { linkedin: '#', twitter: '#', email: '#' },
+      name: 'Dr. Mehar Chand',
+      role: 'Founder & President',
+      expertise: 'STEM Education & AI Research',
+      image: meharchand,
+      bio: 'Founder and President of MathTech Thinking Foundation (MTTF), a Section 8 nonprofit organization promoting STEM education, research, and skill development. Also Founder and Director of Alinexora Tech Private Limited, a DPIIT-recognized startup focused on AI-driven innovation.',
+      contributions: ['Founded MTTF Section 8 NGO', 'Director, Alinexora Tech (DPIIT startup)', 'Advancing AI & STEM education globally'],
+      social: { linkedin: 'https://www.linkedin.com/in/mehar-chand/', email: 'mailto:contactus@mttf.in' },
       num: '01',
     },
     {
-      name: 'Ms. Linda Zhang',
-      role: 'Director of Operations',
-      expertise: 'Strategic Planning & Execution',
-      image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=400&q=80',
-      bio: 'Expert in operational excellence and strategic implementation with proven track record.',
-      contributions: ['Scaled operations 10x', 'Process optimization expert', '15+ years leadership'],
-      social: { linkedin: '#', twitter: '#', email: '#' },
+      name: 'Dr. Jaswinder Pal',
+      role: 'Vice President',
+      expertise: 'Mathematics & Academic Research',
+      image: jasswinderpal,
+      bio: 'Vice President of MathTech Thinking Foundation (MTTF, India), contributing to the academic and research vision of the foundation with deep expertise in mathematics and STEM disciplines.',
+      contributions: ['Vice President, MTTF India', 'STEM research contributor', 'Academic leadership & collaboration'],
+      social: { linkedin: '#', email: 'mailto:contactus@mttf.in' },
       num: '02',
     },
     {
-      name: 'Dr. Ahmed Hassan',
-      role: 'Director of Academic Programs',
-      expertise: 'Curriculum Innovation',
-      image: 'https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80',
-      bio: 'Pioneering educator revolutionizing STEM education through innovative methodologies.',
-      contributions: ['Designed 20+ programs', 'Ph.D. in Education', 'International acclaim'],
-      social: { linkedin: '#', twitter: '#', email: '#' },
+      name: 'Dr. Gurmej Singh Sandhu',
+      role: 'General Secretary',
+      expertise: 'Organizational Management & STEM',
+      image: gurmeetsinghsandhu,
+      bio: 'General Secretary of MathTech Thinking Foundation (MTTF, India), overseeing organizational operations and driving strategic initiatives to promote STEM education and collaborative research.',
+      contributions: ['General Secretary, MTTF India', 'Strategic operations leader', 'STEM collaboration & outreach'],
+      social: { linkedin: '#', email: 'mailto:contactus@mttf.in' },
       num: '03',
     },
     {
-      name: 'Mrs. Sofia Rodriguez',
-      role: 'Director of Research',
-      expertise: 'Educational Research & Analytics',
-      image: 'https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80',
-      bio: 'Leading researcher in educational outcomes and data-driven learning strategies.',
-      contributions: ['60+ research publications', 'Data science expert', 'Policy advisor'],
-      social: { linkedin: '#', twitter: '#', email: '#' },
+      name: 'Sourabh Kumar',
+      role: 'Chief Operating Officer',
+      expertise: 'Operations & Business Development',
+      image: sourabhkumar,
+      bio: 'Chief Operating Officer at MathTech Thinking Foundation, responsible for day-to-day operations, platform growth, and ensuring the smooth execution of MTTF\'s mission across all programs and initiatives.',
+      contributions: ['COO, MTTF Hub Platform', 'Operations & growth strategy', 'Driving internship & outreach programs'],
+      social: { linkedin: '#', email: 'mailto:contactus@mttf.in' },
       num: '04',
     },
   ];
@@ -345,6 +349,8 @@ function LeaderCard({ leader }) {
             <motion.a
               key={platform}
               href={link}
+              target={link.startsWith('http') ? '_blank' : undefined}
+              rel="noopener noreferrer"
               whileHover={{ scale:1.18, rotate:5 }}
               whileTap={{ scale:0.9 }}
               className="social-btn"
