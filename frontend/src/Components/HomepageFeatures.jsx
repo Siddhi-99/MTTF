@@ -1,5 +1,24 @@
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, Users, Target, Lightbulb, Rocket, Shield } from 'lucide-react';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
+// ── Asset imports — filenames matched exactly to your file tree ──
+import brainLogo from '../assets/home/brain-logo.png';
+import mttfLogo from '../assets/home/mttf-logo.webp';
+import communityImg from '../assets/home/community.jpg';
+import g1Img from '../assets/home/g1.webp';
+import g2Img from '../assets/home/g2.webp';
+import g3Img from '../assets/home/g3.webp';
+
+import adityaCollege from '../assets/home/aditya-college.webp';
+import appwars from '../assets/home/appwars.webp';
+import cpuLogo from '../assets/home/CPU.webp';
+import ctUniversity from '../assets/home/ct-university.webp';
+import dasmeshCollege from '../assets/home/dasmesh-girls-college.webp';
+import pinaki from '../assets/home/pinaki.webp';
+import poornima from '../assets/home/poornima.png';
+import puLogo from '../assets/home/PU.webp';
+import shardhaUniversity from '../assets/home/shardhaUniversityUzbekistan.webp';
+import synaptic from '../assets/home/synaptic.webp';
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap');
@@ -15,7 +34,6 @@ const styles = `
     --divider: rgba(201,168,76,0.2);
   }
 
-  /* ── Shared typography ── */
   .lux-section-eyebrow {
     display: inline-flex;
     align-items: center;
@@ -65,7 +83,7 @@ const styles = `
     margin: 20px 0;
   }
 
-  /* ── Welcome Section ── */
+  /* ── Welcome ── */
   .lux-welcome {
     background: var(--cream);
     padding: 112px 24px;
@@ -82,7 +100,6 @@ const styles = `
     opacity: 0.5;
   }
 
-  /* Decorative large letter */
   .lux-welcome-deco {
     position: absolute;
     top: 40px;
@@ -108,9 +125,7 @@ const styles = `
     z-index: 1;
   }
 
-  .lux-welcome-heading {
-    font-size: clamp(52px, 6vw, 80px);
-  }
+  .lux-welcome-heading { font-size: clamp(52px, 6vw, 80px); }
 
   .lux-welcome-card {
     border: 1px solid var(--divider);
@@ -124,8 +139,7 @@ const styles = `
     content: '';
     position: absolute;
     top: 0; left: 0;
-    width: 3px;
-    height: 100%;
+    width: 3px; height: 100%;
     background: var(--gold);
   }
 
@@ -164,7 +178,6 @@ const styles = `
   .lux-btn-primary svg { transition: transform 0.3s ease; }
   .lux-btn-primary:hover svg { transform: translateX(3px); }
 
-  /* Right panel */
   .lux-welcome-panel {
     border: 1px solid var(--divider);
     background: #fff;
@@ -176,14 +189,14 @@ const styles = `
     gap: 28px;
     position: relative;
     min-height: 420px;
+    overflow: hidden;
   }
 
   .lux-welcome-panel::after {
     content: '';
     position: absolute;
     bottom: 0; right: 0;
-    width: 80px;
-    height: 80px;
+    width: 80px; height: 80px;
     border-right: 2px solid var(--gold);
     border-bottom: 2px solid var(--gold);
     opacity: 0.25;
@@ -193,22 +206,29 @@ const styles = `
     content: '';
     position: absolute;
     top: 0; left: 0;
-    width: 80px;
-    height: 80px;
+    width: 80px; height: 80px;
     border-left: 2px solid var(--gold);
     border-top: 2px solid var(--gold);
     opacity: 0.25;
   }
 
+  .lux-welcome-community-img {
+    width: 100%;
+    height: 260px;
+    object-fit: cover;
+    display: block;
+    border: 1px solid var(--divider);
+  }
+
   .lux-icon-ring {
-    width: 120px;
-    height: 120px;
+    width: 120px; height: 120px;
     border: 1px solid var(--divider);
     display: flex;
     align-items: center;
     justify-content: center;
     position: relative;
     background: var(--cream);
+    overflow: hidden;
   }
 
   .lux-icon-ring::before {
@@ -217,6 +237,13 @@ const styles = `
     inset: 6px;
     border: 1px solid var(--gold);
     opacity: 0.3;
+  }
+
+  .lux-icon-ring img {
+    width: 72px; height: 72px;
+    object-fit: contain;
+    position: relative;
+    z-index: 1;
   }
 
   .lux-badge-pill {
@@ -231,17 +258,13 @@ const styles = `
     background: var(--cream);
   }
 
-  /* ── Services Section ── */
+  /* ── Services ── */
   .lux-services {
     background: #fff;
     padding: 112px 24px;
-    position: relative;
   }
 
-  .lux-services-inner {
-    max-width: 1320px;
-    margin: 0 auto;
-  }
+  .lux-services-inner { max-width: 1320px; margin: 0 auto; }
 
   .lux-services-header {
     display: flex;
@@ -251,13 +274,11 @@ const styles = `
     gap: 40px;
   }
 
-  .lux-services-heading {
-    font-size: clamp(42px, 5vw, 64px);
-  }
+  .lux-services-heading { font-size: clamp(42px, 5vw, 64px); }
 
   .lux-services-grid {
     display: grid;
-    grid-template-columns: repeat(5, 1fr);
+    grid-template-columns: repeat(3, 1fr);
     gap: 1px;
     background: var(--divider);
     border: 1px solid var(--divider);
@@ -279,21 +300,15 @@ const styles = `
     content: '';
     position: absolute;
     bottom: 0; left: 0;
-    width: 100%;
-    height: 2px;
+    width: 100%; height: 2px;
     background: var(--gold);
     transform: scaleX(0);
     transform-origin: left;
     transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
   }
 
-  .lux-service-card:hover {
-    background: var(--cream);
-  }
-
-  .lux-service-card:hover::after {
-    transform: scaleX(1);
-  }
+  .lux-service-card:hover { background: var(--cream); }
+  .lux-service-card:hover::after { transform: scaleX(1); }
 
   .lux-service-num {
     font-family: 'Cormorant Garamond', serif;
@@ -305,15 +320,14 @@ const styles = `
   }
 
   .lux-service-icon {
-    width: 52px;
-    height: 52px;
+    width: 64px; height: 64px;
     border: 1px solid var(--divider);
     display: flex;
     align-items: center;
     justify-content: center;
-    color: var(--charcoal);
-    transition: border-color 0.3s ease, background 0.3s ease;
     background: #fff;
+    transition: border-color 0.3s ease, background 0.3s ease;
+    overflow: hidden;
   }
 
   .lux-service-card:hover .lux-service-icon {
@@ -321,9 +335,11 @@ const styles = `
     background: var(--gold-pale);
   }
 
+  .lux-service-icon svg { width: 32px; height: 32px; }
+
   .lux-service-title {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 500;
     color: var(--charcoal);
     letter-spacing: 0.04em;
@@ -366,12 +382,9 @@ const styles = `
     padding: 0;
   }
 
-  .lux-service-card:hover .lux-service-more {
-    opacity: 1;
-    transform: translateY(0);
-  }
+  .lux-service-card:hover .lux-service-more { opacity: 1; transform: translateY(0); }
 
-  /* ── Partners Section ── */
+  /* ── Partners ── */
   .lux-partners {
     background: var(--charcoal);
     padding: 112px 24px;
@@ -388,10 +401,7 @@ const styles = `
     opacity: 0.3;
   }
 
-  .lux-partners-inner {
-    max-width: 1320px;
-    margin: 0 auto;
-  }
+  .lux-partners-inner { max-width: 1320px; margin: 0 auto; }
 
   .lux-partners-top {
     display: grid;
@@ -406,9 +416,7 @@ const styles = `
     color: var(--cream);
   }
 
-  .lux-partners-heading em {
-    color: var(--gold-light);
-  }
+  .lux-partners-heading em { color: var(--gold-light); }
 
   .lux-partners-text {
     font-family: 'DM Sans', sans-serif;
@@ -442,7 +450,6 @@ const styles = `
     color: var(--charcoal);
   }
 
-  /* Partner grid header */
   .lux-partners-right-label {
     font-family: 'DM Sans', sans-serif;
     font-size: 10px;
@@ -463,38 +470,42 @@ const styles = `
   .lux-partner-item {
     background: rgba(250,248,243,0.03);
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    padding: 28px;
+    padding: 20px 12px;
     transition: background 0.25s ease;
     cursor: pointer;
+    gap: 10px;
   }
 
-  .lux-partner-item:hover {
-    background: rgba(201,168,76,0.08);
+  .lux-partner-item:hover { background: rgba(201,168,76,0.08); }
+
+  .lux-partner-photo {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    border: 1px solid rgba(201,168,76,0.3);
+    object-fit: contain;
+    background: rgba(255,255,255,0.9);
+    display: block;
+    padding: 4px;
+    transition: border-color 0.25s ease;
   }
 
-  .lux-partner-logo {
-    width: 48px;
-    height: 48px;
-    border: 1px solid rgba(201,168,76,0.2);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 14px;
-    font-weight: 500;
+  .lux-partner-item:hover .lux-partner-photo { border-color: var(--gold); }
+
+  .lux-partner-name {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 9px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
     color: rgba(250,248,243,0.5);
-    letter-spacing: 0.05em;
-    transition: color 0.25s ease, border-color 0.25s ease;
+    text-align: center;
+    transition: color 0.25s ease;
   }
 
-  .lux-partner-item:hover .lux-partner-logo {
-    color: var(--gold-light);
-    border-color: rgba(201,168,76,0.45);
-  }
+  .lux-partner-item:hover .lux-partner-name { color: var(--gold-light); }
 
-  /* Brand strip */
   .lux-brand-strip {
     border-top: 1px solid rgba(201,168,76,0.12);
     padding-top: 64px;
@@ -512,7 +523,7 @@ const styles = `
 
   .lux-brand-grid {
     display: grid;
-    grid-template-columns: repeat(6, 1fr);
+    grid-template-columns: repeat(5, 1fr);
     gap: 1px;
     background: rgba(201,168,76,0.08);
     border: 1px solid rgba(201,168,76,0.08);
@@ -520,16 +531,19 @@ const styles = `
 
   .lux-brand-item {
     background: transparent;
-    padding: 32px 16px;
+    padding: 20px 12px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 13px;
+    gap: 8px;
+    font-family: 'DM Sans', sans-serif;
+    font-size: 10px;
     color: rgba(250,248,243,0.3);
-    letter-spacing: 0.08em;
+    letter-spacing: 0.06em;
     transition: color 0.25s ease, background 0.25s ease;
     cursor: pointer;
+    text-align: center;
   }
 
   .lux-brand-item:hover {
@@ -537,16 +551,26 @@ const styles = `
     background: rgba(201,168,76,0.05);
   }
 
-  /* ── Glimpses Section ── */
+  .lux-brand-item img {
+    width: 52px; height: 52px;
+    object-fit: contain;
+    opacity: 0.5;
+    transition: opacity 0.25s ease;
+    background: rgba(255,255,255,0.9);
+    border-radius: 4px;
+    padding: 4px;
+    display: block;
+  }
+
+  .lux-brand-item:hover img { opacity: 1; }
+
+  /* ── Glimpses ── */
   .lux-glimpses {
     background: var(--cream);
     padding: 112px 24px;
   }
 
-  .lux-glimpses-inner {
-    max-width: 1320px;
-    margin: 0 auto;
-  }
+  .lux-glimpses-inner { max-width: 1320px; margin: 0 auto; }
 
   .lux-glimpses-header {
     display: flex;
@@ -556,9 +580,7 @@ const styles = `
     gap: 32px;
   }
 
-  .lux-glimpses-heading {
-    font-size: clamp(40px, 5vw, 60px);
-  }
+  .lux-glimpses-heading { font-size: clamp(40px, 5vw, 60px); }
 
   .lux-glimpse-slide {
     border: 1px solid var(--divider);
@@ -566,19 +588,32 @@ const styles = `
     position: relative;
   }
 
-  .lux-glimpse-frame {
-    height: 480px;
+  .lux-glimpse-track {
     display: flex;
-    align-items: center;
-    justify-content: center;
+    transition: transform 0.5s ease;
+  }
+
+  .lux-glimpse-frame {
+    min-width: 100%;
+    height: 480px;
     position: relative;
     overflow: hidden;
+  }
+
+  .lux-glimpse-frame img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
   }
 
   .lux-glimpse-overlay {
     position: absolute;
     inset: 0;
-    background: linear-gradient(to top, rgba(28,26,23,0.65) 0%, transparent 60%);
+    background: linear-gradient(to top, rgba(28,26,23,0.70) 0%, transparent 60%);
+    z-index: 1;
   }
 
   .lux-glimpse-label {
@@ -607,16 +642,10 @@ const styles = `
     color: var(--gold-light);
   }
 
-  /* Nav arrows */
-  .lux-slider-nav {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-  }
+  .lux-slider-nav { display: flex; align-items: center; gap: 8px; }
 
   .lux-arrow-btn {
-    width: 48px;
-    height: 48px;
+    width: 48px; height: 48px;
     border: 1px solid var(--divider);
     background: #fff;
     display: flex;
@@ -633,7 +662,6 @@ const styles = `
     color: var(--gold-light);
   }
 
-  /* Indicators */
   .lux-glimpse-indicators {
     display: flex;
     align-items: center;
@@ -651,21 +679,11 @@ const styles = `
     padding: 0;
   }
 
-  .lux-glimpse-dot.active {
-    background: var(--gold);
-    width: 40px;
-  }
+  .lux-glimpse-dot.active { background: var(--gold); width: 40px; }
 
-  /* Gradient backgrounds for glimpse slides */
-  .glimpse-bg-1 { background: linear-gradient(135deg, #2a3a6b, #4a6aad); }
-  .glimpse-bg-2 { background: linear-gradient(135deg, #6a92c8, #2a3a6b); }
-  .glimpse-bg-3 { background: linear-gradient(135deg, #243060, #4a6aad); }
-  .glimpse-bg-4 { background: linear-gradient(135deg, #4a6aad, #243060); }
-  .glimpse-bg-5 { background: linear-gradient(135deg, #6a92c8, #4a6aad); }
-
-  /* Responsive */
+  /* ── Responsive ── */
   @media (max-width: 1024px) {
-    .lux-services-grid { grid-template-columns: repeat(3, 1fr); }
+    .lux-services-grid { grid-template-columns: repeat(2, 1fr); }
     .lux-brand-grid { grid-template-columns: repeat(4, 1fr); }
   }
 
@@ -685,92 +703,105 @@ const styles = `
   }
 `;
 
+/* ── Inline SVG icons ── */
+const AiIcon = () => (
+  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20 8C13.373 8 8 13.373 8 20s5.373 12 12 12 12-5.373 12-12S26.627 8 20 8z" stroke="#5067AA" strokeWidth="1.5"/>
+    <path d="M14 20c0-3.314 2.686-6 6-6s6 2.686 6 6-2.686 6-6 6" stroke="#5067AA" strokeWidth="1.5" strokeLinecap="round"/>
+    <path d="M17 17l-3-3M17 23l-3 3M23 17l3-3M23 23l3 3" stroke="#5067AA" strokeWidth="1.5" strokeLinecap="round"/>
+    <circle cx="20" cy="20" r="2.5" fill="#5067AA"/>
+  </svg>
+);
+
+const DataAnalyticsIcon = () => (
+  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="7" y="27" width="6" height="6" rx="1" fill="#27AE60"/>
+    <rect x="17" y="20" width="6" height="13" rx="1" fill="#27AE60"/>
+    <rect x="27" y="13" width="6" height="20" rx="1" fill="#27AE60"/>
+    <path d="M8 24l9-8 10 4 8-10" stroke="#27AE60" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+    <circle cx="8" cy="24" r="2" fill="#27AE60"/>
+    <circle cx="17" cy="16" r="2" fill="#27AE60"/>
+    <circle cx="27" cy="20" r="2" fill="#27AE60"/>
+    <circle cx="35" cy="10" r="2" fill="#27AE60"/>
+  </svg>
+);
+
+const BioinformaticsIcon = () => (
+  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M14 8c0 6 12 6 12 12S14 26 14 32" stroke="#8E44AD" strokeWidth="2" strokeLinecap="round"/>
+    <path d="M26 8c0 6-12 6-12 12s12 6 12 12" stroke="#8E44AD" strokeWidth="2" strokeLinecap="round"/>
+    <line x1="12" y1="14" x2="28" y2="14" stroke="#8E44AD" strokeWidth="1.5" strokeLinecap="round"/>
+    <line x1="10" y1="20" x2="30" y2="20" stroke="#8E44AD" strokeWidth="1.5" strokeLinecap="round"/>
+    <line x1="12" y1="26" x2="28" y2="26" stroke="#8E44AD" strokeWidth="1.5" strokeLinecap="round"/>
+  </svg>
+);
+
+const BusinessIntelligenceIcon = () => (
+  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="8" y="12" width="14" height="18" rx="2" stroke="#F39C12" strokeWidth="1.5"/>
+    <path d="M14 12V9a2 2 0 012-2h8a2 2 0 012 2v3" stroke="#F39C12" strokeWidth="1.5"/>
+    <path d="M22 22h8M22 26h6" stroke="#F39C12" strokeWidth="1.5" strokeLinecap="round"/>
+    <circle cx="27" cy="28" r="5" stroke="#F39C12" strokeWidth="1.5"/>
+    <path d="M30.5 31.5l3 3" stroke="#F39C12" strokeWidth="1.5" strokeLinecap="round"/>
+    <line x1="12" y1="18" x2="18" y2="18" stroke="#F39C12" strokeWidth="1.5" strokeLinecap="round"/>
+    <line x1="12" y1="22" x2="18" y2="22" stroke="#F39C12" strokeWidth="1.5" strokeLinecap="round"/>
+  </svg>
+);
+
+const QuantumIcon = () => (
+  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="20" cy="20" r="3" fill="#8E44AD"/>
+    <ellipse cx="20" cy="20" rx="13" ry="5" stroke="#8E44AD" strokeWidth="1.5"/>
+    <ellipse cx="20" cy="20" rx="13" ry="5" stroke="#8E44AD" strokeWidth="1.5" transform="rotate(60 20 20)"/>
+    <ellipse cx="20" cy="20" rx="13" ry="5" stroke="#8E44AD" strokeWidth="1.5" transform="rotate(120 20 20)"/>
+    <circle cx="33" cy="20" r="2" fill="#8E44AD"/>
+    <circle cx="26.5" cy="8.9" r="2" fill="#8E44AD"/>
+    <circle cx="13.5" cy="8.9" r="2" fill="#8E44AD"/>
+  </svg>
+);
+
+const ComputingIcon = () => (
+  <svg viewBox="0 0 40 40" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <rect x="7" y="9" width="26" height="18" rx="2" stroke="#27AE60" strokeWidth="1.5"/>
+    <line x1="7" y1="31" x2="33" y2="31" stroke="#27AE60" strokeWidth="1.5" strokeLinecap="round"/>
+    <line x1="20" y1="27" x2="20" y2="31" stroke="#27AE60" strokeWidth="1.5"/>
+    <path d="M12 16l3 3-3 3M18 22h5" stroke="#27AE60" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+  </svg>
+);
+
 const MTTFHomepage = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
 
   const services = [
-    {
-      id: 1,
-      icon: <Users className="w-5 h-5" />,
-      title: "CONSULTING",
-      subtitle: "Community Building",
-      description: "Connect with like-minded individuals and build lasting professional relationships.",
-      color: "from-[#5067AA] to-[#86A6DE]",
-      bgColor: "bg-[#5067AA]",
-      number: "01"
-    },
-    {
-      id: 2,
-      icon: <Target className="w-5 h-5" />,
-      title: "STRATEGY",
-      subtitle: "Skill Development",
-      description: "Access workshops and resources to enhance your capabilities with strategic planning.",
-      color: "from-[#86A6DE] to-[#5067AA]",
-      bgColor: "bg-[#86A6DE]",
-      number: "02"
-    },
-    {
-      id: 3,
-      icon: <Lightbulb className="w-5 h-5" />,
-      title: "IDEAS",
-      subtitle: "Innovation Hub",
-      description: "Transform your creative concepts into reality with our innovative approach.",
-      color: "from-[#32457B] to-[#5067AA]",
-      bgColor: "bg-[#32457B]",
-      number: "03"
-    },
-    {
-      id: 4,
-      icon: <Rocket className="w-5 h-5" />,
-      title: "NEW MEDIA",
-      subtitle: "Digital Solutions",
-      description: "Stay ahead with cutting-edge digital media strategies and modern technology.",
-      color: "from-[#5067AA] to-[#32457B]",
-      bgColor: "bg-[#5067AA]",
-      number: "04"
-    },
-    {
-      id: 5,
-      icon: <Shield className="w-5 h-5" />,
-      title: "SECURITY",
-      subtitle: "Data Protection",
-      description: "Ensure robust security measures and protect your valuable data.",
-      color: "from-[#86A6DE] to-[#32457B]",
-      bgColor: "bg-[#86A6DE]",
-      number: "05"
-    }
+    { id: 1, icon: <AiIcon />, title: "Artificial Intelligence", subtitle: "AI & ML Solutions", description: "Explore AI and ML solutions, leveraging advanced algorithms to drive innovation and intelligent decision-making.", number: "01" },
+    { id: 2, icon: <DataAnalyticsIcon />, title: "Data Analytics", subtitle: "Data-Driven Insights", description: "Utilize data-driven insights to make informed decisions, optimize processes, and improve business strategies.", number: "02" },
+    { id: 3, icon: <BioinformaticsIcon />, title: "Bioinformatics", subtitle: "Biological Data Science", description: "Integrate biological data with computational techniques to uncover insights in healthcare, genomics, and life sciences.", number: "03" },
+    { id: 4, icon: <BusinessIntelligenceIcon />, title: "Business Intelligence", subtitle: "BI Tools & Insights", description: "Enhance decision-making with BI tools, transforming raw data into actionable insights for better business strategies.", number: "04" },
+    { id: 5, icon: <QuantumIcon />, title: "Quantum Computing", subtitle: "Quantum Technologies", description: "Unlock the power of quantum mechanics to solve complex problems faster and more efficiently with emerging quantum technologies.", number: "05" },
+    { id: 6, icon: <ComputingIcon />, title: "Computing", subtitle: "Core Tech Skills", description: "Dive into core computing principles, from algorithms to system architecture, empowering future-ready tech skills.", number: "06" },
   ];
 
   const partners = [
-    { name: "Partner 1", logo: "P1" },
-    { name: "Partner 2", logo: "P2" },
-    { name: "Partner 3", logo: "P3" },
-    { name: "Partner 4", logo: "P4" },
-    { name: "Partner 5", logo: "P5" },
-    { name: "Partner 6", logo: "P6" },
-    { name: "Partner 7", logo: "P7" },
-    { name: "Partner 8", logo: "P8" },
-    { name: "Partner 9", logo: "P9" },
-    { name: "Partner 10", logo: "P10" }
+    { name: "Aditya College",        img: adityaCollege },
+    { name: "AppWars",               img: appwars },
+    { name: "CPU",                   img: cpuLogo },
+    { name: "CT University",         img: ctUniversity },
+    { name: "Dasmesh Girls College", img: dasmeshCollege },
+    { name: "Pinaki",                img: pinaki },
+    { name: "Poornima",              img: poornima },
+    { name: "Punjab University",     img: puLogo },
+    { name: "Shardha University",    img: shardhaUniversity },
+    { name: "Synaptic",              img: synaptic },
   ];
 
   const glimpses = [
-    { id: 1, title: "Workshop 2024", color: "from-[#5067AA] to-[#86A6DE]" },
-    { id: 2, title: "Community Event", color: "from-[#86A6DE] to-[#32457B]" },
-    { id: 3, title: "Tech Meetup", color: "from-[#32457B] to-[#5067AA]" },
-    { id: 4, title: "Annual Conference", color: "from-[#5067AA] to-[#32457B]" },
-    { id: 5, title: "Networking Session", color: "from-[#86A6DE] to-[#5067AA]" }
+    { id: 1, title: "Community Gathering", sub: "Annual Meetup 2024", img: g1Img },
+    { id: 2, title: "Workshop 2024",       sub: "Skill Development",  img: g2Img },
+    { id: 3, title: "Tech Meetup",         sub: "Innovation Hub",     img: g3Img },
   ];
 
-  const nextSlide = () => {
-    setCurrentSlide((prev) => (prev + 1) % glimpses.length);
-  };
-
-  const prevSlide = () => {
-    setCurrentSlide((prev) => (prev - 1 + glimpses.length) % glimpses.length);
-  };
-
-  const glimpseBgs = ['glimpse-bg-1','glimpse-bg-2','glimpse-bg-3','glimpse-bg-4','glimpse-bg-5'];
+  const nextSlide = () => setCurrentSlide(prev => (prev + 1) % glimpses.length);
+  const prevSlide = () => setCurrentSlide(prev => (prev - 1 + glimpses.length) % glimpses.length);
 
   return (
     <>
@@ -778,32 +809,27 @@ const MTTFHomepage = () => {
 
       <div style={{ fontFamily: "'DM Sans', sans-serif" }}>
 
-        {/* ── Welcome Section ── */}
+        {/* ── Welcome ── */}
         <section className="lux-welcome">
           <div className="lux-welcome-deco">M</div>
           <div className="lux-welcome-inner">
 
-            {/* Left */}
             <div>
               <div className="lux-section-eyebrow">
                 <span className="lux-section-eyebrow-line" />
                 Welcome
                 <span className="lux-section-eyebrow-line" />
               </div>
-
               <h1 className="lux-serif-heading lux-welcome-heading">
                 Welcome to <br /><em>MTTF</em>
               </h1>
-
               <div className="lux-gold-rule" />
-
               <div className="lux-welcome-card">
                 <p className="lux-body" style={{ fontSize: "15px" }}>
                   Join our vibrant community dedicated to fostering growth, innovation, and collaboration.
                   We bring together passionate individuals to create meaningful impact through technology and shared learning experiences.
                 </p>
               </div>
-
               <button className="lux-btn-primary">
                 <span>Explore More</span>
                 <svg width="13" height="13" viewBox="0 0 13 13" fill="none">
@@ -815,23 +841,27 @@ const MTTFHomepage = () => {
             {/* Right panel */}
             <div className="lux-welcome-panel">
               <div className="lux-icon-ring">
-                <Users style={{ width: 36, height: 36, color: "var(--charcoal)" }} />
+                <img src={mttfLogo} alt="MTTF Logo" />
               </div>
-
+              <img
+                src={communityImg}
+                alt="MTTF Community"
+                className="lux-welcome-community-img"
+                onError={e => { e.target.style.display = 'none'; }}
+              />
               <div style={{ textAlign: "center" }}>
-                <p className="lux-serif-heading" style={{ fontSize: "28px", marginBottom: "12px" }}>
-                  Join Our Community
+                <p className="lux-serif-heading" style={{ fontSize: "26px", marginBottom: "12px" }}>
+                  MathTech Thinking Foundation
                 </p>
                 <div className="lux-gold-rule" style={{ margin: "0 auto 16px" }} />
               </div>
-
               <span className="lux-badge-pill">1000+ Active Members</span>
             </div>
 
           </div>
         </section>
 
-        {/* ── Services Section ── */}
+        {/* ── Services ── */}
         <section className="lux-services">
           <div className="lux-services-inner">
             <div className="lux-services-header">
@@ -845,17 +875,14 @@ const MTTFHomepage = () => {
                 </h2>
               </div>
               <p className="lux-body" style={{ maxWidth: "360px", fontSize: "14px", textAlign: "right" }}>
-                Comprehensive solutions designed to elevate your work and drive innovation
+                Discover our innovative services designed to boost technology and career growth
               </p>
             </div>
-
             <div className="lux-services-grid">
-              {services.map((service) => (
+              {services.map(service => (
                 <div key={service.id} className="lux-service-card">
                   <span className="lux-service-num">{service.number}</span>
-                  <div className="lux-service-icon">
-                    {service.icon}
-                  </div>
+                  <div className="lux-service-icon">{service.icon}</div>
                   <div>
                     <p className="lux-service-title">{service.title}</p>
                     <p className="lux-service-subtitle" style={{ marginTop: "6px" }}>{service.subtitle}</p>
@@ -873,12 +900,11 @@ const MTTFHomepage = () => {
           </div>
         </section>
 
-        {/* ── Partners Section ── */}
+        {/* ── Partners ── */}
         <section className="lux-partners">
           <div className="lux-partners-inner">
             <div className="lux-partners-top">
 
-              {/* Left */}
               <div>
                 <div className="lux-section-eyebrow" style={{ color: "rgba(232,201,106,0.7)" }}>
                   <span className="lux-section-eyebrow-line" />
@@ -899,13 +925,18 @@ const MTTFHomepage = () => {
                 </button>
               </div>
 
-              {/* Right */}
               <div>
                 <p className="lux-partners-right-label">Our Business Partners</p>
                 <div className="lux-partner-grid">
-                  {partners.map((partner, index) => (
-                    <div key={index} className="lux-partner-item">
-                      <div className="lux-partner-logo">{partner.logo}</div>
+                  {partners.map((p, i) => (
+                    <div key={i} className="lux-partner-item">
+                      <img
+                        src={p.img}
+                        alt={p.name}
+                        className="lux-partner-photo"
+                        onError={e => { e.target.style.opacity = '0.2'; }}
+                      />
+                      <span className="lux-partner-name">{p.name}</span>
                     </div>
                   ))}
                 </div>
@@ -916,9 +947,14 @@ const MTTFHomepage = () => {
             <div className="lux-brand-strip">
               <p className="lux-brand-strip-label">Brands We've Collaborated With</p>
               <div className="lux-brand-grid">
-                {[...partners, ...partners.slice(0, 2)].map((partner, index) => (
-                  <div key={index} className="lux-brand-item">
-                    {partner.logo}
+                {partners.map((p, i) => (
+                  <div key={i} className="lux-brand-item">
+                    <img
+                      src={p.img}
+                      alt={p.name}
+                      onError={e => { e.target.style.opacity = '0.1'; }}
+                    />
+                    {p.name}
                   </div>
                 ))}
               </div>
@@ -926,7 +962,7 @@ const MTTFHomepage = () => {
           </div>
         </section>
 
-        {/* ── Glimpses Section ── */}
+        {/* ── Glimpses ── */}
         <section className="lux-glimpses">
           <div className="lux-glimpses-inner">
             <div className="lux-glimpses-header">
@@ -945,42 +981,43 @@ const MTTFHomepage = () => {
                 </p>
                 <div className="lux-slider-nav">
                   <button className="lux-arrow-btn" onClick={prevSlide}>
-                    <ChevronLeft className="w-4 h-4" />
+                    <ChevronLeft size={16} />
                   </button>
                   <button className="lux-arrow-btn" onClick={nextSlide}>
-                    <ChevronRight className="w-4 h-4" />
+                    <ChevronRight size={16} />
                   </button>
                 </div>
               </div>
             </div>
 
-            {/* Slide */}
             <div className="lux-glimpse-slide">
               <div
-                className="flex transition-transform duration-500"
+                className="lux-glimpse-track"
                 style={{ transform: `translateX(-${currentSlide * 100}%)` }}
               >
-                {glimpses.map((glimpse, i) => (
-                  <div key={glimpse.id} style={{ minWidth: "100%" }}>
-                    <div className={`lux-glimpse-frame ${glimpseBgs[i]}`}>
-                      <div className="lux-glimpse-overlay" />
-                      <div className="lux-glimpse-label">
-                        <span className="lux-glimpse-title">{glimpse.title}</span>
-                        <span className="lux-glimpse-sub">Event Photo {glimpse.id}</span>
-                      </div>
+                {glimpses.map(glimpse => (
+                  <div key={glimpse.id} className="lux-glimpse-frame">
+                    <img
+                      src={glimpse.img}
+                      alt={glimpse.title}
+                      onError={e => { e.target.style.display = 'none'; }}
+                    />
+                    <div className="lux-glimpse-overlay" />
+                    <div className="lux-glimpse-label">
+                      <span className="lux-glimpse-title">{glimpse.title}</span>
+                      <span className="lux-glimpse-sub">{glimpse.sub}</span>
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Indicators */}
             <div className="lux-glimpse-indicators">
-              {glimpses.map((_, index) => (
+              {glimpses.map((_, i) => (
                 <button
-                  key={index}
-                  className={`lux-glimpse-dot${currentSlide === index ? " active" : ""}`}
-                  onClick={() => setCurrentSlide(index)}
+                  key={i}
+                  className={`lux-glimpse-dot${currentSlide === i ? " active" : ""}`}
+                  onClick={() => setCurrentSlide(i)}
                 />
               ))}
             </div>

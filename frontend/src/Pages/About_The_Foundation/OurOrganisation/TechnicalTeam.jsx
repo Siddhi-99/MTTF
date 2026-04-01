@@ -1,105 +1,45 @@
 import React, { useState, useEffect, useRef } from "react";
-import { Code, Database, Globe, Smartphone, Shield, Cpu, Zap, Terminal } from "lucide-react";
+import { Code, Globe, Zap, Terminal, Github } from "lucide-react";
 import Header from "../../../Components/Header";
 import Footer from "../../../Components/Footer";
 
-// ─── DATA (unchanged) ────────────────────────────────────────────────────────
+// ── Local images matched exactly to your Technicalteam folder ──
+import vikasImg   from "../../../assets/Technicalteam/vikasimg1.webp";
+import devanshImg from "../../../assets/Technicalteam/devanshjindal.webp";
+
+// ─── DATA ────────────────────────────────────────────────────────────────────
 const techTeam = [
   {
-    name: "Alex Rivera",
-    role: "Lead Full-Stack Developer",
-    tech: ["React", "Node.js", "PostgreSQL"],
-    image: "https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=400&q=80",
-    bio: "Architecting scalable solutions that power our platform.",
-    projects: "50+",
+    name: "Vikas Rathore",
+    role: "Software Developer",
+    tech: ["React", "JavaScript", "Node.js", "Java", "Git"],
+    image: vikasImg,
+    bio: "Passionate software developer building scalable and innovative solutions for the MTTF platform. Driven by curiosity and a love for clean, efficient code.",
     icon: Code,
-    github: "#",
-    contributions: "Built entire frontend architecture",
+    github: "https://github.com/Vikasr9",
+    linkedin: "#",
+    num: "01",
+    contributions: "Platform frontend development",
   },
   {
-    name: "Maya Patel",
-    role: "DevOps Engineer",
-    tech: ["Docker", "Kubernetes", "AWS"],
-    image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=400&q=80",
-    bio: "Ensuring 99.9% uptime with robust infrastructure.",
-    projects: "40+",
-    icon: Database,
-    github: "#",
-    contributions: "Zero-downtime deployment pipeline",
-  },
-  {
-    name: "Jordan Lee",
-    role: "Frontend Architect",
-    tech: ["Next.js", "TypeScript", "Tailwind"],
-    image: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?auto=format&fit=crop&w=400&q=80",
-    bio: "Crafting beautiful and performant user experiences.",
-    projects: "60+",
+    name: "Devansh Jindal",
+    role: "Software Developer",
+    tech: ["React", "Spring Boot", "Java", "Microservices", "REST API"],
+    image: devanshImg,
+    bio: "Full-stack developer with expertise in Java and React ecosystems. Committed to building robust backend services and dynamic user interfaces.",
     icon: Globe,
     github: "#",
-    contributions: "UI/UX component library",
-  },
-  {
-    name: "Samantha Chen",
-    role: "Mobile Developer",
-    tech: ["React Native", "Swift", "Kotlin"],
-    image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=400&q=80",
-    bio: "Building native-like mobile experiences.",
-    projects: "35+",
-    icon: Smartphone,
-    github: "#",
-    contributions: "Cross-platform mobile app",
-  },
-  {
-    name: "Marcus Johnson",
-    role: "Security Engineer",
-    tech: ["Security", "Encryption", "Compliance"],
-    image: "https://images.unsplash.com/photo-1500648767791-00dcc994a43e?auto=format&fit=crop&w=400&q=80",
-    bio: "Protecting data and ensuring compliance.",
-    projects: "30+",
-    icon: Shield,
-    github: "#",
-    contributions: "SOC 2 compliance achieved",
-  },
-  {
-    name: "Emily Zhang",
-    role: "AI/ML Engineer",
-    tech: ["Python", "TensorFlow", "PyTorch"],
-    image: "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=400&q=80",
-    bio: "Implementing intelligent features powered by AI.",
-    projects: "45+",
-    icon: Cpu,
-    github: "#",
-    contributions: "Recommendation engine",
-  },
-  {
-    name: "David Kim",
-    role: "Backend Engineer",
-    tech: ["Python", "Django", "Redis"],
-    image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=400&q=80",
-    bio: "Building robust APIs and microservices.",
-    projects: "55+",
-    icon: Terminal,
-    github: "#",
-    contributions: "RESTful API framework",
-  },
-  {
-    name: "Lisa Anderson",
-    role: "QA Lead",
-    tech: ["Selenium", "Jest", "Cypress"],
-    image: "https://images.unsplash.com/photo-1594744803329-e58b31de8bf5?auto=format&fit=crop&w=400&q=80",
-    bio: "Ensuring quality through comprehensive testing.",
-    projects: "70+",
-    icon: Zap,
-    github: "#",
-    contributions: "Automated test coverage 95%",
+    linkedin: "https://www.linkedin.com/in/devanshjindal01/",
+    num: "02",
+    contributions: "Backend services & API design",
   },
 ];
 
 const stats = [
-  { label: "Lines of Code",      value: "1M+",    icon: Code     },
-  { label: "Deployments/Month",  value: "200+",   icon: Zap      },
-  { label: "Uptime",             value: "99.9%",  icon: Shield   },
-  { label: "Response Time",      value: "<100ms", icon: Database },
+  { label: "Lines of Code",     value: "50K+",   icon: Code    },
+  { label: "Features Shipped",  value: "100+",   icon: Zap     },
+  { label: "Uptime",            value: "99.9%",  icon: Globe   },
+  { label: "Response Time",     value: "<200ms", icon: Terminal },
 ];
 
 // ─── HOOK ────────────────────────────────────────────────────────────────────
@@ -148,7 +88,7 @@ function MemberCard({ member, index }) {
         transform: visible
           ? hovered ? "translateY(-6px)" : "translateY(0)"
           : "translateY(32px)",
-        transition: `opacity 0.65s ease ${index * 0.07}s, transform 0.65s ease ${index * 0.07}s, box-shadow 0.35s ease`,
+        transition: `opacity 0.65s ease ${index * 0.12}s, transform 0.5s ease, box-shadow 0.35s ease`,
         background: hovered ? "rgba(201,168,76,0.04)" : "#FBF6EC",
         border: `1px solid ${hovered ? "rgba(201,168,76,0.4)" : "rgba(139,112,72,0.15)"}`,
         borderRadius: "2px",
@@ -171,154 +111,204 @@ function MemberCard({ member, index }) {
       {/* Profile image area */}
       <div style={{
         position: "relative",
-        padding: "1.75rem 1.75rem 0",
+        padding: "2rem 2rem 0",
         display: "flex",
         flexDirection: "column",
         alignItems: "center",
-        gap: "0.85rem",
+        gap: "1rem",
       }}>
         {/* Icon badge */}
         <div style={{
           position: "absolute",
-          top: "1.25rem",
-          right: "1.25rem",
+          top: "1.25rem", right: "1.25rem",
           width: "34px", height: "34px",
           display: "flex", alignItems: "center", justifyContent: "center",
           background: hovered ? "rgba(201,168,76,0.14)" : "rgba(201,168,76,0.07)",
           border: `1px solid ${hovered ? "rgba(201,168,76,0.45)" : "rgba(201,168,76,0.2)"}`,
           borderRadius: "2px", color: "#C9A84C",
           transition: "background 0.3s, border-color 0.3s",
+          zIndex: 1,
         }}>
           <Icon size={16} />
         </div>
 
-        {/* Avatar */}
+        {/* Card number */}
         <div style={{
-          width: "80px", height: "80px",
-          borderRadius: "50%",
-          border: `2px solid ${hovered ? "rgba(201,168,76,0.5)" : "rgba(201,168,76,0.2)"}`,
-          overflow: "hidden",
-          transition: "border-color 0.35s ease, transform 0.35s ease",
-          transform: hovered ? "scale(1.04)" : "scale(1)",
+          position: "absolute",
+          top: "1.25rem", left: "1.25rem",
+          fontFamily: "'Cormorant Garamond', serif",
+          fontSize: "0.68rem", color: "#C9A84C",
+          letterSpacing: "0.15em", fontWeight: 600,
+          zIndex: 1,
+        }}>{member.num}</div>
+
+        {/* Avatar — rectangular to match Leaders style */}
+        <div style={{
+          position: "relative",
+          width: "120px", height: "120px",
           flexShrink: 0,
+          marginTop: "0.5rem",
         }}>
+          <div style={{
+            position: "absolute", inset: "-3px",
+            borderRadius: "4px",
+            border: `2px solid ${hovered ? "#C9A84C" : "#E8D89A"}`,
+            transition: "border-color 0.35s ease",
+          }} />
           <img
             src={member.image}
             alt={member.name}
-            style={{ width: "100%", height: "100%", objectFit: "cover", display: "block" }}
+            style={{
+              width: "100%", height: "100%",
+              borderRadius: "4px",
+              objectFit: "cover", display: "block",
+              position: "relative", zIndex: 1,
+              transition: "transform 0.35s ease",
+              transform: hovered ? "scale(1.03)" : "scale(1)",
+            }}
+            onError={e => { e.target.style.background = "#F5EFD8"; }}
           />
+          <div style={{
+            position: "absolute", top: "-8px", right: "-8px",
+            width: "26px", height: "26px",
+            background: "#C9A84C", borderRadius: "50%",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            border: "2px solid #FBF6EC", zIndex: 2,
+          }}>
+            <Zap size={11} color="#fff" />
+          </div>
         </div>
 
         {/* Name + role */}
         <div style={{ textAlign: "center" }}>
           <h3 style={{
             fontFamily: "'Playfair Display', serif",
-            fontSize: "1rem", fontWeight: 700,
-            color: "#1A120A", margin: "0 0 0.2rem",
+            fontSize: "1.25rem", fontWeight: 700,
+            color: "#1A120A", margin: "0 0 0.25rem",
             letterSpacing: "-0.01em",
           }}>{member.name}</h3>
           <p style={{
             fontFamily: "'Jost', sans-serif",
-            fontSize: "0.68rem", color: "#C9A84C",
-            letterSpacing: "0.1em", textTransform: "uppercase",
+            fontSize: "0.7rem", color: "#C9A84C",
+            letterSpacing: "0.12em", textTransform: "uppercase",
             margin: 0, fontWeight: 500,
           }}>{member.role}</p>
         </div>
       </div>
 
-      {/* Divider */}
+      {/* Animated divider */}
       <div style={{
         height: "1px",
         background: "rgba(201,168,76,0.15)",
-        margin: "1.25rem 1.75rem",
-        width: hovered ? "calc(100% - 3.5rem)" : "40%",
+        margin: "1.25rem 2rem",
+        width: hovered ? "calc(100% - 4rem)" : "40%",
         transition: "width 0.4s ease",
       }} />
 
       {/* Body */}
-      <div style={{ padding: "0 1.75rem 1.75rem", display: "flex", flexDirection: "column", flex: 1, gap: "1rem" }}>
+      <div style={{ padding: "0 2rem 2rem", display: "flex", flexDirection: "column", flex: 1, gap: "1rem" }}>
         {/* Bio */}
         <p style={{
           fontFamily: "'Jost', sans-serif",
-          fontSize: "0.78rem", color: "#7A6040",
-          lineHeight: 1.75, margin: 0, fontWeight: 300,
+          fontSize: "0.82rem", color: "#7A6040",
+          lineHeight: 1.78, margin: 0, fontWeight: 300,
           textAlign: "center",
         }}>{member.bio}</p>
 
         {/* Tech stack */}
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.35rem", justifyContent: "center" }}>
+        <div style={{ display: "flex", flexWrap: "wrap", gap: "0.4rem", justifyContent: "center" }}>
           {member.tech.map((t, i) => (
             <span key={i} style={{
               fontFamily: "'Jost', sans-serif",
-              fontSize: "0.6rem",
-              color: "#8B7048",
+              fontSize: "0.6rem", color: "#8B7048",
               background: "rgba(201,168,76,0.07)",
               border: "1px solid rgba(201,168,76,0.2)",
-              padding: "0.18rem 0.55rem",
-              borderRadius: "1px",
-              letterSpacing: "0.08em",
-              fontWeight: 400,
+              padding: "0.2rem 0.6rem", borderRadius: "1px",
+              letterSpacing: "0.08em", fontWeight: 400,
             }}>{t}</span>
           ))}
         </div>
 
-        {/* Projects + contributions row */}
+        {/* Contributions row */}
         <div style={{
           display: "flex",
           border: "1px solid rgba(201,168,76,0.15)",
-          borderRadius: "1px",
-          overflow: "hidden",
+          borderRadius: "1px", overflow: "hidden",
           background: "rgba(201,168,76,0.03)",
         }}>
           <div style={{
-            flex: 1, padding: "0.75rem 0.5rem",
-            textAlign: "center",
-            borderRight: "1px solid rgba(201,168,76,0.15)",
+            padding: "0.85rem 0.75rem",
+            display: "flex", alignItems: "center", justifyContent: "center",
+            flex: 1,
           }}>
-            <div style={{
-              fontFamily: "'Playfair Display', serif",
-              fontSize: "1.2rem", fontWeight: 700,
-              color: "#C9A84C", lineHeight: 1,
-            }}>{member.projects}</div>
-            <div style={{
-              fontFamily: "'Jost', sans-serif",
-              fontSize: "0.55rem", color: "rgba(90,65,40,0.45)",
-              letterSpacing: "0.12em", textTransform: "uppercase",
-              marginTop: "0.2rem",
-            }}>Projects</div>
-          </div>
-          <div style={{ flex: 2, padding: "0.75rem 0.75rem", display: "flex", alignItems: "center", justifyContent: "center" }}>
             <span style={{
               fontFamily: "'Jost', sans-serif",
-              fontSize: "0.65rem", color: "#8B7048",
-              lineHeight: 1.5, textAlign: "center",
-              fontWeight: 300,
+              fontSize: "0.68rem", color: "#8B7048",
+              lineHeight: 1.5, textAlign: "center", fontWeight: 300,
             }}>{member.contributions}</span>
           </div>
         </div>
 
-        {/* GitHub link */}
-        <a
-          href={member.github}
-          style={{
-            fontFamily: "'Jost', sans-serif",
-            fontSize: "0.68rem", letterSpacing: "0.15em",
-            textTransform: "uppercase", color: hovered ? "#fff" : "#C9A84C",
-            background: hovered ? "#C9A84C" : "transparent",
-            border: "1px solid rgba(201,168,76,0.45)",
-            padding: "0.65rem",
-            textAlign: "center", textDecoration: "none",
-            borderRadius: "1px", fontWeight: 500,
-            display: "block",
-            transition: "background 0.3s ease, color 0.3s ease",
-            marginTop: "auto",
-          }}
-          onMouseEnter={e => { e.currentTarget.style.background = "#C9A84C"; e.currentTarget.style.color = "#fff"; }}
-          onMouseLeave={e => { e.currentTarget.style.background = hovered ? "#C9A84C" : "transparent"; e.currentTarget.style.color = hovered ? "#fff" : "#C9A84C"; }}
-        >
-          View GitHub →
-        </a>
+        {/* Social links */}
+        <div style={{ display: "flex", gap: "0.6rem", justifyContent: "center", marginTop: "auto" }}>
+          <a
+            href="mailto:contactus@mttf.in"
+            style={{
+              width: "34px", height: "34px", borderRadius: "50%",
+              background: "#F5EFD8", border: "1px solid #E8D89A",
+              display: "flex", alignItems: "center", justifyContent: "center",
+              fontSize: "0.85rem", cursor: "pointer",
+              transition: "all 0.3s ease", textDecoration: "none",
+            }}
+            title="contactus@mttf.in"
+            onMouseEnter={e => { e.currentTarget.style.background = "#C9A84C"; e.currentTarget.style.borderColor = "#C9A84C"; e.currentTarget.style.transform = "translateY(-2px) rotate(5deg)"; }}
+            onMouseLeave={e => { e.currentTarget.style.background = "#F5EFD8"; e.currentTarget.style.borderColor = "#E8D89A"; e.currentTarget.style.transform = "none"; }}
+          >📧</a>
+
+          {member.github && member.github !== "#" && (
+            <a
+              href={member.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                width: "34px", height: "34px", borderRadius: "50%",
+                background: "#F5EFD8", border: "1px solid #E8D89A",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontSize: "0.85rem", cursor: "pointer",
+                transition: "all 0.3s ease", textDecoration: "none",
+              }}
+              title="GitHub Profile"
+              onMouseEnter={e => { e.currentTarget.style.background = "#C9A84C"; e.currentTarget.style.borderColor = "#C9A84C"; e.currentTarget.style.transform = "translateY(-2px) rotate(5deg)"; }}
+              onMouseLeave={e => { e.currentTarget.style.background = "#F5EFD8"; e.currentTarget.style.borderColor = "#E8D89A"; e.currentTarget.style.transform = "none"; }}
+            >🐙</a>
+          )}
+
+          {member.linkedin && member.linkedin !== "#" && (
+            <a
+              href={member.linkedin}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{
+                width: "34px", height: "34px", borderRadius: "50%",
+                background: "#F5EFD8", border: "1px solid #E8D89A",
+                display: "flex", alignItems: "center", justifyContent: "center",
+                fontSize: "0.85rem", cursor: "pointer",
+                transition: "all 0.3s ease", textDecoration: "none",
+              }}
+              title="LinkedIn Profile"
+              onMouseEnter={e => { e.currentTarget.style.background = "#C9A84C"; e.currentTarget.style.borderColor = "#C9A84C"; e.currentTarget.style.transform = "translateY(-2px) rotate(5deg)"; }}
+              onMouseLeave={e => { e.currentTarget.style.background = "#F5EFD8"; e.currentTarget.style.borderColor = "#E8D89A"; e.currentTarget.style.transform = "none"; }}
+            >💼</a>
+          )}
+        </div>
       </div>
+
+      {/* Bottom hover rule */}
+      <div style={{
+        position: "absolute", bottom: 0, left: 0, right: 0, height: "1px",
+        background: "linear-gradient(90deg,transparent,#C9A84C,transparent)",
+        opacity: hovered ? 1 : 0, transition: "opacity 0.35s",
+      }} />
     </div>
   );
 }
@@ -365,13 +355,10 @@ const TechnicalTeam = () => {
           style={{
             position: "relative",
             minHeight: "68vh",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
+            display: "flex", flexDirection: "column",
+            alignItems: "center", justifyContent: "center",
             padding: "7rem 2rem 5rem",
-            textAlign: "center",
-            overflow: "hidden",
+            textAlign: "center", overflow: "hidden",
             borderBottom: "1px solid rgba(139,112,72,0.1)",
           }}
         >
@@ -485,7 +472,7 @@ const TechnicalTeam = () => {
               maxWidth: "560px", margin: "1.25rem auto 2.5rem",
               lineHeight: 1.75,
             }}>
-              The brilliant minds building and maintaining our cutting-edge technology stack.
+              The skilled developers powering the MTTF platform with innovation and dedication.
             </p>
 
             {/* Stats bar */}
@@ -495,7 +482,7 @@ const TechnicalTeam = () => {
               background: "rgba(201,168,76,0.03)",
               borderRadius: "2px",
             }}>
-              {stats.map(({ value, label, icon: StatIcon }, i, arr) => (
+              {stats.map(({ value, label }, i, arr) => (
                 <div key={label} style={{
                   padding: "1rem 1.5rem", textAlign: "center",
                   borderRight: i < arr.length - 1 ? "1px solid rgba(201,168,76,0.15)" : "none",
@@ -535,8 +522,7 @@ const TechnicalTeam = () => {
         </div>
 
         {/* ── TEAM GRID ── */}
-        <section style={{ maxWidth: "1300px", margin: "0 auto", padding: "5rem 2rem" }}>
-          {/* Section label */}
+        <section style={{ maxWidth: "1100px", margin: "0 auto", padding: "5rem 2rem" }}>
           <FadeIn>
             <div style={{
               display: "flex", alignItems: "center",
@@ -554,14 +540,17 @@ const TechnicalTeam = () => {
                 fontSize: "0.6rem", color: "rgba(201,168,76,0.65)",
                 letterSpacing: "0.2em", textTransform: "uppercase",
                 fontWeight: 500, flexShrink: 0,
-              }}>{techTeam.length} Engineers</div>
+              }}>{techTeam.length} Developers</div>
             </div>
           </FadeIn>
 
+          {/* Centered 2-column grid */}
           <div style={{
             display: "grid",
-            gridTemplateColumns: "repeat(auto-fill, minmax(240px, 1fr))",
-            gap: "1.5rem",
+            gridTemplateColumns: "repeat(auto-fill, minmax(340px, 1fr))",
+            gap: "2rem",
+            maxWidth: "760px",
+            margin: "0 auto",
           }}>
             {techTeam.map((member, i) => (
               <MemberCard key={i} member={member} index={i} />
@@ -608,43 +597,44 @@ const TechnicalTeam = () => {
                 <p style={{
                   fontFamily: "'Jost', sans-serif",
                   fontSize: "0.9rem", color: "rgba(232,217,192,0.45)",
-                  marginBottom: "2.5rem", lineHeight: 1.8,
-                  maxWidth: "520px", margin: "0 auto 2.5rem",
-                  fontWeight: 300,
+                  lineHeight: 1.8, maxWidth: "520px",
+                  margin: "0 auto 2.5rem", fontWeight: 300,
                 }}>
                   We're always looking for talented developers to join our mission.
-                  Build the future of education technology with us.
+                  Build the future of STEM education technology with us.
                 </p>
 
                 <div style={{ display: "flex", gap: "1rem", justifyContent: "center", flexWrap: "wrap" }}>
-                  <button style={{
-                    fontFamily: "'Jost', sans-serif",
-                    fontSize: "0.72rem", letterSpacing: "0.2em",
-                    textTransform: "uppercase", color: "#fff",
-                    background: "#C9A84C", border: "none",
-                    padding: "0.9rem 2.2rem", cursor: "pointer",
-                    borderRadius: "1px", fontWeight: 500,
-                    transition: "background 0.3s ease, transform 0.3s ease",
-                  }}
+                  <button
+                    style={{
+                      fontFamily: "'Jost', sans-serif",
+                      fontSize: "0.72rem", letterSpacing: "0.2em",
+                      textTransform: "uppercase", color: "#fff",
+                      background: "#C9A84C", border: "none",
+                      padding: "0.9rem 2.2rem", cursor: "pointer",
+                      borderRadius: "1px", fontWeight: 500,
+                      transition: "background 0.3s ease, transform 0.3s ease",
+                    }}
                     onMouseEnter={e => { e.target.style.background = "#B8965A"; e.target.style.transform = "translateY(-2px)"; }}
                     onMouseLeave={e => { e.target.style.background = "#C9A84C"; e.target.style.transform = "translateY(0)"; }}
                   >
                     View Open Positions
                   </button>
-                  <button style={{
-                    fontFamily: "'Jost', sans-serif",
-                    fontSize: "0.72rem", letterSpacing: "0.2em",
-                    textTransform: "uppercase", color: "#C9A84C",
-                    background: "transparent",
-                    border: "1px solid rgba(201,168,76,0.4)",
-                    padding: "0.9rem 2.2rem", cursor: "pointer",
-                    borderRadius: "1px", fontWeight: 400,
-                    transition: "border-color 0.3s ease, background 0.3s ease",
-                  }}
+                  <button
+                    style={{
+                      fontFamily: "'Jost', sans-serif",
+                      fontSize: "0.72rem", letterSpacing: "0.2em",
+                      textTransform: "uppercase", color: "#C9A84C",
+                      background: "transparent",
+                      border: "1px solid rgba(201,168,76,0.4)",
+                      padding: "0.9rem 2.2rem", cursor: "pointer",
+                      borderRadius: "1px", fontWeight: 400,
+                      transition: "border-color 0.3s ease, background 0.3s ease",
+                    }}
                     onMouseEnter={e => { e.target.style.background = "rgba(201,168,76,0.08)"; e.target.style.borderColor = "rgba(201,168,76,0.8)"; }}
                     onMouseLeave={e => { e.target.style.background = "transparent"; e.target.style.borderColor = "rgba(201,168,76,0.4)"; }}
                   >
-                    Tech Stack Docs
+                    Contact Us
                   </button>
                 </div>
               </div>
