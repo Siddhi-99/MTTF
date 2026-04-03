@@ -34,7 +34,7 @@ import AboutStudentChapter from "./Pages/About_The_Foundation/chapters/AboutStud
 /* ===================== AWARDS ===================== */
 import Awards2025 from "./Pages/OurPrograms/Awards/Awards2025";
 import Awards2024 from "./Pages/OurPrograms/Awards/Awards2024";
-
+import MembersPage from "./Pages/Members/MembersPage";
 /* ===================== CONTACT ===================== */
 import Contact from "./Pages/Contacts/Contact";
 
@@ -133,6 +133,8 @@ function App() {
        {/* ===================== ABOUT THE FOUNDATION - MATH TECH CIRCLE ===================== */}
 <Route path="/about/mathtech/individual" element={<Individual />} />
 <Route path="/about/mathtech/institutional" element={<Institutional />} />
+<Route path="/members" element={<MembersPage />} />
+
 
 {/* ===================== ABOUT THE FOUNDATION - MATH TECH CIRCLE ===================== */}
 <Route path="/about/mathtech/student-chapter" element={<StudentChapter />} />

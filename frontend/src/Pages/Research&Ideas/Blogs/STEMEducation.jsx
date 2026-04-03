@@ -9,7 +9,7 @@ const paragraphs = [
     tag: "Definition",
     title: "What is Computational Science?",
     body: "Computational science, also known as scientific computing, is a multidisciplinary field that utilizes computer simulations, modeling, and data analysis to solve complex problems in science, engineering, and other domains. It combines elements of mathematics, computer science, and specific scientific disciplines to develop algorithms, software, and computational models.",
-    accent: "#38BDF8",
+    accent: "#8B6914",
     highlight: "multidisciplinary field",
   },
   {
@@ -18,7 +18,7 @@ const paragraphs = [
     tag: "Methodology",
     title: "How Researchers Work",
     body: "In computational science, researchers use computational tools and techniques to simulate and analyze systems that are too complex or impractical to study through traditional analytical approaches. By leveraging computational power, scientists can explore a wide range of scenarios, analyze large datasets, and make predictions or gain insights into complex phenomena.",
-    accent: "#A3E635",
+    accent: "#5C7A2E",
     highlight: "leveraging computational power",
   },
   {
@@ -27,7 +27,7 @@ const paragraphs = [
     tag: "Applications",
     title: "Across Every Domain",
     body: "Computational science has numerous applications across various fields. It plays a critical role in areas such as physics, chemistry, biology, engineering, finance, climate modeling, drug discovery, and more. It enables researchers to conduct virtual experiments, optimize processes, analyze and visualize large datasets, and make data-driven decisions.",
-    accent: "#FB923C",
+    accent: "#9B4A1A",
     highlight: "physics, chemistry, biology",
   },
   {
@@ -36,7 +36,7 @@ const paragraphs = [
     tag: "Infrastructure",
     title: "Built on Power & Precision",
     body: "The field of computational science relies on the development of efficient algorithms, mathematical models, and computational techniques. High-performance computing (HPC) systems and advanced software tools are utilized to execute complex simulations and handle large-scale computational tasks.",
-    accent: "#E879F9",
+    accent: "#6B3D8A",
     highlight: "High-performance computing",
   },
   {
@@ -45,7 +45,7 @@ const paragraphs = [
     tag: "Impact",
     title: "Driving Innovation Forward",
     body: "Through computational science, researchers can tackle complex problems, gain a deeper understanding of natural phenomena, make predictions, optimize designs, and contribute to scientific advancements. It offers a powerful and versatile set of tools that enhance research capabilities, promote interdisciplinary collaboration, and drive innovation in diverse domains.",
-    accent: "#34D399",
+    accent: "#1A6B4A",
     highlight: "interdisciplinary collaboration",
   },
 ];
@@ -73,9 +73,9 @@ function OrbitCanvas() {
     const cy = () => canvas.height / 2;
 
     const rings = [
-      { radius: 90, speed: 0.004, nodes: 6, color: "#38BDF8" },
-      { radius: 145, speed: -0.003, nodes: 9, color: "#A3E635" },
-      { radius: 195, speed: 0.002, nodes: 12, color: "#E879F9" },
+      { radius: 90, speed: 0.004, nodes: 6, color: "#B8960C" },
+      { radius: 145, speed: -0.003, nodes: 9, color: "#7A9B3A" },
+      { radius: 195, speed: 0.002, nodes: 12, color: "#9B6B2A" },
     ];
 
     const draw = () => {
@@ -85,7 +85,7 @@ function OrbitCanvas() {
       rings.forEach((ring) => {
         ctx.beginPath();
         ctx.arc(cx(), cy(), ring.radius, 0, Math.PI * 2);
-        ctx.strokeStyle = `${ring.color}18`;
+        ctx.strokeStyle = `${ring.color}25`;
         ctx.lineWidth = 1;
         ctx.stroke();
 
@@ -97,21 +97,21 @@ function OrbitCanvas() {
           ctx.beginPath();
           ctx.arc(nx, ny, 2.5, 0, Math.PI * 2);
           ctx.fillStyle = ring.color;
-          ctx.globalAlpha = 0.7;
+          ctx.globalAlpha = 0.5;
           ctx.fill();
           ctx.globalAlpha = 1;
 
           ctx.beginPath();
           ctx.moveTo(cx(), cy());
           ctx.lineTo(nx, ny);
-          ctx.strokeStyle = `${ring.color}10`;
+          ctx.strokeStyle = `${ring.color}15`;
           ctx.lineWidth = 0.5;
           ctx.stroke();
         }
       });
 
       const gradient = ctx.createRadialGradient(cx(), cy(), 0, cx(), cy(), 30);
-      gradient.addColorStop(0, "rgba(56,189,248,0.5)");
+      gradient.addColorStop(0, "rgba(184,150,12,0.35)");
       gradient.addColorStop(1, "transparent");
       ctx.beginPath();
       ctx.arc(cx(), cy(), 30, 0, Math.PI * 2);
@@ -120,8 +120,8 @@ function OrbitCanvas() {
 
       ctx.beginPath();
       ctx.arc(cx(), cy(), 8, 0, Math.PI * 2);
-      ctx.fillStyle = "#38BDF8";
-      ctx.globalAlpha = 0.9;
+      ctx.fillStyle = "#B8960C";
+      ctx.globalAlpha = 0.75;
       ctx.fill();
       ctx.globalAlpha = 1;
 
@@ -149,10 +149,10 @@ function ParagraphCard({ item, index }) {
         gap: "2rem",
         alignItems: "flex-start",
         padding: "2.5rem",
-        background: hovered ? `${item.accent}08` : "transparent",
-        borderLeft: isEven ? `3px solid ${hovered ? item.accent : "rgba(255,255,255,0.06)"}` : "3px solid transparent",
-        borderRight: !isEven ? `3px solid ${hovered ? item.accent : "rgba(255,255,255,0.06)"}` : "3px solid transparent",
-        borderTop: "1px solid rgba(255,255,255,0.04)",
+        background: hovered ? `${item.accent}10` : "transparent",
+        borderLeft: isEven ? `3px solid ${hovered ? item.accent : "rgba(100,75,20,0.15)"}` : "3px solid transparent",
+        borderRight: !isEven ? `3px solid ${hovered ? item.accent : "rgba(100,75,20,0.15)"}` : "3px solid transparent",
+        borderTop: "1px solid rgba(100,75,20,0.1)",
         transition: "all 0.4s cubic-bezier(0.23,1,0.32,1)",
         cursor: "default",
         animationDelay: `${index * 0.12}s`,
@@ -166,10 +166,10 @@ function ParagraphCard({ item, index }) {
         [isEven ? "right" : "left"]: "-0.5rem",
         top: "50%",
         transform: "translateY(-50%)",
-        fontFamily: "'Syne', sans-serif",
+        fontFamily: "'Playfair Display', serif",
         fontSize: "8rem",
         fontWeight: 900,
-        color: `${item.accent}08`,
+        color: `${item.accent}10`,
         lineHeight: 1,
         userSelect: "none",
         transition: "color 0.3s",
@@ -186,11 +186,11 @@ function ParagraphCard({ item, index }) {
           alignItems: "center",
           justifyContent: "center",
           fontSize: "2rem",
-          background: `${item.accent}15`,
-          border: `1px solid ${item.accent}35`,
+          background: `${item.accent}12`,
+          border: `1px solid ${item.accent}40`,
           transition: "all 0.35s",
           transform: hovered ? "scale(1.12) rotate(-6deg)" : "scale(1)",
-          boxShadow: hovered ? `0 0 24px ${item.accent}40` : "none",
+          boxShadow: hovered ? `0 0 24px ${item.accent}30` : "none",
         }}>
           {item.icon}
         </div>
@@ -199,14 +199,15 @@ function ParagraphCard({ item, index }) {
       <div style={{ position: "relative", zIndex: 1 }}>
         <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", marginBottom: "0.5rem", flexDirection: isEven ? "row" : "row-reverse" }}>
           <span style={{
-            fontFamily: "'Space Mono', monospace",
-            fontSize: "0.58rem",
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: "0.65rem",
             color: item.accent,
             letterSpacing: "0.2em",
             textTransform: "uppercase",
             padding: "0.2rem 0.6rem",
             border: `1px solid ${item.accent}40`,
-            background: `${item.accent}10`,
+            background: `${item.accent}08`,
+            fontWeight: 600,
           }}>
             {item.tag}
           </span>
@@ -219,21 +220,21 @@ function ParagraphCard({ item, index }) {
         </div>
 
         <h3 style={{
-          fontFamily: "'Syne', sans-serif",
+          fontFamily: "'Playfair Display', serif",
           fontSize: "1.3rem",
-          fontWeight: 800,
-          color: "#fff",
+          fontWeight: 700,
+          color: "#1C150A",
           margin: "0 0 0.85rem",
-          letterSpacing: "-0.03em",
+          letterSpacing: "-0.02em",
           textAlign: isEven ? "left" : "right",
         }}>
           {item.title}
         </h3>
 
         <p style={{
-          fontFamily: "'DM Sans', sans-serif",
-          fontSize: "0.9rem",
-          color: "rgba(255,255,255,0.48)",
+          fontFamily: "'Cormorant Garamond', serif",
+          fontSize: "1.05rem",
+          color: "rgba(40,28,8,0.62)",
           lineHeight: 1.85,
           margin: 0,
           textAlign: isEven ? "left" : "right",
@@ -242,7 +243,7 @@ function ParagraphCard({ item, index }) {
             i < arr.length - 1 ? (
               <span key={i}>
                 {part}
-                <span style={{ color: item.accent, fontWeight: 500 }}>{item.highlight}</span>
+                <span style={{ color: item.accent, fontWeight: 600 }}>{item.highlight}</span>
               </span>
             ) : part
           )}
@@ -258,11 +259,11 @@ function ParagraphCard({ item, index }) {
           alignItems: "center",
           justifyContent: "center",
           fontSize: "2rem",
-          background: `${item.accent}15`,
-          border: `1px solid ${item.accent}35`,
+          background: `${item.accent}12`,
+          border: `1px solid ${item.accent}40`,
           transition: "all 0.35s",
           transform: hovered ? "scale(1.12) rotate(6deg)" : "scale(1)",
-          boxShadow: hovered ? `0 0 24px ${item.accent}40` : "none",
+          boxShadow: hovered ? `0 0 24px ${item.accent}30` : "none",
         }}>
           {item.icon}
         </div>
@@ -277,12 +278,12 @@ export default function App() {
   useEffect(() => {
     const link = document.createElement("link");
     link.rel = "stylesheet";
-    link.href = "https://fonts.googleapis.com/css2?family=Syne:wght@700;800;900&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap";
+    link.href = "https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400;1,700&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&display=swap";
     document.head.appendChild(link);
   }, []);
 
   return (
-    <div className="min-h-screen flex flex-col" style={{ background: "#060810", color: "#fff" }}>
+    <div className="min-h-screen flex flex-col" style={{ background: "#F5EDD6", color: "#1C150A" }}>
       <style>{`
         @keyframes slideIn {
           from { opacity: 0; transform: translateX(-20px); }
@@ -297,13 +298,13 @@ export default function App() {
           50% { transform: translateY(-4px); }
         }
         ::-webkit-scrollbar { width: 3px; }
-        ::-webkit-scrollbar-track { background: #060810; }
-        ::-webkit-scrollbar-thumb { background: #38BDF8; }
+        ::-webkit-scrollbar-track { background: #F5EDD6; }
+        ::-webkit-scrollbar-thumb { background: #B8960C; }
       `}</style>
 
       <Header />
 
-      <main className="flex-grow" style={{ fontFamily: "'DM Sans', sans-serif" }}>
+      <main className="flex-grow" style={{ fontFamily: "'Cormorant Garamond', serif" }}>
         {/* Hero */}
         <div style={{
           position: "relative",
@@ -315,14 +316,15 @@ export default function App() {
           padding: "6rem 2rem 3rem",
           textAlign: "center",
           overflow: "hidden",
-          borderBottom: "1px solid rgba(56,189,248,0.1)",
+          borderBottom: "1px solid rgba(184,150,12,0.18)",
+          background: "linear-gradient(160deg, #F5EDD6 0%, #EDE0B8 50%, #F0E8CC 100%)",
         }}>
           <OrbitCanvas />
 
           <div style={{
             position: "absolute",
             inset: 0,
-            background: "radial-gradient(ellipse 70% 60% at 50% 60%, rgba(56,189,248,0.07) 0%, transparent 70%)",
+            background: "radial-gradient(ellipse 70% 60% at 50% 60%, rgba(184,150,12,0.1) 0%, transparent 70%)",
             pointerEvents: "none",
           }} />
 
@@ -331,55 +333,58 @@ export default function App() {
               display: "inline-flex",
               alignItems: "center",
               gap: "0.6rem",
-              background: "rgba(56,189,248,0.06)",
-              border: "1px solid rgba(56,189,248,0.2)",
+              background: "rgba(184,150,12,0.08)",
+              border: "1px solid rgba(184,150,12,0.28)",
               padding: "0.4rem 1.1rem",
               marginBottom: "2rem",
             }}>
               <span style={{
-                fontFamily: "'Space Mono', monospace",
-                fontSize: "0.58rem",
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: "0.62rem",
                 letterSpacing: "0.22em",
-                color: "#38BDF8",
+                color: "#8B6914",
                 textTransform: "uppercase",
+                fontWeight: 600,
               }}>
                 Note · Mar 25, 2026
               </span>
-              <span style={{ width: 4, height: 4, background: "#38BDF8", borderRadius: "50%", display: "inline-block" }} />
+              <span style={{ width: 4, height: 4, background: "#B8960C", borderRadius: "50%", display: "inline-block" }} />
               <span style={{
-                fontFamily: "'Space Mono', monospace",
-                fontSize: "0.58rem",
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: "0.62rem",
                 letterSpacing: "0.22em",
-                color: "rgba(56,189,248,0.5)",
+                color: "rgba(139,105,20,0.55)",
                 textTransform: "uppercase",
+                fontWeight: 600,
               }}>Scientific Computing</span>
             </div>
 
             <h1 style={{
-              fontFamily: "'Syne', sans-serif",
+              fontFamily: "'Playfair Display', serif",
               fontSize: "clamp(2.2rem, 6.5vw, 5rem)",
               fontWeight: 900,
               lineHeight: 1,
-              letterSpacing: "-0.045em",
+              letterSpacing: "-0.03em",
               marginBottom: "0.5rem",
             }}>
-              <span style={{ color: "rgba(255,255,255,0.95)" }}>Note on</span>
+              <span style={{ color: "#1C150A" }}>Note on</span>
               <br />
               <span style={{
-                background: "linear-gradient(110deg, #38BDF8 0%, #A3E635 50%, #E879F9 100%)",
+                background: "linear-gradient(110deg, #8B6914 0%, #5C7A2E 50%, #9B4A1A 100%)",
                 WebkitBackgroundClip: "text",
                 WebkitTextFillColor: "transparent",
               }}>
                 Computational
               </span>
               <br />
-              <span style={{ color: "rgba(255,255,255,0.95)" }}>Science</span>
+              <span style={{ color: "#1C150A" }}>Science</span>
             </h1>
 
             <div style={{
               fontStyle: "italic",
-              fontSize: "1rem",
-              color: "rgba(255,255,255,0.35)",
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: "1.15rem",
+              color: "rgba(40,28,8,0.45)",
               marginTop: "1.25rem",
               letterSpacing: "0.01em",
             }}>
@@ -391,23 +396,24 @@ export default function App() {
         {/* Discipline Tags */}
         <div style={{
           padding: "2rem",
-          borderBottom: "1px solid rgba(255,255,255,0.04)",
-          background: "rgba(255,255,255,0.01)",
+          borderBottom: "1px solid rgba(100,75,20,0.1)",
+          background: "rgba(184,150,12,0.03)",
         }}>
           <div style={{
-            fontFamily: "'Space Mono', monospace",
-            fontSize: "0.58rem",
-            color: "rgba(255,255,255,0.2)",
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: "0.62rem",
+            color: "rgba(40,28,8,0.3)",
             letterSpacing: "0.2em",
             textTransform: "uppercase",
             marginBottom: "1rem",
             textAlign: "center",
+            fontWeight: 600,
           }}>
             Domains & Disciplines
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: "0.5rem", justifyContent: "center" }}>
             {disciplines.map((d, i) => {
-              const colors = ["#38BDF8", "#A3E635", "#FB923C", "#E879F9", "#34D399"];
+              const colors = ["#8B6914", "#5C7A2E", "#9B4A1A", "#6B3D8A", "#1A6B4A"];
               const color = colors[i % colors.length];
               const isActive = activeTag === d;
               return (
@@ -415,16 +421,17 @@ export default function App() {
                   key={d}
                   onClick={() => setActiveTag(isActive ? null : d)}
                   style={{
-                    fontFamily: "'Space Mono', monospace",
-                    fontSize: "0.62rem",
-                    color: isActive ? "#000" : color,
+                    fontFamily: "'Cormorant Garamond', serif",
+                    fontSize: "0.7rem",
+                    color: isActive ? "#F5EDD6" : color,
                     background: isActive ? color : `${color}10`,
-                    border: `1px solid ${color}40`,
+                    border: `1px solid ${color}50`,
                     padding: "0.3rem 0.85rem",
                     cursor: "pointer",
                     letterSpacing: "0.1em",
                     textTransform: "uppercase",
                     transition: "all 0.25s",
+                    fontWeight: 600,
                     animation: `tagFloat ${2 + i * 0.15}s ease-in-out infinite`,
                   }}
                 >
@@ -438,18 +445,19 @@ export default function App() {
         {/* Main Content */}
         <div style={{ maxWidth: "900px", margin: "0 auto", padding: "2rem 1rem 6rem" }}>
           <div style={{ display: "flex", alignItems: "center", gap: "1rem", padding: "2rem 1.5rem 1rem" }}>
-            <div style={{ flex: 1, height: "1px", background: "rgba(255,255,255,0.06)" }} />
+            <div style={{ flex: 1, height: "1px", background: "rgba(100,75,20,0.12)" }} />
             <span style={{
-              fontFamily: "'Space Mono', monospace",
-              fontSize: "0.6rem",
-              color: "rgba(255,255,255,0.2)",
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: "0.65rem",
+              color: "rgba(40,28,8,0.3)",
               letterSpacing: "0.2em",
               textTransform: "uppercase",
               whiteSpace: "nowrap",
+              fontWeight: 600,
             }}>
               05 Key Sections
             </span>
-            <div style={{ flex: 1, height: "1px", background: "rgba(255,255,255,0.06)" }} />
+            <div style={{ flex: 1, height: "1px", background: "rgba(100,75,20,0.12)" }} />
           </div>
 
           {paragraphs.map((item, i) => (
@@ -459,27 +467,28 @@ export default function App() {
 
         {/* Summary Banner */}
         <div style={{
-          background: "linear-gradient(135deg, rgba(56,189,248,0.08) 0%, rgba(163,230,53,0.06) 50%, rgba(232,121,249,0.08) 100%)",
-          borderTop: "1px solid rgba(56,189,248,0.12)",
-          borderBottom: "1px solid rgba(56,189,248,0.12)",
+          background: "linear-gradient(135deg, rgba(184,150,12,0.12) 0%, rgba(92,122,46,0.09) 50%, rgba(155,74,26,0.12) 100%)",
+          borderTop: "1px solid rgba(184,150,12,0.18)",
+          borderBottom: "1px solid rgba(184,150,12,0.18)",
           padding: "3rem 2rem",
           textAlign: "center",
         }}>
           <div style={{
-            fontFamily: "'Syne', sans-serif",
+            fontFamily: "'Playfair Display', serif",
+            fontStyle: "italic",
             fontSize: "clamp(1.1rem, 3vw, 1.7rem)",
-            fontWeight: 800,
-            color: "rgba(255,255,255,0.85)",
+            fontWeight: 700,
+            color: "rgba(28,21,10,0.82)",
             maxWidth: "700px",
             margin: "0 auto",
-            lineHeight: 1.4,
-            letterSpacing: "-0.02em",
+            lineHeight: 1.5,
+            letterSpacing: "-0.01em",
           }}>
             "A powerful and versatile set of tools that{" "}
-            <span style={{ color: "#38BDF8" }}>enhance research capabilities</span>,{" "}
+            <span style={{ color: "#8B6914" }}>enhance research capabilities</span>,{" "}
             promote{" "}
-            <span style={{ color: "#A3E635" }}>interdisciplinary collaboration</span>, and drive{" "}
-            <span style={{ color: "#E879F9" }}>innovation in diverse domains</span>."
+            <span style={{ color: "#5C7A2E" }}>interdisciplinary collaboration</span>, and drive{" "}
+            <span style={{ color: "#9B4A1A" }}>innovation in diverse domains</span>."
           </div>
         </div>
       </main>
