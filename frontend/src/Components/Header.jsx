@@ -4,253 +4,6 @@ import ResearchIdeasMegaMenu from "./ResearchIdeasMegaMenu";
 import AboutFoundationMegaMenu from "./AboutFoundationMegaMenu";
 import { Link, useLocation } from "react-router-dom";
 
-const styles = `
-  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap');
-
-  :root {
-    --cream: #FAF8F3;
-    --beige: #F2EDE4;
-    --gold: #C9A84C;
-    --gold-light: #E8C96A;
-    --charcoal: #1C1A17;
-    --mid: #6B6560;
-    --divider: rgba(201,168,76,0.25);
-  }
-
-  .lux-header {
-    position: fixed;
-    top: 0; left: 0; right: 0;
-    z-index: 50;
-    font-family: 'DM Sans', sans-serif;
-    transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
-  }
-
-  .lux-accent-bar {
-    background: var(--gold);
-    height: 2px;
-    width: 100%;
-  }
-
-  .lux-header-inner {
-    background: rgba(250, 248, 243, 0.97);
-    border-bottom: 1px solid var(--divider);
-    transition: background 0.4s ease, box-shadow 0.4s ease;
-  }
-
-  .lux-header.scrolled .lux-header-inner {
-    background: rgba(250, 248, 243, 0.99);
-    box-shadow: 0 4px 32px rgba(28,26,23,0.08);
-    border-bottom: 1px solid rgba(201,168,76,0.35);
-  }
-
-  .lux-nav-wrap {
-    max-width: 1320px;
-    margin: 0 auto;
-    padding: 0 40px;
-    height: 72px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    gap: 24px;
-  }
-
-  /* ── Logo ── */
-  .lux-logo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    cursor: pointer;
-    flex-shrink: 0;
-  }
-
-  .lux-logo-mark {
-    width: 40px;
-    height: 40px;
-    border: 1.5px solid var(--gold);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: relative;
-    flex-shrink: 0;
-  }
-
-  .lux-logo-mark::before {
-    content: '';
-    position: absolute;
-    inset: 3px;
-    background: var(--gold);
-    opacity: 0.1;
-  }
-
-  .lux-logo-text {
-    display: flex;
-    flex-direction: column;
-    line-height: 1;
-  }
-
-  .lux-logo-name {
-    font-family: 'Cormorant Garamond', serif;
-    font-size: 20px;
-    font-weight: 600;
-    color: var(--charcoal);
-    letter-spacing: 0.14em;
-    text-transform: uppercase;
-  }
-
-  .lux-logo-sub {
-    font-size: 9px;
-    font-weight: 400;
-    color: var(--gold);
-    letter-spacing: 0.18em;
-    text-transform: uppercase;
-    margin-top: 4px;
-  }
-
-  /* ── Nav ── */
-  .lux-nav {
-    display: flex;
-    align-items: center;
-    gap: 2px;
-  }
-
-  .lux-nav-item {
-    position: relative;
-  }
-
-  .lux-nav-link {
-    position: relative;
-    display: inline-block;
-    padding: 8px 16px;
-    font-size: 12px;
-    font-weight: 400;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--mid);
-    text-decoration: none;
-    transition: color 0.25s ease;
-    white-space: nowrap;
-  }
-
-  .lux-nav-link::after {
-    content: '';
-    position: absolute;
-    bottom: 4px;
-    left: 16px;
-    right: 16px;
-    height: 1px;
-    background: var(--gold);
-    transform: scaleX(0);
-    transform-origin: center;
-    transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
-  }
-
-  .lux-nav-link:hover,
-  .lux-nav-link.active {
-    color: var(--charcoal);
-  }
-
-  .lux-nav-link:hover::after,
-  .lux-nav-link.active::after {
-    transform: scaleX(1);
-  }
-
-  /* Dot separator between nav items */
-  .lux-nav-dot {
-    width: 3px;
-    height: 3px;
-    border-radius: 50%;
-    background: rgba(201,168,76,0.4);
-    flex-shrink: 0;
-    margin: 0 2px;
-  }
-
-  /* Hover buffer to prevent flicker */
-  .lux-menu-buffer {
-    position: absolute;
-    left: 0;
-    top: 100%;
-    height: 24px;
-    width: 100%;
-  }
-
-  /* Mega menu container */
-  .lux-mega-wrapper {
-    position: absolute;
-    left: 0;
-    top: calc(100% + 1rem);
-  }
-
-  /* ── CTA ── */
-  .lux-cta {
-    flex-shrink: 0;
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    padding: 11px 22px;
-    background: var(--charcoal);
-    color: var(--gold-light);
-    font-family: 'DM Sans', sans-serif;
-    font-size: 11px;
-    font-weight: 500;
-    letter-spacing: 0.16em;
-    text-transform: uppercase;
-    text-decoration: none;
-    border: 1px solid var(--charcoal);
-    transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
-    position: relative;
-    overflow: hidden;
-  }
-
-  .lux-cta::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background: var(--gold);
-    transform: translateX(-101%);
-    transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
-  }
-
-  .lux-cta:hover::before {
-    transform: translateX(0);
-  }
-
-  .lux-cta:hover {
-    color: var(--charcoal);
-    border-color: var(--gold);
-  }
-
-  .lux-cta span,
-  .lux-cta svg {
-    position: relative;
-    z-index: 1;
-  }
-
-  .lux-cta svg {
-    transition: transform 0.3s ease;
-  }
-
-  .lux-cta:hover svg {
-    transform: translateX(3px);
-  }
-
-  /* Bottom divider */
-  .lux-header-divider {
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--gold) 20%, var(--gold) 80%, transparent);
-    opacity: 0.2;
-  }
-
-  @media (max-width: 1024px) {
-    .lux-nav-wrap { padding: 0 24px; }
-  }
-
-  @media (max-width: 768px) {
-    .lux-nav { display: none; }
-    .lux-cta { display: none; }
-    .lux-nav-wrap { height: 60px; }
-  }
-`;
-
 const navItems = [
   { name: "Home", href: "/" },
   { name: "Our Programs", href: "/programs" },
@@ -261,120 +14,299 @@ const navItems = [
 
 export default function Header() {
   const location = useLocation();
-
   const isActive = (path) => location.pathname === path;
 
   const [scrolled, setScrolled] = useState(false);
-
-  // single state instead of 3 booleans
   const [openMenu, setOpenMenu] = useState(null);
-  // values: "programs" | "research" | "about" | null
-
-  // Timer reference to prevent premature closing
   const closeTimer = useRef(null);
 
   useEffect(() => {
-    const handleScroll = () => setScrolled(window.scrollY > 60);
+    const handleScroll = () => setScrolled(window.scrollY > 40);
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
-  // Function to handle menu opening
   const handleMenuOpen = (menuKey) => {
-    if (closeTimer.current) {
-      clearTimeout(closeTimer.current);
-      closeTimer.current = null;
-    }
+    if (closeTimer.current) clearTimeout(closeTimer.current);
     setOpenMenu(menuKey);
   };
 
-  // Function to handle menu closing with delay
   const handleMenuClose = () => {
-    if (closeTimer.current) {
-      clearTimeout(closeTimer.current);
-    }
     closeTimer.current = setTimeout(() => {
       setOpenMenu(null);
-    }, 300);
+    }, 250);
   };
 
   return (
     <>
-      <style>{styles}</style>
+      {/* Google Fonts */}
+      <style>{`
+        @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&display=swap');
 
-      <header className={`lux-header${scrolled ? " scrolled" : ""}`}>
+        .header-root {
+          font-family: 'DM Sans', sans-serif;
+        }
 
-        {/* Gold accent bar */}
-        <div className="lux-accent-bar" />
+        .header-inner {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          z-index: 50;
+          transition: all 0.4s ease;
+        }
 
-        <div className="lux-header-inner">
-          <div className="lux-nav-wrap">
+        .header-inner.scrolled {
+          background: rgba(254, 249, 239, 0.97);
+          backdrop-filter: blur(16px);
+          -webkit-backdrop-filter: blur(16px);
+          box-shadow: 0 2px 32px rgba(180, 145, 60, 0.08);
+        }
+
+        .header-inner.top {
+          background: rgba(254, 249, 239, 0.92);
+          backdrop-filter: blur(8px);
+          -webkit-backdrop-filter: blur(8px);
+        }
+
+        .header-container {
+          max-width: 1320px;
+          margin: 0 auto;
+          padding: 0 40px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          height: 72px;
+        }
+
+        /* Thin gold divider at bottom */
+        .header-divider {
+          height: 1px;
+          background: linear-gradient(90deg, transparent, rgba(185, 148, 60, 0.35), transparent);
+        }
+
+        /* Logo */
+        .logo-wrap {
+          display: flex;
+          align-items: center;
+          gap: 12px;
+          text-decoration: none;
+        }
+
+        .logo-mark {
+          width: 38px;
+          height: 38px;
+          border: 1.5px solid #b9943c;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          position: relative;
+        }
+
+        .logo-mark::before {
+          content: '';
+          position: absolute;
+          inset: 3px;
+          border: 1px solid rgba(185, 148, 60, 0.4);
+        }
+
+        .logo-mark-letter {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 18px;
+          font-weight: 500;
+          color: #b9943c;
+          letter-spacing: 0.5px;
+        }
+
+        .logo-text-wrap {
+          display: flex;
+          flex-direction: column;
+          gap: 0px;
+        }
+
+        .logo-title {
+          font-family: 'Cormorant Garamond', serif;
+          font-size: 16px;
+          font-weight: 600;
+          color: #1a1610;
+          letter-spacing: 2.5px;
+          text-transform: uppercase;
+          line-height: 1.1;
+        }
+
+        .logo-sub {
+          font-family: 'DM Sans', sans-serif;
+          font-size: 9.5px;
+          font-weight: 300;
+          color: #8a7a5a;
+          letter-spacing: 1.8px;
+          text-transform: uppercase;
+        }
+
+        /* Nav */
+        .nav-list {
+          display: none;
+          align-items: center;
+          gap: 4px;
+          list-style: none;
+          margin: 0;
+          padding: 0;
+        }
+
+        @media (min-width: 768px) {
+          .nav-list {
+            display: flex;
+          }
+        }
+
+        .nav-item {
+          position: relative;
+        }
+
+        .nav-link {
+          display: block;
+          padding: 8px 16px;
+          font-size: 12.5px;
+          font-weight: 400;
+          letter-spacing: 1.4px;
+          text-transform: uppercase;
+          color: #4a3f2a;
+          text-decoration: none;
+          transition: color 0.25s ease;
+          position: relative;
+        }
+
+        .nav-link::after {
+          content: '';
+          position: absolute;
+          bottom: 4px;
+          left: 16px;
+          right: 16px;
+          height: 1px;
+          background: #b9943c;
+          transform: scaleX(0);
+          transition: transform 0.3s ease;
+          transform-origin: left;
+        }
+
+        .nav-link:hover {
+          color: #b9943c;
+        }
+
+        .nav-link:hover::after,
+        .nav-link.active::after {
+          transform: scaleX(1);
+        }
+
+        .nav-link.active {
+          color: #b9943c;
+        }
+
+        /* CTA Button */
+        .cta-btn {
+          display: none;
+          align-items: center;
+          gap: 10px;
+          padding: 11px 24px;
+          background: #1a1610;
+          color: #f0e4c4;
+          font-family: 'DM Sans', sans-serif;
+          font-size: 11px;
+          font-weight: 500;
+          letter-spacing: 1.8px;
+          text-transform: uppercase;
+          text-decoration: none;
+          transition: all 0.3s ease;
+          border: 1px solid transparent;
+          position: relative;
+          overflow: hidden;
+        }
+
+        .cta-btn::before {
+          content: '';
+          position: absolute;
+          inset: 0;
+          background: #b9943c;
+          transform: translateX(-100%);
+          transition: transform 0.35s ease;
+          z-index: 0;
+        }
+
+        .cta-btn:hover::before {
+          transform: translateX(0);
+        }
+
+        .cta-btn:hover {
+          border-color: #b9943c;
+          color: #fff;
+        }
+
+        .cta-btn span,
+        .cta-btn svg {
+          position: relative;
+          z-index: 1;
+        }
+
+        @media (min-width: 768px) {
+          .cta-btn {
+            display: flex;
+          }
+        }
+
+        /* Mega menu container */
+        .mega-menu-wrap {
+          position: absolute;
+          top: calc(100% + 16px);
+          left: 0;
+        }
+      `}</style>
+
+      <header className="header-root">
+        <div className={`header-inner ${scrolled ? "scrolled" : "top"}`}>
+          <div className="header-container">
 
             {/* Logo */}
-            <div className="lux-logo">
-              <div className="lux-logo-mark">
-                <svg
-                  width="18" height="18" viewBox="0 0 18 18"
-                  fill="none" xmlns="http://www.w3.org/2000/svg"
-                  style={{ position: "relative", zIndex: 1 }}
-                >
-                  <path
-                    d="M9 2L16 8V16H12V12H6V16H2V8L9 2Z"
-                    stroke="#C9A84C" strokeWidth="1.2"
-                    strokeLinejoin="round" fill="none"
-                  />
-                </svg>
+            <Link to="/" className="logo-wrap">
+              <div className="logo-mark">
+                <span className="logo-mark-letter">M</span>
               </div>
-              <div className="lux-logo-text">
-                <span className="lux-logo-name">MTTF</span>
-                <span className="lux-logo-sub">MathTech Thinking Foundation</span>
+              <div className="logo-text-wrap">
+                <span className="logo-title">MTTF</span>
+                <span className="logo-sub">MathTech Thinking Foundation</span>
               </div>
-            </div>
+            </Link>
 
             {/* Navigation */}
-            <nav className="lux-nav">
-              {navItems.map((item, i) => {
-                const menuKey =
-                  item.name === "Our Programs"
-                    ? "programs"
-                    : item.name === "Research & Ideas"
-                    ? "research"
-                    : item.name === "About the Foundation"
-                    ? "about"
-                    : null;
+            <nav>
+              <ul className="nav-list">
+                {navItems.map((item) => {
+                  const menuKey =
+                    item.name === "Our Programs"
+                      ? "programs"
+                      : item.name === "Research & Ideas"
+                      ? "research"
+                      : item.name === "About the Foundation"
+                      ? "about"
+                      : null;
 
-                return (
-                  <React.Fragment key={item.name}>
-                    {i > 0 && <span className="lux-nav-dot" />}
-                    <div
-                      className="lux-nav-item"
+                  return (
+                    <li
+                      key={item.name}
+                      className="nav-item"
                       onMouseEnter={() => menuKey && handleMenuOpen(menuKey)}
                       onMouseLeave={() => menuKey && handleMenuClose()}
                     >
-                      {/* Nav Link */}
                       <Link
                         to={item.href}
-                        onClick={() => {
-                          setOpenMenu(null);
-                          if (closeTimer.current) {
-                            clearTimeout(closeTimer.current);
-                            closeTimer.current = null;
-                          }
-                        }}
-                        className={`lux-nav-link${isActive(item.href) ? " active" : ""}`}
+                        className={`nav-link${isActive(item.href) ? " active" : ""}`}
                       >
                         {item.name}
                       </Link>
 
-                      {/* Hover buffer (prevents gap flicker) */}
-                      {menuKey && openMenu === menuKey && (
-                        <div className="lux-menu-buffer" />
-                      )}
-
-                      {/* Mega Menu — Programs */}
+                      {/* Mega Menus */}
                       {menuKey === "programs" && openMenu === "programs" && (
                         <div
-                          className="lux-mega-wrapper"
+                          className="mega-menu-wrap"
                           onMouseEnter={() => handleMenuOpen("programs")}
                           onMouseLeave={() => handleMenuClose()}
                         >
@@ -382,10 +314,9 @@ export default function Header() {
                         </div>
                       )}
 
-                      {/* Mega Menu — Research */}
                       {menuKey === "research" && openMenu === "research" && (
                         <div
-                          className="lux-mega-wrapper"
+                          className="mega-menu-wrap"
                           onMouseEnter={() => handleMenuOpen("research")}
                           onMouseLeave={() => handleMenuClose()}
                         >
@@ -393,38 +324,39 @@ export default function Header() {
                         </div>
                       )}
 
-                      {/* Mega Menu — About */}
                       {menuKey === "about" && openMenu === "about" && (
                         <div
-                          className="lux-mega-wrapper"
+                          className="mega-menu-wrap"
                           onMouseEnter={() => handleMenuOpen("about")}
                           onMouseLeave={() => handleMenuClose()}
                         >
                           <AboutFoundationMegaMenu />
                         </div>
                       )}
-                    </div>
-                  </React.Fragment>
-                );
-              })}
+                    </li>
+                  );
+                })}
+              </ul>
             </nav>
 
-            {/* CTA */}
-            <Link to="/membership" className="lux-cta">
-              <span>Membership Registration</span>
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+            {/* CTA Button */}
+            <Link to="/auth" className="cta-btn">
+              <span>Join Membership</span>
+              <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
                 <path
                   d="M1 6H11M7 2L11 6L7 10"
-                  stroke="currentColor" strokeWidth="1.2"
-                  strokeLinecap="round" strokeLinejoin="round"
+                  stroke="currentColor"
+                  strokeWidth="1.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
             </Link>
 
           </div>
 
-          {/* Subtle gold divider */}
-          <div className="lux-header-divider" />
+          {/* Premium thin divider */}
+          <div className="header-divider" />
         </div>
       </header>
     </>

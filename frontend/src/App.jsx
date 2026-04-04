@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 
 /* ===================== MAIN ===================== */
 import MainPage from "./Pages/Mainpage";
+import Auth from "./Pages/Auth/Auth";
 
 /* ===================== CONSULTANCY SERVICES ===================== */
 import ConsultancyServices from "./Pages/OurPrograms/Consultancy_Services/ConsultancyServices";
@@ -63,6 +64,8 @@ function App() {
           path="/programs"
           element={<Navigate to="/programs/consultancy-services" replace />}
         />
+        {/*===================== AUTH======================*/}
+          <Route path="/auth" element={<Auth />} />
 
         {/* ===================== CONSULTANCY SERVICES ===================== */}
         <Route
