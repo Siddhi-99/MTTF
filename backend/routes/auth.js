@@ -15,6 +15,7 @@ const generateToken = (userId) => {
 // @desc    Register a new user
 router.post('/signup', async (req, res) => {
   try {
+    console.log('Request body:', req.body);
     const { name, phone, email, password, membershipType, institutionSize } = req.body;
 
     // Validation
@@ -50,6 +51,7 @@ router.post('/signup', async (req, res) => {
 
     // Create new user
     const hashedPassword = await bcrypt.hash(password, 12);
+    console.log('Creating user with hashed password');
     const user = new User({
       name,
       phone,
@@ -60,6 +62,7 @@ router.post('/signup', async (req, res) => {
     });
 
     await user.save();
+    console.log('User saved successfully');
 
     // Generate token
     const token = generateToken(user._id);
