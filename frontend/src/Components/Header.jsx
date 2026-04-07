@@ -42,243 +42,52 @@ export default function Header() {
       {/* Google Fonts */}
       <style>{`
         @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300;400;500;600&family=DM+Sans:wght@300;400;500&display=swap');
-
-        .header-root {
-          font-family: 'DM Sans', sans-serif;
-        }
-
-        .header-inner {
-          position: fixed;
-          top: 0;
-          left: 0;
-          right: 0;
-          z-index: 50;
-          transition: all 0.4s ease;
-        }
-
-        .header-inner.scrolled {
-          background: rgba(254, 249, 239, 0.97);
-          backdrop-filter: blur(16px);
-          -webkit-backdrop-filter: blur(16px);
-          box-shadow: 0 2px 32px rgba(180, 145, 60, 0.08);
-        }
-
-        .header-inner.top {
-          background: rgba(254, 249, 239, 0.92);
-          backdrop-filter: blur(8px);
-          -webkit-backdrop-filter: blur(8px);
-        }
-
-        .header-container {
-          max-width: 1320px;
-          margin: 0 auto;
-          padding: 0 40px;
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          height: 72px;
-        }
-
-        /* Thin gold divider at bottom */
-        .header-divider {
-          height: 1px;
-          background: linear-gradient(90deg, transparent, rgba(185, 148, 60, 0.35), transparent);
-        }
-
-        /* Logo */
-        .logo-wrap {
-          display: flex;
-          align-items: center;
-          gap: 12px;
-          text-decoration: none;
-        }
-
-        .logo-mark {
-          width: 38px;
-          height: 38px;
-          border: 1.5px solid #b9943c;
-          display: flex;
-          align-items: center;
-          justify-content: center;
-          position: relative;
-        }
-
-        .logo-mark::before {
-          content: '';
-          position: absolute;
-          inset: 3px;
-          border: 1px solid rgba(185, 148, 60, 0.4);
-        }
-
-        .logo-mark-letter {
-          font-family: 'Cormorant Garamond', serif;
-          font-size: 18px;
-          font-weight: 500;
-          color: #b9943c;
-          letter-spacing: 0.5px;
-        }
-
-        .logo-text-wrap {
-          display: flex;
-          flex-direction: column;
-          gap: 0px;
-        }
-
-        .logo-title {
-          font-family: 'Cormorant Garamond', serif;
-          font-size: 16px;
-          font-weight: 600;
-          color: #1a1610;
-          letter-spacing: 2.5px;
-          text-transform: uppercase;
-          line-height: 1.1;
-        }
-
-        .logo-sub {
-          font-family: 'DM Sans', sans-serif;
-          font-size: 9.5px;
-          font-weight: 300;
-          color: #8a7a5a;
-          letter-spacing: 1.8px;
-          text-transform: uppercase;
-        }
-
-        /* Nav */
-        .nav-list {
-          display: none;
-          align-items: center;
-          gap: 4px;
-          list-style: none;
-          margin: 0;
-          padding: 0;
-        }
-
-        @media (min-width: 768px) {
-          .nav-list {
-            display: flex;
-          }
-        }
-
-        .nav-item {
-          position: relative;
-        }
-
-        .nav-link {
-          display: block;
-          padding: 8px 16px;
-          font-size: 12.5px;
-          font-weight: 400;
-          letter-spacing: 1.4px;
-          text-transform: uppercase;
-          color: #4a3f2a;
-          text-decoration: none;
-          transition: color 0.25s ease;
-          position: relative;
-        }
-
-        .nav-link::after {
-          content: '';
-          position: absolute;
-          bottom: 4px;
-          left: 16px;
-          right: 16px;
-          height: 1px;
-          background: #b9943c;
-          transform: scaleX(0);
-          transition: transform 0.3s ease;
-          transform-origin: left;
-        }
-
-        .nav-link:hover {
-          color: #b9943c;
-        }
-
-        .nav-link:hover::after,
-        .nav-link.active::after {
-          transform: scaleX(1);
-        }
-
-        .nav-link.active {
-          color: #b9943c;
-        }
-
-        /* CTA Button */
-        .cta-btn {
-          display: none;
-          align-items: center;
-          gap: 10px;
-          padding: 11px 24px;
-          background: #1a1610;
-          color: #f0e4c4;
-          font-family: 'DM Sans', sans-serif;
-          font-size: 11px;
-          font-weight: 500;
-          letter-spacing: 1.8px;
-          text-transform: uppercase;
-          text-decoration: none;
-          transition: all 0.3s ease;
-          border: 1px solid transparent;
-          position: relative;
-          overflow: hidden;
-        }
-
-        .cta-btn::before {
-          content: '';
-          position: absolute;
-          inset: 0;
-          background: #b9943c;
-          transform: translateX(-100%);
-          transition: transform 0.35s ease;
-          z-index: 0;
-        }
-
-        .cta-btn:hover::before {
-          transform: translateX(0);
-        }
-
-        .cta-btn:hover {
-          border-color: #b9943c;
-          color: #fff;
-        }
-
-        .cta-btn span,
-        .cta-btn svg {
-          position: relative;
-          z-index: 1;
-        }
-
-        @media (min-width: 768px) {
-          .cta-btn {
-            display: flex;
-          }
-        }
-
-        /* Mega menu container */
-        .mega-menu-wrap {
-          position: absolute;
-          top: calc(100% + 16px);
-          left: 0;
-        }
       `}</style>
 
-      <header className="header-root">
-        <div className={`header-inner ${scrolled ? "scrolled" : "top"}`}>
-          <div className="header-container">
+      <header style={{ fontFamily: "'DM Sans', sans-serif" }}>
+
+        {/* Fixed header bar */}
+        <div
+          className={`fixed top-0 left-0 right-0 z-50 transition-all duration-[400ms] ${
+            scrolled
+              ? "bg-[rgba(254,249,239,0.97)] backdrop-blur-xl shadow-[0_2px_32px_rgba(180,145,60,0.08)]"
+              : "bg-[rgba(254,249,239,0.92)] backdrop-blur-[8px]"
+          }`}
+        >
+          {/* Inner container */}
+          <div className="max-w-[1320px] mx-auto px-10 flex items-center justify-between h-[72px]">
 
             {/* Logo */}
-            <Link to="/" className="logo-wrap">
-              <div className="logo-mark">
-                <span className="logo-mark-letter">M</span>
+            <Link to="/" className="flex items-center gap-3 no-underline">
+
+              {/* Logo mark box */}
+              <div className="w-[38px] h-[38px] border border-[#b9943c] flex items-center justify-center relative">
+                <span className="absolute inset-[3px] border border-[rgba(185,148,60,0.4)]" />
+                <span
+                  className="text-[18px] font-medium text-[#b9943c] tracking-[0.5px] relative z-10"
+                  style={{ fontFamily: "'Cormorant Garamond', serif" }}
+                >
+                  M
+                </span>
               </div>
-              <div className="logo-text-wrap">
-                <span className="logo-title">MTTF</span>
-                <span className="logo-sub">MathTech Thinking Foundation</span>
+
+              {/* Logo text */}
+              <div className="flex flex-col">
+                <span
+                  className="text-[16px] font-semibold text-[#1a1610] tracking-[2.5px] uppercase leading-[1.1]"
+                  style={{ fontFamily: "'Cormorant Garamond', serif" }}
+                >
+                  MTTF
+                </span>
+                <span className="text-[9.5px] font-light text-[#8a7a5a] tracking-[1.8px] uppercase">
+                  MathTech Thinking Foundation
+                </span>
               </div>
             </Link>
 
             {/* Navigation */}
             <nav>
-              <ul className="nav-list">
+              <ul className="hidden md:flex items-center gap-1 list-none m-0 p-0">
                 {navItems.map((item) => {
                   const menuKey =
                     item.name === "Our Programs"
@@ -292,21 +101,33 @@ export default function Header() {
                   return (
                     <li
                       key={item.name}
-                      className="nav-item"
+                      className="relative"
                       onMouseEnter={() => menuKey && handleMenuOpen(menuKey)}
                       onMouseLeave={() => menuKey && handleMenuClose()}
                     >
                       <Link
                         to={item.href}
-                        className={`nav-link${isActive(item.href) ? " active" : ""}`}
+                        className={`block px-4 py-2 text-[12.5px] font-normal tracking-[1.4px] uppercase no-underline transition-colors duration-[250ms] relative group ${
+                          isActive(item.href)
+                            ? "text-[#b9943c]"
+                            : "text-[#4a3f2a] hover:text-[#b9943c]"
+                        }`}
                       >
                         {item.name}
+                        {/* Animated underline */}
+                        <span
+                          className={`absolute bottom-1 left-4 right-4 h-px bg-[#b9943c] transition-transform duration-300 origin-left ${
+                            isActive(item.href)
+                              ? "scale-x-100"
+                              : "scale-x-0 group-hover:scale-x-100"
+                          }`}
+                        />
                       </Link>
 
                       {/* Mega Menus */}
                       {menuKey === "programs" && openMenu === "programs" && (
                         <div
-                          className="mega-menu-wrap"
+                          className="absolute top-[calc(100%+16px)] left-0"
                           onMouseEnter={() => handleMenuOpen("programs")}
                           onMouseLeave={() => handleMenuClose()}
                         >
@@ -316,7 +137,7 @@ export default function Header() {
 
                       {menuKey === "research" && openMenu === "research" && (
                         <div
-                          className="mega-menu-wrap"
+                          className="absolute top-[calc(100%+16px)] left-0"
                           onMouseEnter={() => handleMenuOpen("research")}
                           onMouseLeave={() => handleMenuClose()}
                         >
@@ -326,7 +147,7 @@ export default function Header() {
 
                       {menuKey === "about" && openMenu === "about" && (
                         <div
-                          className="mega-menu-wrap"
+                          className="absolute top-[calc(100%+16px)] left-0"
                           onMouseEnter={() => handleMenuOpen("about")}
                           onMouseLeave={() => handleMenuClose()}
                         >
@@ -340,9 +161,14 @@ export default function Header() {
             </nav>
 
             {/* CTA Button */}
-            <Link to="/auth" className="cta-btn">
-              <span>Join Membership</span>
-              <svg width="11" height="11" viewBox="0 0 12 12" fill="none">
+            <Link
+              to="/auth"
+              className="hidden md:flex items-center gap-[10px] px-6 py-[11px] bg-[#1a1610] text-[#f0e4c4] text-[11px] font-medium tracking-[1.8px] uppercase no-underline border border-transparent transition-colors duration-300 relative overflow-hidden group hover:border-[#b9943c] hover:text-white"
+            >
+              {/* Slide-in gold background */}
+              <span className="absolute inset-0 bg-[#b9943c] -translate-x-full group-hover:translate-x-0 transition-transform duration-[350ms] z-0" />
+              <span className="relative z-10">Join Membership</span>
+              <svg className="relative z-10 w-[11px] h-[11px]" viewBox="0 0 12 12" fill="none">
                 <path
                   d="M1 6H11M7 2L11 6L7 10"
                   stroke="currentColor"
@@ -355,8 +181,8 @@ export default function Header() {
 
           </div>
 
-          {/* Premium thin divider */}
-          <div className="header-divider" />
+          {/* Thin gold divider */}
+          <div className="h-px bg-gradient-to-r from-transparent via-[rgba(185,148,60,0.35)] to-transparent" />
         </div>
       </header>
     </>
